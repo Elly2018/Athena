@@ -1,5 +1,8 @@
 package com.elly.gotlazy;
 
+import com.elly.gotlazy.block.Blocks_Register;
+import com.elly.gotlazy.blockitem.BlockItems_Register;
+import com.elly.gotlazy.item.Item_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -28,6 +31,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(GotLazy.MODID)
 public class GotLazy {
@@ -42,17 +49,9 @@ public class GotLazy {
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block",
-        () -> new Block(BlockBehaviour.Properties.of()
-            .setId(BLOCKS.key("example_block"))
-            .mapColor(MapColor.STONE)
-        )
-    );
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block",
-        () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().setId(ITEMS.key("example_block")))
-    );
+    Blocks_Register block_register;
+    BlockItems_Register blockitem_register;
+    Item_Register item_register;
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item",
@@ -113,7 +112,27 @@ public class GotLazy {
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(EXAMPLE_BLOCK_ITEM);
+        {
+            Blocks_Register.BlockRegisterData[] blockdata = Blocks_Register.RegisterAllBlocks();
+            BlockItems_Register.BlockItemRegisterData[] blockitemdata = BlockItems_Register.RegisterAllBlocks();
+            HashMap<String, RegistryObject<Block>> blockDict = new HashMap<String, RegistryObject<Block>>();
+            for(int i = 0; i < blockdata.length; i++){
+                var b = blockdata[i].get_behaviour();
+                var key = blockdata[i].get_key();
+                b.setId(BLOCKS.key(key));
+                var buffer = BLOCKS.register(key, () -> new Block(b));
+                blockDict.put(blockdata[i].get_key(), buffer);
+            }
+            for(int i = 0; i < blockitemdata.length; i++){
+                var b = blockitemdata[i].get_behaviour();
+                var key = blockitemdata[i].get_key();
+                b.setId(ITEMS.key(key));
+                if(blockDict.containsKey(key)){
+                    var buffer = ITEMS.register(key, () -> new BlockItem(blockDict.get(key).get(), b));
+                    event.accept(buffer);
+                }
+            }
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
