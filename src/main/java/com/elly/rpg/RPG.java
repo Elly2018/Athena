@@ -1,20 +1,19 @@
-package com.elly.gotlazy;
+package com.elly.rpg;
 
-import com.elly.gotlazy.block.Blocks_Register;
-import com.elly.gotlazy.blockitem.BlockItems_Register;
-import com.elly.gotlazy.item.Item_Register;
+import com.elly.rpg.block.Blocks_Register;
+import com.elly.rpg.blockitem.BlockItems_Register;
+import com.elly.rpg.command.Command_Register;
+import com.elly.rpg.item.Item_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -31,22 +30,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(GotLazy.MODID)
-public class GotLazy {
-    // Define mod id in a common place for everything to reference
-    public static final String MODID = "gotlazy";
-    // Directly reference a slf4j logger
+@Mod(RPG.MODID)
+public class RPG {
+    public static final String MODID = "rpg";
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
+
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     Blocks_Register block_register;
@@ -74,27 +67,21 @@ public class GotLazy {
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
-    public GotLazy(FMLJavaModLoadingContext context) {
+    public RPG(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
-
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        block_register = new Blocks_Register(BLOCKS);
+        blockitem_register = new BlockItems_Register(ITEMS, block_register);
+        item_register = new Item_Register(ITEMS);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -113,33 +100,21 @@ public class GotLazy {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
         {
-            Blocks_Register.BlockRegisterData[] blockdata = Blocks_Register.RegisterAllBlocks();
-            BlockItems_Register.BlockItemRegisterData[] blockitemdata = BlockItems_Register.RegisterAllBlocks();
-            HashMap<String, RegistryObject<Block>> blockDict = new HashMap<String, RegistryObject<Block>>();
-            for(int i = 0; i < blockdata.length; i++){
-                var b = blockdata[i].get_behaviour();
-                var key = blockdata[i].get_key();
-                b.setId(BLOCKS.key(key));
-                var buffer = BLOCKS.register(key, () -> new Block(b));
-                blockDict.put(blockdata[i].get_key(), buffer);
-            }
-            for(int i = 0; i < blockitemdata.length; i++){
-                var b = blockitemdata[i].get_behaviour();
-                var key = blockitemdata[i].get_key();
-                b.setId(ITEMS.key(key));
-                if(blockDict.containsKey(key)){
-                    var buffer = ITEMS.register(key, () -> new BlockItem(blockDict.get(key).get(), b));
-                    event.accept(buffer);
-                }
-            }
+            block_register.RegisterAllBlocks();
+            blockitem_register.RegisterAllItems();
+            item_register.RegisterAllItems();
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    @SubscribeEvent
+    public static void RegisterCommads(RegisterCommandsEvent event) {
+        Command_Register.register(event.getDispatcher());
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

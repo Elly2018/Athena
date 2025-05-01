@@ -1,6 +1,6 @@
-package com.elly.gotlazy.blockitem;
+package com.elly.rpg.blockitem;
 
-import com.elly.gotlazy.block.Blocks_Register;
+import com.elly.rpg.block.Blocks_Register;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

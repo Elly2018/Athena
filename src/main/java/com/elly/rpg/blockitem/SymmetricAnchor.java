@@ -1,4 +1,4 @@
-package com.elly.gotlazy.blockitem;
+package com.elly.rpg.blockitem;
 
 import net.minecraft.world.item.Item;
 
