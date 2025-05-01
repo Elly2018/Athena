@@ -30,8 +30,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
-import java.util.HashMap;
-
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(RPG.MODID)
 public class RPG {
@@ -71,6 +69,10 @@ public class RPG {
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);
 
+        block_register = new Blocks_Register(BLOCKS);
+        blockitem_register = new BlockItems_Register(ITEMS, block_register);
+        item_register = new Item_Register(ITEMS);
+
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -78,10 +80,6 @@ public class RPG {
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
-        block_register = new Blocks_Register(BLOCKS);
-        blockitem_register = new BlockItems_Register(ITEMS, block_register);
-        item_register = new Item_Register(ITEMS);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
