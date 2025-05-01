@@ -14,23 +14,24 @@ public class Blocks_Register {
         BlockBehaviour.Properties get_behaviour();
     }
 
-    private final DeferredRegister<Block> BLOCKS;
     public HashMap<String, RegistryObject<Block>> RegisterDict = new HashMap<String, RegistryObject<Block>>();
+
+    private final DeferredRegister<Block> BLOCKS;
+    private final BlockRegisterData[] AllBlocks;
 
     public Blocks_Register(DeferredRegister<Block> _BLOCKS){
         this.BLOCKS = _BLOCKS;
+        AllBlocks = new BlockRegisterData[] {
+                new SymmetricAnchor()
+        };
     }
 
     public void RegisterAllBlocks () {
-        BlockRegisterData[] all = new BlockRegisterData[] {
-          new SymmetricAnchor()
-        };
-
-        for(int i = 0; i < all.length; i++){
-            String key = all[i].get_key();
-            BlockBehaviour.Properties beha = all[i].get_behaviour();
-            beha.setId(this.BLOCKS.key(key));
-            RegistryObject<Block> buffer = this.BLOCKS.register(key, () -> new Block(beha));
+        for (BlockRegisterData allBlock : AllBlocks) {
+            String key = allBlock.get_key();
+            BlockBehaviour.Properties behaviour = allBlock.get_behaviour();
+            behaviour.setId(this.BLOCKS.key(key));
+            RegistryObject<Block> buffer = this.BLOCKS.register(key, () -> new Block(behaviour));
             this.RegisterDict.put(key, buffer);
         }
     }
