@@ -8,16 +8,16 @@ import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,12 +34,12 @@ import org.slf4j.Logger;
 @Mod(RPG.MODID)
 public class RPG {
     public static final String MODID = "athena";
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
+    private static final Logger LOGGER = LogUtils.getLogger();
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
     private final Item_Register item_register;
@@ -51,12 +51,14 @@ public class RPG {
 
         block_register = new Blocks_Register(BLOCKS);
         blockitem_register = new BlockItems_Register(ITEMS, block_register);
-        item_register = new Item_Register(ITEMS);
+        item_register = new Item_Register(ITEMS, POTIONS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        POTIONS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        RECIPE.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -71,6 +73,11 @@ public class RPG {
                 item_register
         );
         creativeTabs_register.RegisterAllTabs(collection);
+    }
+
+    @SubscribeEvent
+    public static void RegisterCommads(RegisterCommandsEvent event) {
+        Command_Register.register(event.getDispatcher());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -93,11 +100,6 @@ public class RPG {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
-    }
-
-    @SubscribeEvent
-    public static void RegisterCommads(RegisterCommandsEvent event) {
-        Command_Register.register(event.getDispatcher());
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
