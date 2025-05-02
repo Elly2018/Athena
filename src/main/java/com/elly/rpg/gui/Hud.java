@@ -1,13 +1,20 @@
 package com.elly.rpg.gui;
 
+import com.elly.rpg.RPG;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 
 public class Hud {
+
+    public static final ResourceLocation TEX_HUD_BASE = ResourceLocation.fromNamespaceAndPath(RPG.MODID, "textures/gui/hud_base.png");
+    public static final ResourceLocation TEX_HUD_BAR = ResourceLocation.fromNamespaceAndPath(RPG.MODID,"textures/gui/hud_bar.png");
+    public static final ResourceLocation TEX_HUD_ICON = ResourceLocation.fromNamespaceAndPath(RPG.MODID,"textures/gui/hud_icon.png");
+    public static final ResourceLocation TEX_HUD_EFFECT = ResourceLocation.fromNamespaceAndPath(RPG.MODID,"textures/gui/hud_effects.png");
 
     Minecraft minecraft = Minecraft.getInstance();
 
@@ -34,6 +41,6 @@ public class Hud {
 
         // Bind the health bar texture and render the bar
         //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BAR);
-        RenderDrawCallback.drawMediumBar(ReignitedHudID.TEX_HUD_BAR, event, 48, 24, bar, fill);
+        RenderDrawCallback.drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
     }
 }
