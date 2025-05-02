@@ -9,6 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 
+/**
+ * Inspire by https://github.com/heria-zone/reignited-hud/blob/release/reignitedhud-forge-1.20.6/src/main/java/net/msymbios/reignitedhud/gui/GuiWidget.java
+ */
+
 public class Hud {
 
     public static final ResourceLocation TEX_HUD_BASE = ResourceLocation.fromNamespaceAndPath(RPG.MODID, "textures/gui/hud_base.png");
