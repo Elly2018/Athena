@@ -4,6 +4,7 @@ import com.elly.rpg.block.Blocks_Register;
 import com.elly.rpg.blockitem.BlockItems_Register;
 import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.command.Command_Register;
+import com.elly.rpg.gui.Hud;
 import com.elly.rpg.item.Item_Register;
 import com.elly.rpg.keymap.KeyMap_Register;
 import com.elly.rpg.sound.Sound_Register;
@@ -20,12 +21,14 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -55,6 +58,7 @@ public class RPG {
     private final CreativeTabs_Register creativeTabs_register;
     private final CapabilitySystem capability_system;
     private final KeyMap_Register keyMap_register;
+    private final Hud hud;
 
     public RPG(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -67,6 +71,7 @@ public class RPG {
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         capability_system = new CapabilitySystem();
         keyMap_register = new KeyMap_Register();
+        hud = new Hud();
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -121,6 +126,11 @@ public class RPG {
     @SubscribeEvent
     public void registerBindings(RegisterKeyMappingsEvent event) {
         keyMap_register.registerBindings(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void renderOverlay(CustomizeGuiOverlayEvent event) {
+        hud.renderOverlay(event);
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
