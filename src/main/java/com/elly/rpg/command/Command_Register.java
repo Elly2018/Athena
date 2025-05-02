@@ -1,7 +1,7 @@
 package com.elly.rpg.command;
 
 import com.elly.rpg.capability.CapabilitySystem;
-import com.elly.rpg.capability.capability.IManaPoint;
+import com.elly.rpg.capability.capability.IMana;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -28,10 +28,10 @@ public class Command_Register {
     private static int execute(CommandContext<CommandSourceStack> command){
         if(command.getSource().getEntity() instanceof Player){
             Player player = (Player) command.getSource().getEntity();
-            LazyOptional<IManaPoint> mana = player.getCapability(CapabilitySystem.MANA);
+            LazyOptional<IMana> mana = player.getCapability(CapabilitySystem.MANA);
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 2));
             int _mana = 0;
-            Optional<IManaPoint> target = mana.resolve();
+            Optional<IMana> target = mana.resolve();
             if(!target.isEmpty()){
                 _mana = target.get().getMana();
             }

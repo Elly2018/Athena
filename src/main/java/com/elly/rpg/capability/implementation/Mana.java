@@ -1,16 +1,16 @@
 package com.elly.rpg.capability.implementation;
 
-import com.elly.rpg.capability.capability.IManaPoint;
+import com.elly.rpg.capability.capability.IMana;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ManaPointImplementation implements IManaPoint, INBTSerializable<IntTag> {
+public class Mana implements IMana, INBTSerializable<IntTag> {
 
     private int MaxMana;
     private int Mana;
 
-    public ManaPointImplementation() {
+    public Mana() {
         this.MaxMana = 10;
         this.Mana = 10;
     }

@@ -5,6 +5,7 @@ import com.elly.rpg.blockitem.BlockItems_Register;
 import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.command.Command_Register;
 import com.elly.rpg.item.Item_Register;
+import com.elly.rpg.keymap.KeyMap_Register;
 import com.elly.rpg.sound.Sound_Register;
 import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
@@ -19,8 +20,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -53,6 +54,7 @@ public class RPG {
     private final Sound_Register sound_register;
     private final CreativeTabs_Register creativeTabs_register;
     private final CapabilitySystem capability_system;
+    private final KeyMap_Register keyMap_register;
 
     public RPG(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -64,6 +66,7 @@ public class RPG {
         sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         capability_system = new CapabilitySystem();
+        keyMap_register = new KeyMap_Register();
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -113,6 +116,11 @@ public class RPG {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    @SubscribeEvent
+    public void registerBindings(RegisterKeyMappingsEvent event) {
+        keyMap_register.registerBindings(event);
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
