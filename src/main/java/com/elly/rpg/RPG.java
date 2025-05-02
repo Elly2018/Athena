@@ -2,12 +2,16 @@ package com.elly.rpg;
 
 import com.elly.rpg.block.Blocks_Register;
 import com.elly.rpg.blockitem.BlockItems_Register;
+import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.command.Command_Register;
 import com.elly.rpg.item.Item_Register;
+import com.elly.rpg.sound.Sound_Register;
 import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
@@ -16,6 +20,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -37,13 +43,16 @@ public class RPG {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
     private final Item_Register item_register;
+    private final Sound_Register sound_register;
     private final CreativeTabs_Register creativeTabs_register;
+    private final CapabilitySystem capability_system;
 
     public RPG(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -52,11 +61,14 @@ public class RPG {
         block_register = new Blocks_Register(BLOCKS);
         blockitem_register = new BlockItems_Register(ITEMS, block_register);
         item_register = new Item_Register(ITEMS, POTIONS);
+        sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
+        capability_system = new CapabilitySystem();
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         POTIONS.register(modEventBus);
+        SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         RECIPE.register(modEventBus);
 
@@ -67,17 +79,13 @@ public class RPG {
         block_register.RegisterAllBlocks();
         blockitem_register.RegisterAllItems();
         item_register.RegisterAllItems();
+        sound_register.registerSounds(MODID);
         CreativeTabs_Register.RegisterCollection collection = new CreativeTabs_Register.RegisterCollection(
                 block_register,
                 blockitem_register,
                 item_register
         );
         creativeTabs_register.RegisterAllTabs(collection);
-    }
-
-    @SubscribeEvent
-    public static void RegisterCommads(RegisterCommandsEvent event) {
-        Command_Register.register(event.getDispatcher());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -97,6 +105,11 @@ public class RPG {
     }
 
     @SubscribeEvent
+    public void onAttachingCapabilities(final AttachCapabilitiesEvent<Entity> event) {
+        capability_system.onAttachingCapabilities(MODID, event);
+    }
+
+    @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
@@ -110,6 +123,14 @@ public class RPG {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public class ModEventListener {
+        @SubscribeEvent
+        public static void registerCommands(RegisterCommandsEvent event){
+            Command_Register.register(event.getDispatcher());
         }
     }
 }
