@@ -13,7 +13,6 @@ import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -24,17 +23,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -66,11 +61,11 @@ public class RPG {
     private final CreativeTabs_Register creativeTabs_register;
     private final CapabilitySystem capability_system;
     private final GUI_Register gui_register;
-    private final Hud hud;
 
     public RPG(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);
+        MinecraftForge.EVENT_BUS.register(new Hud());
 
         block_register = new Blocks_Register(BLOCKS);
         blockitem_register = new BlockItems_Register(ITEMS, block_register);
@@ -79,7 +74,6 @@ public class RPG {
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         capability_system = new CapabilitySystem();
         gui_register = new GUI_Register(MENU_TYPES);
-        hud = new Hud();
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -123,11 +117,6 @@ public class RPG {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void renderOverlay(CustomizeGuiOverlayEvent event) {
-        //hud.renderOverlay(event);
     }
 
     @SubscribeEvent
