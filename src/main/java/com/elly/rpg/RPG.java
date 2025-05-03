@@ -13,9 +13,11 @@ import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -63,7 +65,6 @@ public class RPG {
     private final Sound_Register sound_register;
     private final CreativeTabs_Register creativeTabs_register;
     private final CapabilitySystem capability_system;
-    private final KeyMap_Register keyMap_register;
     private final GUI_Register gui_register;
     private final Hud hud;
 
@@ -77,7 +78,6 @@ public class RPG {
         sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         capability_system = new CapabilitySystem();
-        keyMap_register = new KeyMap_Register();
         gui_register = new GUI_Register(MENU_TYPES);
         hud = new Hud();
 
@@ -91,7 +91,6 @@ public class RPG {
         MOB_EFFECTS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         block_register.RegisterAllBlocks();
@@ -110,17 +109,9 @@ public class RPG {
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-    }
-
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
     }
 
     @SubscribeEvent
@@ -134,11 +125,6 @@ public class RPG {
         LOGGER.info("HELLO from server starting");
     }
 
-    @SubscribeEvent
-    public void registerBindings(RegisterKeyMappingsEvent event) {
-        keyMap_register.registerBindings(event);
-    }
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderOverlay(CustomizeGuiOverlayEvent event) {
         //hud.renderOverlay(event);
@@ -146,17 +132,36 @@ public class RPG {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        keyMap_register.onClientTick(event);
+        ClientModEvents.keyMap_register.onClientTick(event);
+    }
+
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if(!Config.hunger_exist){
+            event.getServer().getPlayerList().getPlayers().forEach(x -> {
+                FoodData fd = x.getFoodData();
+                fd.setFoodLevel(20);
+                fd.setSaturation(0);
+            });
+        }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
+        public static KeyMap_Register keyMap_register;
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        }
+
+        @SubscribeEvent
+        public static void registerBindings(RegisterKeyMappingsEvent event) {
+            keyMap_register = new KeyMap_Register();
+            keyMap_register.registerBindings(event);
         }
     }
 

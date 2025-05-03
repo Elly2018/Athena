@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    private static final ForgeConfigSpec.BooleanValue HUNGER_EXIST = BUILDER
+            .comment("Is hunger exist in the RPG world")
+            .define("hunger_exist", false);
 
     private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
             .comment("A magic number")
@@ -37,7 +37,7 @@ public class Config {
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
-    public static boolean logDirtBlock;
+    public static boolean hunger_exist;
     public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
@@ -48,7 +48,7 @@ public class Config {
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-        logDirtBlock = LOG_DIRT_BLOCK.get();
+        hunger_exist = HUNGER_EXIST.get();
         magicNumber = MAGIC_NUMBER.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 
