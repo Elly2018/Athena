@@ -5,7 +5,7 @@ import com.elly.rpg.capability.capability.status.IStr;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Job implements IJob, INBTSerializable<StringTag> {
     private String Job;

@@ -1,8 +1,5 @@
 package com.elly.rpg.capability.capability;
 
-import net.minecraftforge.common.capabilities.AutoRegisterCapability;
-
-@AutoRegisterCapability
 public interface ICoin {
     int getCoin();
     boolean HaveCoin(int value);

@@ -29,9 +29,9 @@ public class Power_Elixir implements Item_Register.ItemRegisterData {
 
         @Override
         public int AddMana(Player player) {
-            Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, CapabilitySystem.MANA);
-            if(o_target.isEmpty()) return 0;
-            return o_target.get().getManaMaximum();
+            IMana o_target = player.getCapability(CapabilitySystem.MANA);
+            if(o_target != null) return 0;
+            return o_target.getManaMaximum();
         }
 
         @Override

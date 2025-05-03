@@ -3,7 +3,7 @@ package com.elly.rpg.capability.implementation;
 import com.elly.rpg.capability.capability.IExp;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Exp implements IExp, INBTSerializable<IntTag> {
     private int Exp;

@@ -1,14 +1,14 @@
 package com.elly.rpg.block;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class Blocks_Register {
 
@@ -17,7 +17,7 @@ public class Blocks_Register {
         BlockBehaviour.Properties get_behaviour();
     }
 
-    public HashMap<String, RegistryObject<Block>> RegisterDict = new HashMap<String, RegistryObject<Block>>();
+    public HashMap<String, Supplier<Block>> RegisterDict = new HashMap<String, Supplier<Block>>();
 
     private final DeferredRegister<Block> BLOCKS;
     private final BlockRegisterData[] AllBlocks;
@@ -33,8 +33,8 @@ public class Blocks_Register {
         for (BlockRegisterData allBlock : AllBlocks) {
             String key = allBlock.get_key();
             BlockBehaviour.Properties behaviour = allBlock.get_behaviour();
-            behaviour.setId(ResourceKey.create(ForgeRegistries.BLOCKS.getRegistryKey(), ResourceLocation.parse("rpg:" + key)));
-            RegistryObject<Block> buffer = this.BLOCKS.register(key, () -> new Block(behaviour));
+            behaviour.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.parse("rpg:" + key)));
+            Supplier<Block> buffer = this.BLOCKS.register(key, () -> new Block(behaviour));
             this.RegisterDict.put(key, buffer);
         }
     }

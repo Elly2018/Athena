@@ -4,7 +4,7 @@ import com.elly.rpg.capability.capability.ICoin;
 import com.elly.rpg.capability.capability.IMana;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Coin implements ICoin, INBTSerializable<IntTag> {
     private int Coin;

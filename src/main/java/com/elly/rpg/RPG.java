@@ -12,10 +12,11 @@ import com.elly.rpg.sound.Sound_Register;
 import com.elly.rpg.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.profiling.jfr.event.ServerTickTimeEvent;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,56 +24,55 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(RPG.MODID)
 public class RPG {
     public static final String MODID = "athena";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, MODID);
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK, MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, MODID);
+    public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(BuiltInRegistries.POTION, MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
-    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
+    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
+    public static CapabilitySystem capability_system;
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
     private final Item_Register item_register;
     private final Sound_Register sound_register;
     private final CreativeTabs_Register creativeTabs_register;
-    private final CapabilitySystem capability_system;
     private final GUI_Register gui_register;
 
-    public RPG(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
+    public RPG(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-        MinecraftForge.EVENT_BUS.register(new Hud());
 
         block_register = new Blocks_Register(BLOCKS);
         blockitem_register = new BlockItems_Register(ITEMS, block_register);
         item_register = new Item_Register(ITEMS, POTIONS);
         sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
-        capability_system = new CapabilitySystem();
         gui_register = new GUI_Register(MENU_TYPES);
 
         BLOCKS.register(modEventBus);
@@ -84,8 +84,8 @@ public class RPG {
         MENU_TYPES.register(modEventBus);
         MOB_EFFECTS.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(this);
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        NeoForge.EVENT_BUS.register(this);
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         block_register.RegisterAllBlocks();
         blockitem_register.RegisterAllItems();
@@ -109,34 +109,13 @@ public class RPG {
     }
 
     @SubscribeEvent
-    public void onAttachingCapabilities(final AttachCapabilitiesEvent<Entity> event) {
-        capability_system.onAttachingCapabilities(event);
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+    private void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
 
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        ClientModEvents.keyMap_register.onClientTick(event);
-    }
-
-    @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-        if(!Config.hunger_exist){
-            event.getServer().getPlayerList().getPlayers().forEach(x -> {
-                FoodData fd = x.getFoodData();
-                fd.setFoodLevel(16);
-                fd.setSaturation(0);
-            });
-        }
-    }
-
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         public static KeyMap_Register keyMap_register;
 
@@ -152,13 +131,54 @@ public class RPG {
             keyMap_register = new KeyMap_Register();
             keyMap_register.registerBindings(event);
         }
+
+        @SubscribeEvent
+        public static void onAttachingCapabilities(RegisterCapabilitiesEvent event) {
+            if(capability_system == null) capability_system = new CapabilitySystem();
+            capability_system.onAttachingCapabilities(event);
+        }
     }
 
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public class ModEventListener {
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME)
+    public static class ClientModGameEvents {
+        public static Hud hub;
+
+        @SubscribeEvent
+        public static void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
+            if(hub == null) hub = new Hud();
+            hub.renderOverlay(event);
+        }
+
+        @SubscribeEvent
+        public static void onClientTick(ClientTickEvent.Post event) {
+            ClientModEvents.keyMap_register.onClientTick(event);
+        }
+
+        @SubscribeEvent
+        public static void onServerTick(ServerTickEvent.Post event) {
+            if(!Config.hunger_exist){
+                event.getServer().getPlayerList().getPlayers().forEach(x -> {
+                    FoodData fd = x.getFoodData();
+                    fd.setFoodLevel(16);
+                    fd.setSaturation(0);
+                });
+            }
+        }
+
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){
             Command_Register.register(event.getDispatcher());
+        }
+    }
+
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
+    public static class ServerModGameEvents {
+        public static CapabilitySystem capability_system;
+
+        @SubscribeEvent
+        public static void onAttachingCapabilities(final RegisterCapabilitiesEvent event) {
+            if(capability_system == null) capability_system = new CapabilitySystem();
+            capability_system.onAttachingCapabilities(event);
         }
     }
 }

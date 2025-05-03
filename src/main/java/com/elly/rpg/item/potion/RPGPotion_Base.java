@@ -28,12 +28,7 @@ public class RPGPotion_Base extends Item {
         boolean pass = false;
         float h = AddHealth(player);
         int m = AddMana(player);
-
-        Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, CapabilitySystem.MANA);
-        if(o_target.isEmpty()) {
-            return InteractionResult.FAIL;
-        }
-        IMana target = o_target.get();
+        IMana target = player.getCapability(CapabilitySystem.MANA);
 
         if (h > 0 && player.getHealth() < player.getMaxHealth() && hand == InteractionHand.MAIN_HAND){
             pass = true;

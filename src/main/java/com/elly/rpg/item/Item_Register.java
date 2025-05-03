@@ -1,15 +1,15 @@
 package com.elly.rpg.item;
 
 import com.elly.rpg.item.potion.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class Item_Register {
 
@@ -19,8 +19,8 @@ public class Item_Register {
         Item get_binding(Item.Properties props);
     }
 
-    public HashMap<String, RegistryObject<Item>> RegisterDict = new HashMap<String, RegistryObject<Item>>();
-    public HashMap<String, RegistryObject<Potion>> RegisterDict_p = new HashMap<String, RegistryObject<Potion>>();
+    public HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
+    public HashMap<String, Supplier<Potion>> RegisterDict_p = new HashMap<String, Supplier<Potion>>();
 
     private final DeferredRegister<Item> ITEMS;
     private final DeferredRegister<Potion> POTIONS;
@@ -43,8 +43,8 @@ public class Item_Register {
             String key = itemRegisterData.get_key();
             Item.Properties behaviour = itemRegisterData.get_behaviour();
             // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
-            behaviour.setId(ResourceKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.parse("rpg:" + key)));
-            RegistryObject<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
+            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse("rpg:" + key)));
+            Supplier<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
             this.RegisterDict.put(key, buffer);
         }
     }

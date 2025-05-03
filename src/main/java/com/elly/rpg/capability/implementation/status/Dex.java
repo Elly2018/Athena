@@ -3,7 +3,7 @@ package com.elly.rpg.capability.implementation.status;
 import com.elly.rpg.capability.capability.status.IDex;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Dex implements IDex, INBTSerializable<IntTag> {
     private int Dex;

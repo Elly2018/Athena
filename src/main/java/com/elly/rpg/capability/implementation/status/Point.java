@@ -4,7 +4,7 @@ import com.elly.rpg.capability.capability.status.ILuk;
 import com.elly.rpg.capability.capability.status.IPoint;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Point implements IPoint, INBTSerializable<IntTag> {
     private int Point;

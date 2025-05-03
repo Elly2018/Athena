@@ -3,7 +3,8 @@ package com.elly.rpg.capability.implementation;
 import com.elly.rpg.capability.capability.IMana;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Mana implements IMana, INBTSerializable<IntTag> {
 

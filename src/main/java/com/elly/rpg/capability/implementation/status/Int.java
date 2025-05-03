@@ -3,7 +3,7 @@ package com.elly.rpg.capability.implementation.status;
 import com.elly.rpg.capability.capability.status.IInt;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Int implements IInt, INBTSerializable<IntTag> {
     private int Int;

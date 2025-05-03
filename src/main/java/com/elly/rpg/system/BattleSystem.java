@@ -4,7 +4,6 @@ import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.capability.capability.IMana;
 import com.elly.rpg.capability.capability.status.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.Optional;
 
@@ -30,35 +29,35 @@ public class BattleSystem {
 
     public static class BattleSystemProvider {
         private final Player player;
-        public final Optional<ILevel> optional_level;
-        public final Optional<IMana> optional_mana;
-        public final Optional<IStr> optional_str;
-        public final Optional<IDex> optional_dex;
-        public final Optional<IInt> optional_int;
-        public final Optional<ILuk> optional_luk;
-        public final Optional<IPoint> optional_point;
+        public final ILevel optional_level;
+        public final IMana optional_mana;
+        public final IStr optional_str;
+        public final IDex optional_dex;
+        public final IInt optional_int;
+        public final ILuk optional_luk;
+        public final IPoint optional_point;
 
         public BattleSystemProvider(Player _player){
             this.player =_player;
-            this.optional_level = this.player.getCapability(CapabilitySystem.LEVEL).resolve();
-            this.optional_mana = this.player.getCapability(CapabilitySystem.MANA).resolve();
-            this.optional_str = this.player.getCapability(CapabilitySystem.STR).resolve();
-            this.optional_dex = this.player.getCapability(CapabilitySystem.DEX).resolve();
-            this.optional_int = this.player.getCapability(CapabilitySystem.INT).resolve();
-            this.optional_luk = this.player.getCapability(CapabilitySystem.LUK).resolve();
-            this.optional_point = this.player.getCapability(CapabilitySystem.POINT).resolve();
+            this.optional_level = this.player.getCapability(CapabilitySystem.LEVEL);
+            this.optional_mana = this.player.getCapability(CapabilitySystem.MANA);
+            this.optional_str = this.player.getCapability(CapabilitySystem.STR);
+            this.optional_dex = this.player.getCapability(CapabilitySystem.DEX);
+            this.optional_int = this.player.getCapability(CapabilitySystem.INT);
+            this.optional_luk = this.player.getCapability(CapabilitySystem.LUK);
+            this.optional_point = this.player.getCapability(CapabilitySystem.POINT);
         }
 
         public BattleSystemStruct GetStruct(){
             BattleSystemStruct buffer = new BattleSystemStruct();
-            if(optional_level.isPresent()) {
-                buffer.Level = optional_level.get().getLevel();
+            if(optional_level != null) {
+                buffer.Level = optional_level.getLevel();
             }
             buffer.HP = (int)player.getHealth();
             buffer.MaxHP = (int)player.getMaxHealth();
-            if(optional_mana.isPresent()) {
-                buffer.MP = optional_mana.get().getMana();
-                buffer.MaxMP = optional_mana.get().getManaMaximum();
+            if(optional_mana != null) {
+                buffer.MP = optional_mana.getMana();
+                buffer.MaxMP = optional_mana.getManaMaximum();
             }
             return buffer;
         }

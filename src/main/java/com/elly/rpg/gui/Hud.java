@@ -6,12 +6,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.LayeredDraw;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Overlay;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -19,10 +15,8 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
-import net.minecraftforge.client.extensions.IForgeGuiGraphics;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
+import net.neoforged.neoforge.client.gui.GuiLayerManager;
 
 /**
  * Inspire by https://github.com/heria-zone/reignited-hud/blob/release/reignitedhud-forge-1.20.6/src/main/java/net/msymbios/reignitedhud/gui/GuiWidget.java
@@ -37,12 +31,11 @@ public class Hud {
 
     Minecraft minecraft = Minecraft.getInstance();
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void renderOverlay(CustomizeGuiOverlayEvent event){
+    public void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
         Window scaled = minecraft.getWindow();
 
         if (this.minecraft.player != null) {
-            RPG.LOGGER.info(String.format("GUI event: %s", event.getClass().getTypeName()));
+            event.getGuiGraphics().flush();
 
             GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
 

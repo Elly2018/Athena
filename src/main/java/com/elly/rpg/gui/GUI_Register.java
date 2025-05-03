@@ -4,12 +4,13 @@ import com.elly.rpg.gui.menu.Skill_Menu;
 import com.elly.rpg.gui.menu.Trade_Menu;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Supplier;
 
 public class GUI_Register {
-    public static RegistryObject<MenuType<Skill_Menu>> SKILL;
-    public static RegistryObject<MenuType<Trade_Menu>> TRADE;
+    public static Supplier<MenuType<Skill_Menu>> SKILL;
+    public static Supplier<MenuType<Trade_Menu>> TRADE;
 
     private final DeferredRegister<MenuType<?>> MENU_TYPES;
 

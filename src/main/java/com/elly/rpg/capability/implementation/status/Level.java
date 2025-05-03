@@ -3,7 +3,7 @@ package com.elly.rpg.capability.implementation.status;
 import com.elly.rpg.capability.capability.status.ILevel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.IntTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class Level implements ILevel, INBTSerializable<IntTag> {
     private int Level;

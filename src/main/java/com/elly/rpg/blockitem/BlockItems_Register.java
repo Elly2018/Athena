@@ -1,16 +1,17 @@
 package com.elly.rpg.blockitem;
 
 import com.elly.rpg.block.Blocks_Register;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class BlockItems_Register {
 
@@ -19,7 +20,7 @@ public class BlockItems_Register {
         Item.Properties get_behaviour();
     }
 
-    public HashMap<String, RegistryObject<BlockItem>> RegisterDict = new HashMap<String, RegistryObject<BlockItem>>();
+    public HashMap<String, Supplier<BlockItem>> RegisterDict = new HashMap<String, Supplier<BlockItem>>();
 
     private final DeferredRegister<Item> ITEMS;
     private final Blocks_Register BlockRegister;
@@ -39,9 +40,9 @@ public class BlockItems_Register {
             Item.Properties behaviour = blockItemRegisterData.get_behaviour();
             boolean hasKey = this.BlockRegister.RegisterDict.containsKey(key);
             if (hasKey) {
-                RegistryObject<Block> target = this.BlockRegister.RegisterDict.get(key);
-                behaviour.setId(ResourceKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.parse("rpg:" + key)));
-                RegistryObject<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
+                Supplier<Block> target = this.BlockRegister.RegisterDict.get(key);
+                behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse("rpg:" + key)));
+                Supplier<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
                 this.RegisterDict.put(key, buffer);
             }
         }

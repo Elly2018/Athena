@@ -8,12 +8,12 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CreativeTabs_Register {
 
@@ -45,11 +45,11 @@ public class CreativeTabs_Register {
 
     private final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS;
     private final List<TabsCategory> categories;
-    private final HashMap<String, RegistryObject<CreativeModeTab>> RegisterDict;
+    private final HashMap<String, Supplier<CreativeModeTab>> RegisterDict;
 
     public CreativeTabs_Register(DeferredRegister<CreativeModeTab> _CREATIVE_MODE_TABS) {
         this.CREATIVE_MODE_TABS = _CREATIVE_MODE_TABS;
-        this.RegisterDict = new HashMap<String, RegistryObject<CreativeModeTab>>();
+        this.RegisterDict = new HashMap<String, Supplier<CreativeModeTab>>();
         this.categories = new ArrayList<TabsCategory>();
         this.categories.add(new TabsCategory(
                 new String[] {
@@ -71,8 +71,8 @@ public class CreativeTabs_Register {
     public void RegisterAllTabs(RegisterCollection collection)
     {
         for(TabsCategory i: categories){
-            RegistryObject<BlockItem>[] blockitems = new RegistryObject[i.BlockItem_ids.length];
-            RegistryObject<Item>[] items = new RegistryObject[i.Item_ids.length];
+            Supplier<BlockItem>[] blockitems = new Supplier[i.BlockItem_ids.length];
+            Supplier<Item>[] items = new Supplier[i.Item_ids.length];
             for(int y = 0; y < i.BlockItem_ids.length; y++){
                 blockitems[y] = collection._BlockItems_Register.RegisterDict.get(i.BlockItem_ids[y]);
             }
@@ -80,14 +80,14 @@ public class CreativeTabs_Register {
                 items[y] = collection._Item_Register.RegisterDict.get(i.Item_ids[y]);
             }
 
-            RegistryObject<CreativeModeTab> buffer = this.CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()
+            Supplier<CreativeModeTab> buffer = this.CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()
                 .title(Component.translatable(i.Tab_Display))
                 .icon(Items.CAKE::getDefaultInstance)
                 .displayItems((parameters, output) -> {
-                    for(RegistryObject<BlockItem> y: blockitems){
+                    for(Supplier<BlockItem> y: blockitems){
                         if(y != null) output.accept(y.get());
                     }
-                    for(RegistryObject<Item> y: items){
+                    for(Supplier<Item> y: items){
                         if(y != null) output.accept(y.get());
                     }
                 }).build());

@@ -2,17 +2,17 @@ package com.elly.rpg.sound;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class Sound_Register {
-    public static RegistryObject<SoundEvent> Heal;
-    public static RegistryObject<SoundEvent> Job;
-    public static RegistryObject<SoundEvent> Meso;
-    public static RegistryObject<SoundEvent> Potion;
-    public static RegistryObject<SoundEvent> QuestFinish;
+    public static Supplier<SoundEvent> Heal;
+    public static Supplier<SoundEvent> Job;
+    public static Supplier<SoundEvent> Meso;
+    public static Supplier<SoundEvent> Potion;
+    public static Supplier<SoundEvent> QuestFinish;
 
     private final DeferredRegister<SoundEvent> SOUND;
 
