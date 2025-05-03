@@ -140,7 +140,7 @@ public class RPG {
         if(!Config.hunger_exist){
             event.getServer().getPlayerList().getPlayers().forEach(x -> {
                 FoodData fd = x.getFoodData();
-                fd.setFoodLevel(19);
+                fd.setFoodLevel(16);
                 fd.setSaturation(0);
             });
         }
