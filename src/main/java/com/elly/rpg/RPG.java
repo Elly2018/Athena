@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.profiling.jfr.event.ServerTickTimeEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.MenuType;
@@ -25,6 +24,7 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -34,9 +34,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -143,10 +141,16 @@ public class RPG {
     public static class ClientModGameEvents {
         public static Hud hub;
 
-        @SubscribeEvent
+        @SubscribeEvent(priority = EventPriority.HIGH)
         public static void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
             if(hub == null) hub = new Hud();
             hub.renderOverlay(event);
+        }
+
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public static void renderGUI(RenderGuiLayerEvent.Pre event){
+            if(hub == null) hub = new Hud();
+            hub.renderGUI(event);
         }
 
         @SubscribeEvent
@@ -168,17 +172,6 @@ public class RPG {
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){
             Command_Register.register(event.getDispatcher());
-        }
-    }
-
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
-    public static class ServerModGameEvents {
-        public static CapabilitySystem capability_system;
-
-        @SubscribeEvent
-        public static void onAttachingCapabilities(final RegisterCapabilitiesEvent event) {
-            if(capability_system == null) capability_system = new CapabilitySystem();
-            capability_system.onAttachingCapabilities(event);
         }
     }
 }

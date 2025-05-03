@@ -15,7 +15,10 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffects;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.GuiLayerManager;
 
 /**
@@ -30,6 +33,11 @@ public class Hud {
     public static final ResourceLocation TEX_HUD_EFFECT = ResourceLocation.fromNamespaceAndPath(RPG.MODID,"textures/gui/hud_effects.png");
 
     Minecraft minecraft = Minecraft.getInstance();
+
+    public void renderGUI(RenderGuiLayerEvent.Pre event){
+        if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
+    }
 
     public void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
         Window scaled = minecraft.getWindow();
