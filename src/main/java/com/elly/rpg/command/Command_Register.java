@@ -28,13 +28,13 @@ public class Command_Register {
     private static int execute(CommandContext<CommandSourceStack> command){
         if(command.getSource().getEntity() instanceof Player){
             Player player = (Player) command.getSource().getEntity();
-            LazyOptional<IMana> mana = player.getCapability(CapabilitySystem.MANA);
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 2));
+            Optional<IMana> target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, "mana");
+
             int _mana = 0;
-            Optional<IMana> target = mana.resolve();
             if(!target.isEmpty()){
                 _mana = target.get().getMana();
             }
+            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 2));
             player.displayClientMessage(Component.literal("Your mana: %d".formatted(_mana)), true);
 
         }

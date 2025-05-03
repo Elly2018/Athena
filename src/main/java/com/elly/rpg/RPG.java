@@ -4,6 +4,7 @@ import com.elly.rpg.block.Blocks_Register;
 import com.elly.rpg.blockitem.BlockItems_Register;
 import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.command.Command_Register;
+import com.elly.rpg.gui.GUI_Register;
 import com.elly.rpg.gui.Hud;
 import com.elly.rpg.item.Item_Register;
 import com.elly.rpg.keymap.KeyMap_Register;
@@ -13,7 +14,9 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
@@ -27,6 +30,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,6 +54,8 @@ public class RPG {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
+    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
@@ -58,6 +64,7 @@ public class RPG {
     private final CreativeTabs_Register creativeTabs_register;
     private final CapabilitySystem capability_system;
     private final KeyMap_Register keyMap_register;
+    private final GUI_Register gui_register;
     private final Hud hud;
 
     public RPG(FMLJavaModLoadingContext context) {
@@ -71,6 +78,7 @@ public class RPG {
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         capability_system = new CapabilitySystem();
         keyMap_register = new KeyMap_Register();
+        gui_register = new GUI_Register(MENU_TYPES);
         hud = new Hud();
 
         BLOCKS.register(modEventBus);
@@ -79,6 +87,8 @@ public class RPG {
         SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         RECIPE.register(modEventBus);
+        MENU_TYPES.register(modEventBus);
+        MOB_EFFECTS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -94,6 +104,7 @@ public class RPG {
                 item_register
         );
         creativeTabs_register.RegisterAllTabs(collection);
+        gui_register.registerMenu();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -114,7 +125,7 @@ public class RPG {
 
     @SubscribeEvent
     public void onAttachingCapabilities(final AttachCapabilitiesEvent<Entity> event) {
-        capability_system.onAttachingCapabilities(MODID, event);
+        capability_system.onAttachingCapabilities(event);
     }
 
     @SubscribeEvent
@@ -131,6 +142,11 @@ public class RPG {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderOverlay(CustomizeGuiOverlayEvent event) {
         //hud.renderOverlay(event);
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        keyMap_register.onClientTick(event);
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

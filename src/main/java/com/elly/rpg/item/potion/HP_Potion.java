@@ -1,21 +1,13 @@
 package com.elly.rpg.item.potion;
 
 import com.elly.rpg.item.Item_Register;
-import com.elly.rpg.sound.Sound_Register;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,21 +21,8 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
         }
 
         @Override
-        public InteractionResult use(Level level, Player player, InteractionHand hand) {
-            if (player.getHealth() < player.getMaxHealth() && hand == InteractionHand.MAIN_HAND){
-                player.setHealth(player.getHealth() + 10.0F);
-
-                ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-                if(stack.getCount() > 1){
-                    stack.setCount(stack.getCount() - 1);
-                }else{
-                    player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-                }
-                PlayPotionSound(player);
-                return InteractionResult.SUCCESS;
-            }else{
-                return InteractionResult.FAIL;
-            }
+        public float AddHealth(Player player) {
+            return 10.0F;
         }
 
         @Override

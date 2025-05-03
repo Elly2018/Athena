@@ -1,7 +1,6 @@
 package com.elly.rpg.item;
 
-import com.elly.rpg.item.potion.HP_Potion;
-import com.elly.rpg.item.potion.MP_Potion;
+import com.elly.rpg.item.potion.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,8 +27,11 @@ public class Item_Register {
         this.ITEMS = _ITEMS;
         this.POTIONS = _POTIONS;
         this.AllItems = new ItemRegisterData[]{
-          new HP_Potion(),
-          new MP_Potion()
+            new HP_Potion(),
+            new HP_Potion_Large(),
+            new MP_Potion(),
+            new MP_Potion_Large(),
+            new Elixir()
         };
     }
 
