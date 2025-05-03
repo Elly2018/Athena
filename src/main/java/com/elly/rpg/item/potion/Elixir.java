@@ -29,7 +29,7 @@ public class Elixir implements Item_Register.ItemRegisterData {
 
         @Override
         public int AddMana(Player player) {
-            Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, "mana");
+            Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, CapabilitySystem.MANA);
             if(o_target.isEmpty()) return 0;
             return o_target.get().getManaMaximum() / 2;
         }
@@ -37,7 +37,9 @@ public class Elixir implements Item_Register.ItemRegisterData {
         @Override
         public void appendHoverText(ItemStack p_41421_, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(p_41421_, ctx, tooltip, flag);
-            tooltip.add(Component.literal("This will heal you with 50% health point and 50% mana point"));
+            tooltip.add(Component.literal("This will give you"));
+            tooltip.add(Component.literal("50% health point"));
+            tooltip.add(Component.literal("50% mana point"));
         }
 
         @Override

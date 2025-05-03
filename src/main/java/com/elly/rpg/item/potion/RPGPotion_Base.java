@@ -1,5 +1,6 @@
 package com.elly.rpg.item.potion;
 
+import com.elly.rpg.RPG;
 import com.elly.rpg.capability.CapabilitySystem;
 import com.elly.rpg.capability.capability.IMana;
 import net.minecraft.resources.ResourceLocation;
@@ -28,17 +29,19 @@ public class RPGPotion_Base extends Item {
         float h = AddHealth(player);
         int m = AddMana(player);
 
-        Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, "mana");
-        if(o_target.isEmpty()) return InteractionResult.FAIL;
+        Optional<IMana> o_target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, CapabilitySystem.MANA);
+        if(o_target.isEmpty()) {
+            return InteractionResult.FAIL;
+        }
         IMana target = o_target.get();
 
         if (h > 0 && player.getHealth() < player.getMaxHealth() && hand == InteractionHand.MAIN_HAND){
             pass = true;
-            player.setHealth(Math.min(player.getHealth() + 10.0F, player.getMaxHealth()));
+            player.setHealth(Math.min(player.getHealth() + h, player.getMaxHealth()));
         }
         if (m > 0 && target.getMana() < target.getManaMaximum() && hand == InteractionHand.MAIN_HAND) {
             pass = true;
-            target.setMana(Math.min(target.getMana() + 10, target.getManaMaximum()));
+            target.setMana(Math.min(target.getMana() + m, target.getManaMaximum()));
         }
 
         if(!pass) return InteractionResult.FAIL;

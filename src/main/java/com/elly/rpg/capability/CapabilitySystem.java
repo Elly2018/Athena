@@ -42,14 +42,12 @@ public class CapabilitySystem {
     public static final Capability<IPoint> POINT = CapabilityManager.get(new CapabilityToken<>(){});
     public static final Capability<ICoin> COIN = CapabilityManager.get(new CapabilityToken<>(){});
 
-    public static HashMap<String, Capability<?>> RegisterDict;
     public static class PlayerCapabilitesRegister<X extends Tag, T extends INBTSerializable<X>, U> {
         public void attackPlayerCapabilities(
                 AttachCapabilitiesEvent<Entity> event,
-                T instance,
+                T backend,
                 Capability<U> cap_target,
                 String name){
-            T backend = instance;
             LazyOptional<U> optionalCap = (LazyOptional<U>) LazyOptional.of(() -> backend);
             ICapabilityProvider provider = new ICapabilitySerializable<X>() {
                 @Override
@@ -71,26 +69,31 @@ public class CapabilitySystem {
                 }
             };
             event.addCapability(ResourceLocation.fromNamespaceAndPath(RPG.MODID, name), provider);
-            RegisterDict.put(name.replaceAll("_compatibility", ""), cap_target);
+            String id = name.replace("_compatibility", "");
+            RPG.LOGGER.info(String.format("Register %s to player capatibility system", id));
         }
     }
 
     public void onAttachingCapabilities(AttachCapabilitiesEvent<Entity> event) {
-        RegisterDict = new HashMap<>();
         if ((event.getObject() instanceof Player)){
             onAttachingPlayerCapabilities(event);
         }
-
     }
 
-    public static Optional<?> GetDataFromPlayer(Player player, String name){
-        if(!RegisterDict.containsKey(name)) return Optional.empty();
-        return player.getCapability(RegisterDict.get(name)).resolve();
+    public static Optional<?> GetDataFromPlayer(Player player, Capability<?> cap){
+        var p = player.getCapability(cap).resolve();
+        if(p.isEmpty()){
+            RPG.LOGGER.warn(String.format("Player %s does not have %s capability attach to", player.getName().getString(), cap.getName()));
+        }
+        return p;
     }
 
-    public static Optional<?> GetDataFromItem(ItemEntity item, String name){
-        if(!RegisterDict.containsKey(name)) return Optional.empty();
-        return item.getCapability(RegisterDict.get(name)).resolve();
+    public static Optional<?> GetDataFromItem(ItemEntity item, Capability<?> cap){
+        var p = item.getCapability(cap).resolve();
+        if(p.isEmpty()){
+            RPG.LOGGER.warn(String.format("Item %s does not have %s capability attach to", item.getName().getString(), cap.getName()));
+        }
+        return p;
     }
 
     private void onAttachingPlayerCapabilities(AttachCapabilitiesEvent<Entity> event){

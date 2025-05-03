@@ -1,9 +1,12 @@
 package com.elly.rpg.item;
 
 import com.elly.rpg.item.potion.*;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
@@ -39,7 +42,9 @@ public class Item_Register {
         for (ItemRegisterData itemRegisterData : AllItems){
             String key = itemRegisterData.get_key();
             Item.Properties behaviour = itemRegisterData.get_behaviour();
-            RegistryObject<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour.setId(ITEMS.key(key))));
+            // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
+            behaviour.setId(ResourceKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.parse("rpg:" + key)));
+            RegistryObject<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
             this.RegisterDict.put(key, buffer);
         }
     }

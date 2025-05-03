@@ -48,6 +48,7 @@ import org.slf4j.Logger;
 @Mod(RPG.MODID)
 public class RPG {
     public static final String MODID = "athena";
+    public static final Logger LOGGER = LogUtils.getLogger();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, MODID);
@@ -56,7 +57,6 @@ public class RPG {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
-    private static final Logger LOGGER = LogUtils.getLogger();
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
     private final Item_Register item_register;

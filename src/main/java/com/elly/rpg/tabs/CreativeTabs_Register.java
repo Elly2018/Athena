@@ -45,16 +45,27 @@ public class CreativeTabs_Register {
 
     private final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS;
     private final List<TabsCategory> categories;
-    private final HashMap<String, RegistryObject<CreativeModeTab>> example_tab;
+    private final HashMap<String, RegistryObject<CreativeModeTab>> RegisterDict;
 
     public CreativeTabs_Register(DeferredRegister<CreativeModeTab> _CREATIVE_MODE_TABS) {
         this.CREATIVE_MODE_TABS = _CREATIVE_MODE_TABS;
-        this.example_tab = new HashMap<String, RegistryObject<CreativeModeTab>>();
+        this.RegisterDict = new HashMap<String, RegistryObject<CreativeModeTab>>();
         this.categories = new ArrayList<TabsCategory>();
         this.categories.add(new TabsCategory(
-                new String[] { "symmetric_anchor" },
-                new String[] { "hp_potion", "mp_potion" },
-                "rpg_", "RPG Use"));
+                new String[] {
+                        "symmetric_anchor"
+                },
+                new String[] {
+                        "hp_potion",
+                        "hp_potion_large",
+                        "mp_potion",
+                        "mp_potion_large",
+                        "elixir",
+                        "power_elixir"
+                },
+                "rpg_use", "RPG Use"
+            )
+        );
     }
 
     public void RegisterAllTabs(RegisterCollection collection)
@@ -80,7 +91,7 @@ public class CreativeTabs_Register {
                         if(y != null) output.accept(y.get());
                     }
                 }).build());
-            example_tab.put(i.Tab_id, buffer);
+            RegisterDict.put(i.Tab_id, buffer);
         }
     }
 }

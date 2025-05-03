@@ -45,6 +45,6 @@ public class Hud {
 
         // Bind the health bar texture and render the bar
         //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BAR);
-        RenderDrawCallback.drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
+        // RenderDrawCallback.drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
     }
 }

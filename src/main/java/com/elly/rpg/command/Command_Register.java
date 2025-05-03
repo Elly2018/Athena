@@ -28,7 +28,7 @@ public class Command_Register {
     private static int execute(CommandContext<CommandSourceStack> command){
         if(command.getSource().getEntity() instanceof Player){
             Player player = (Player) command.getSource().getEntity();
-            Optional<IMana> target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, "mana");
+            Optional<IMana> target = (Optional<IMana>) CapabilitySystem.GetDataFromPlayer(player, CapabilitySystem.MANA);
 
             int _mana = 0;
             if(!target.isEmpty()){
@@ -36,7 +36,6 @@ public class Command_Register {
             }
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 2));
             player.displayClientMessage(Component.literal("Your mana: %d".formatted(_mana)), true);
-
         }
         return Command.SINGLE_SUCCESS;
     }

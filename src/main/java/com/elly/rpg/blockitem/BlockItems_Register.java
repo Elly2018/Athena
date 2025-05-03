@@ -1,10 +1,13 @@
 package com.elly.rpg.blockitem;
 
 import com.elly.rpg.block.Blocks_Register;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
@@ -37,7 +40,8 @@ public class BlockItems_Register {
             boolean hasKey = this.BlockRegister.RegisterDict.containsKey(key);
             if (hasKey) {
                 RegistryObject<Block> target = this.BlockRegister.RegisterDict.get(key);
-                RegistryObject<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour.setId(ITEMS.key(key))));
+                behaviour.setId(ResourceKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.parse("rpg:" + key)));
+                RegistryObject<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
                 this.RegisterDict.put(key, buffer);
             }
         }
