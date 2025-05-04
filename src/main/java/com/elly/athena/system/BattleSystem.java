@@ -1,7 +1,7 @@
 package com.elly.athena.system;
 
-import com.elly.athena.capability.Attachment_Register;
-import com.elly.athena.capability.interfaceType.IPlayerStatus;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import net.minecraft.world.entity.player.Player;
 
 public class BattleSystem {

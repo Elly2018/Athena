@@ -2,7 +2,8 @@ package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
-import com.elly.athena.capability.Attachment_Register;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.command.Command_Register;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.Hud;
@@ -16,6 +17,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -40,6 +42,8 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -95,7 +99,7 @@ public class Athena {
         block_register.RegisterAllBlocks();
         blockitem_register.RegisterAllItems();
         item_register.RegisterAllItems();
-        sound_register.registerSounds(MODID);
+        sound_register.registerSounds();
         CreativeTabs_Register.RegisterCollection collection = new CreativeTabs_Register.RegisterCollection(
                 block_register,
                 blockitem_register,
@@ -109,8 +113,22 @@ public class Athena {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+    }
+
+    @SubscribeEvent
+    private void entityJoin(EntityJoinLevelEvent event){
+        if (event.getEntity() instanceof Player){
+            Player player = (Player) event.getEntity();
+
+            if(!player.hasData(Attachment_Register.PLAYER_STATUS))
+                player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus(0));
+        }
+    }
+
+    @SubscribeEvent
+    private  void playerClone(PlayerEvent.Clone event){
+        event.getEntity().setData(Attachment_Register.PLAYER_STATUS, event.getOriginal().getData(Attachment_Register.PLAYER_STATUS));
     }
 
     @SubscribeEvent

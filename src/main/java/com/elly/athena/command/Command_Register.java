@@ -1,18 +1,13 @@
 package com.elly.athena.command;
 
-import com.elly.athena.capability.Attachment_Register;
-import com.elly.athena.capability.implementation.PlayerStatus;
-import com.elly.athena.capability.interfaceType.IPlayerStatus;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -20,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 public class Command_Register {
     enum Action {
@@ -50,9 +44,6 @@ public class Command_Register {
         Player player = command.getSource().getPlayer();
         if(player == null) return -1;
 
-        if(!player.hasData(Attachment_Register.PLAYER_STATUS)){
-            player.setData(Attachment_Register.PLAYER_STATUS.get(), new PlayerStatus(0));
-        }
         IPlayerStatus target = player.getData(Attachment_Register.PLAYER_STATUS);
         String action = command.getArgument("action", String.class);
         int value = 0;

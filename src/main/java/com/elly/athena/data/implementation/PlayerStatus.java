@@ -1,6 +1,6 @@
-package com.elly.athena.capability.implementation;
+package com.elly.athena.data.implementation;
 
-import com.elly.athena.capability.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.*;
 import net.neoforged.neoforge.common.util.INBTSerializable;

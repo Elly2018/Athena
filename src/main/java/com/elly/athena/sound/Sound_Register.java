@@ -1,5 +1,6 @@
 package com.elly.athena.sound;
 
+import com.elly.athena.Athena;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,11 +20,11 @@ public class Sound_Register {
         this.SOUND = _SOUND;
     }
 
-    public void registerSounds(String modid){
-        Heal = SOUND.register("heal", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modid, "heal")));
-        Job = SOUND.register("job", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modid, "job")));
-        Meso = SOUND.register("meso", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modid, "meso")));
-        Potion = SOUND.register("potion", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modid, "potion")));
-        QuestFinish = SOUND.register("quest_finish", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modid, "quest_finish")));
+    public void registerSounds(){
+        Heal = SOUND.register("heal", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "heal")));
+        Job = SOUND.register("job", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "job")));
+        Meso = SOUND.register("meso", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "meso")));
+        Potion = SOUND.register("potion", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "potion")));
+        QuestFinish = SOUND.register("quest_finish", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "quest_finish")));
     }
 }

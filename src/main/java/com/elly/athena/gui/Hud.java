@@ -1,5 +1,7 @@
 package com.elly.athena.gui;
 
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.status.IMana;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
@@ -45,7 +47,7 @@ public class Hud {
 
             this.getWidgetBase(this.minecraft.player, event);
             this.getPlayerHealthBar(this.minecraft.player, event);
-            this.getFoodValue(this.minecraft.player, event);
+            this.getManaValue(this.minecraft.player, event);
         }
     }
 
@@ -116,33 +118,31 @@ public class Hud {
         // Bind the health bar texture and render the bar
         RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
         drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
-    }
 
-    private void getFoodValue(LocalPlayer player, CustomizeGuiOverlayEvent event) {
-        // Get the player's hunger value as a string
-        String hunger = String.valueOf(player.getFoodData().getFoodLevel());
-
-        // Determine the icon to display based on player's hunger effect
-        int icon = player.hasEffect(MobEffects.HUNGER) ? 2 : 1;
-
-        // Bind the food icon texture
-        //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_ICON);
-
-        // Draw the food icon on the HUD
-        drawIcon(TEX_HUD_ICON, event, 47, 31, 1, icon);
+        String mana_text = String.format("%d / %d", (int)player.getHealth(), (int)player.getMaxHealth());
 
         // Set default color and shadow for the food value display
         int color = 11960912;
         int shadow = 3349772;
 
-        // Adjust color and shadow if player has hunger effect
-        if (player.hasEffect(MobEffects.HUNGER)) {
-            color = 7636056;
-            shadow = 1710089;
-        }
+        drawFontWithShadow(event, mana_text, 59, 32, color, shadow);
+    }
 
-        // Draw the food value on the HUD with appropriate color and shadow
-        drawFontWithShadow(event, hunger, 59, 32, color, shadow);
+    private void getManaValue(LocalPlayer player, CustomizeGuiOverlayEvent event) {
+        IMana mana = player.getData(Attachment_Register.PLAYER_STATUS);
+
+        float fill = Math.min(1.0F, (float)mana.getMana() / (float)mana.getManaMaximum());
+
+        RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
+        drawMediumBar(TEX_HUD_BAR, event, 48, 34, 4, fill);
+
+        String mana_text = String.format("%d / %d", mana.getMana(), mana.getManaMaximum());
+
+        // Set default color and shadow for the food value display
+        int color = 11960912;
+        int shadow = 3349772;
+
+        drawFontWithShadow(event, mana_text, 59, 32, color, shadow);
     }
 
     private void drawMediumBar(ResourceLocation icon, CustomizeGuiOverlayEvent event, int posX, int posY, int bar, float fill) {
@@ -243,5 +243,13 @@ public class Hud {
 
         // Reset the blend color
         GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    private int getIntFromColor(int Red, int Green, int Blue){
+        Red = (Red << 16) & 0x00FF0000; //Shift red 16-bits and mask out other stuff
+        Green = (Green << 8) & 0x0000FF00; //Shift Green 8-bits and mask out other stuff
+        Blue = Blue & 0x000000FF; //Mask out anything not blue.
+
+        return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
     }
 }

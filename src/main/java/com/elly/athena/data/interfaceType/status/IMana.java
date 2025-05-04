@@ -1,4 +1,4 @@
-package com.elly.athena.capability.interfaceType.status;
+package com.elly.athena.data.interfaceType.status;
 
 public interface IMana {
     int getManaMaximum();

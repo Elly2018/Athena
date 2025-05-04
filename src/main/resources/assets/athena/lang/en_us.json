@@ -1,6 +1,6 @@
 {
-  "key.categories.rpg": "RPG",
-  "key.rpg.skill": "Skill",
-  "key.rpg.status": "Status",
-  "key.rpg.switch": "Switch"
+  "key.categories.athena": "Athena",
+  "key.athena.skill": "Skill",
+  "key.athena.status": "Status",
+  "key.athena.switch": "Switch"
 }

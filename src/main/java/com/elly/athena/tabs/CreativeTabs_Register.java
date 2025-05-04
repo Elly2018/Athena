@@ -63,7 +63,7 @@ public class CreativeTabs_Register {
                         "elixir",
                         "power_elixir"
                 },
-                "rpg_use", "RPG Use"
+                "athena_use", "Athena Use"
             )
         );
     }
