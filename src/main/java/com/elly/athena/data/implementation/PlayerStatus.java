@@ -31,6 +31,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void addCoin(int value) { this.Coin += value; }
     @Override public void spendCoin(int value) { this.Coin -= value; }
 
+    @Override public float getExpProgress(int level) { return (float)this.Exp / (float)getExpMaximum(level); }
     @Override public int getExp() { return this.Exp; }
     @Override public int getExpMaximum(int level) { return (int)(Math.pow((double)(level * 100), (double)1.27F)); }
     @Override public void addExp(int value) { this.Exp += value; }

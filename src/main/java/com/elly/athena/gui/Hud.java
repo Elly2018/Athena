@@ -44,6 +44,7 @@ public class Hud {
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:experience_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:air_level")) event.setCanceled(true);
@@ -68,7 +69,7 @@ public class Hud {
         // Get the player's game profile
         GameProfile profile = player.getGameProfile();
 
-        ILevel level = player.getData(Attachment_Register.PLAYER_STATUS);
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
 
         // Initialize the player's skin with the default skin
         ResourceLocation playerSkin = DefaultPlayerSkin.getDefaultTexture();
@@ -93,7 +94,7 @@ public class Hud {
         //event.getGuiGraphics().blit(TEX_HUD_BAR, 13, 13, 227, 0, 5, 25);
 
         // Render dynamic HUD element based on player's experience progress
-        event.getGuiGraphics().blit(RenderType::guiTextured, TEX_HUD_BAR, 14, 14, 223, 1, 3, 23 - (int)(player.experienceProgress  * 23.0F), 256, 256);
+        event.getGuiGraphics().blit(RenderType::guiTextured, TEX_HUD_BAR, 14, 14, 223, 1, 3, 23 - (int)(status.getExpProgress(status.getLevel())  * 23.0F), 256, 256);
 
         // Render HUD base
         //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BASE);
@@ -107,7 +108,7 @@ public class Hud {
         drawPlayerIcon(21, 17, 17);
 
         // Display the player's experience level
-        String enchantedPoints = String.valueOf(level.getLevel());
+        String enchantedPoints = String.valueOf(status.getLevel());
         drawFontBoldCentered(event, enchantedPoints, 30, 35, 13172623, 2957570);
 
         // Check if the game level exists and is set to hard difficulty
@@ -160,9 +161,9 @@ public class Hud {
     private void renderExperienceBar(LocalPlayer player, CustomizeGuiOverlayEvent event) {
         Profiler.get().push("expBar");
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
-        int k = (int)(status.getExp() * 183.0F);
-        int l = event.getGuiGraphics().guiHeight() - 32 + 3;
         int x = event.getGuiGraphics().guiWidth() / 2 - 91;
+        int k = (int)(status.getExpProgress(status.getLevel()) * 183.0F);
+        int l = event.getGuiGraphics().guiHeight() - 32 + 3;
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, 182, 5);
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, x, l, k, 5);
         Profiler.get().pop();
@@ -266,13 +267,5 @@ public class Hud {
 
         // Reset the blend color
         GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    private int getIntFromColor(int Red, int Green, int Blue){
-        Red = (Red << 16) & 0x00FF0000; //Shift red 16-bits and mask out other stuff
-        Green = (Green << 8) & 0x0000FF00; //Shift Green 8-bits and mask out other stuff
-        Blue = Blue & 0x000000FF; //Mask out anything not blue.
-
-        return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
     }
 }

@@ -1,20 +1,17 @@
 package com.elly.athena.command;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.suggestion.Suggestion;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.server.command.EnumArgument;
 
@@ -24,7 +21,7 @@ public class Command_Register {
     enum Action {
         check,
         set,
-        add
+        add;
     }
     enum DataType {
         level,
@@ -53,14 +50,7 @@ public class Command_Register {
         Action action = command.getArgument("action", Action.class);
         DataType datatype = command.getArgument("datatype", DataType.class);
         switch (action){
-            case check -> {
-                break;
-            }
-            case set -> {
-                player.displayClientMessage(Component.literal("You must enter value"), true);
-                return -1;
-            }
-            case add -> {
+            case set, add -> {
                 player.displayClientMessage(Component.literal("You must enter value"), true);
                 return -1;
             }
@@ -80,7 +70,7 @@ public class Command_Register {
     }
 
     private static int _player_status(CommandContext<CommandSourceStack> command, Player player, IPlayerStatus status, Action action, DataType datatype, int value){
-        if(Objects.equals(action, Action.check.name())){
+        if(action == Action.check){
             switch(datatype){
                 case level -> {
                     player.displayClientMessage(Component.literal("Your level is: %d".formatted(status.getLevel())), true);
@@ -92,11 +82,9 @@ public class Command_Register {
                     player.displayClientMessage(Component.literal("Your exp is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true);
                 }
             }
-        }else{
-            value = command.getArgument("value", Integer.class);
         }
 
-        if (Objects.equals(action, Action.add.name())){
+        if (action == Action.add){
             switch(datatype){
                 case level -> {
                     status.addLevel(value);
@@ -112,7 +100,7 @@ public class Command_Register {
                 }
             }
         }
-        else if (Objects.equals(action, Action.set.name())){
+        else if (action == Action.set){
             switch(datatype){
                 case level -> {
                     status.setLevel(value);
