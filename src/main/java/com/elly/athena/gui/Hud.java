@@ -1,5 +1,6 @@
 package com.elly.athena.gui;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.data.interfaceType.status.IExp;
@@ -164,6 +165,7 @@ public class Hud {
         int x = event.getGuiGraphics().guiWidth() / 2 - 91;
         int k = (int)(status.getExpProgress(status.getLevel()) * 183.0F);
         int l = event.getGuiGraphics().guiHeight() - 32 + 3;
+        Athena.LOGGER.info(String.format("exp ratio: %.2f %d", status.getExpProgress(status.getLevel()), k));
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, 182, 5);
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, x, l, k, 5);
         Profiler.get().pop();
