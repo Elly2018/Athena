@@ -1,6 +1,9 @@
 package com.elly.athena.gui;
 
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.status.IExp;
+import com.elly.athena.data.interfaceType.status.ILevel;
 import com.elly.athena.data.interfaceType.status.IMana;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -9,15 +12,19 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+
+import java.awt.*;
 
 /**
  * Inspire by https://github.com/heria-zone/reignited-hud/blob/release/reignitedhud-forge-1.20.6/src/main/java/net/msymbios/reignitedhud/gui/GuiWidget.java
@@ -30,11 +37,16 @@ public class Hud {
     public static final ResourceLocation TEX_HUD_ICON = ResourceLocation.fromNamespaceAndPath(com.elly.athena.Athena.MODID,"textures/gui/hud_icon.png");
     public static final ResourceLocation TEX_HUD_EFFECT = ResourceLocation.fromNamespaceAndPath(com.elly.athena.Athena.MODID,"textures/gui/hud_effects.png");
 
+    private static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_background");
+    private static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_progress");
+
     Minecraft minecraft = Minecraft.getInstance();
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:air_level")) event.setCanceled(true);
     }
 
     public void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
@@ -48,12 +60,15 @@ public class Hud {
             this.getWidgetBase(this.minecraft.player, event);
             this.getPlayerHealthBar(this.minecraft.player, event);
             this.getManaValue(this.minecraft.player, event);
+            this.renderExperienceBar(this.minecraft.player, event);
         }
     }
 
     private void getWidgetBase(LocalPlayer player, CustomizeGuiOverlayEvent event) {
         // Get the player's game profile
         GameProfile profile = player.getGameProfile();
+
+        ILevel level = player.getData(Attachment_Register.PLAYER_STATUS);
 
         // Initialize the player's skin with the default skin
         ResourceLocation playerSkin = DefaultPlayerSkin.getDefaultTexture();
@@ -92,7 +107,7 @@ public class Hud {
         drawPlayerIcon(21, 17, 17);
 
         // Display the player's experience level
-        String enchantedPoints = String.valueOf(player.experienceLevel);
+        String enchantedPoints = String.valueOf(level.getLevel());
         drawFontBoldCentered(event, enchantedPoints, 30, 35, 13172623, 2957570);
 
         // Check if the game level exists and is set to hard difficulty
@@ -106,60 +121,68 @@ public class Hud {
     }
 
     private void getPlayerHealthBar(LocalPlayer player, CustomizeGuiOverlayEvent event) {
-        // Calculate the fill amount of current health to max health
         float fill = Math.min(1.0F, player.getHealth() / player.getMaxHealth());
 
-        // Determine the type of health bar based on player effects
         int bar = 1;
         if (player.hasEffect(MobEffects.ABSORPTION)) bar = 2;
         if (player.hasEffect(MobEffects.REGENERATION)) bar = 3;
         if (player.hasEffect(MobEffects.DAMAGE_BOOST)) bar = 4;
 
-        // Bind the health bar texture and render the bar
         RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
-        drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
+        drawMediumBar(TEX_HUD_BAR, event, 48, 25, bar, fill);
 
-        String mana_text = String.format("%d / %d", (int)player.getHealth(), (int)player.getMaxHealth());
+        String hp_text = String.format("%d / %d", (int)player.getHealth(), (int)player.getMaxHealth());
 
-        // Set default color and shadow for the food value display
-        int color = 11960912;
-        int shadow = 3349772;
+        int color = 16227998;
+        int shadow = 4854290;
 
-        drawFontWithShadow(event, mana_text, 59, 32, color, shadow);
+        drawFontWithShadow(event, hp_text, 80, 15, color, shadow);
     }
 
     private void getManaValue(LocalPlayer player, CustomizeGuiOverlayEvent event) {
+        Profiler.get().push("mana");
         IMana mana = player.getData(Attachment_Register.PLAYER_STATUS);
 
         float fill = Math.min(1.0F, (float)mana.getMana() / (float)mana.getManaMaximum());
 
         RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
-        drawMediumBar(TEX_HUD_BAR, event, 48, 34, 4, fill);
+        drawMediumBar(TEX_HUD_BAR, event, 48, 45, 6, fill);
 
         String mana_text = String.format("%d / %d", mana.getMana(), mana.getManaMaximum());
 
-        // Set default color and shadow for the food value display
-        int color = 11960912;
-        int shadow = 3349772;
+        int color = 10862842;
+        int shadow = 726832;
 
-        drawFontWithShadow(event, mana_text, 59, 32, color, shadow);
+        drawFontWithShadow(event, mana_text, 80, 35, color, shadow);
+        Profiler.get().pop();
+    }
+
+    private void renderExperienceBar(LocalPlayer player, CustomizeGuiOverlayEvent event) {
+        Profiler.get().push("expBar");
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        int k = (int)(status.getExp() * 183.0F);
+        int l = event.getGuiGraphics().guiHeight() - 32 + 3;
+        int x = event.getGuiGraphics().guiWidth() / 2 - 91;
+        event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, 182, 5);
+        event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, x, l, k, 5);
+        Profiler.get().pop();
     }
 
     private void drawMediumBar(ResourceLocation icon, CustomizeGuiOverlayEvent event, int posX, int posY, int bar, float fill) {
-        // Create a new matrix stack
-        PoseStack matrix = new PoseStack();
-        Minecraft minecraft = Minecraft.getInstance();
-
-        // Calculate the position in the texture for the bar
         int barNumber = bar * 10 - 10;
-        // Calculate the position in the texture for the bar background
         int barNumberBG = bar * 10 - 4;
 
-        // Render the bar
         event.getGuiGraphics().blit(RenderType::guiTextured, icon, posX, posY, 0, barNumber, 91, 5, 255, 255);
-
-        // Render the filled portion of the bar based on the variable fill
         event.getGuiGraphics().blit(RenderType::guiTextured, icon, posX + 1, posY + 1, 1, barNumberBG, (int)(fill * 89.0F), 3, 255, 255);
+    }
+
+    private void drawFont(CustomizeGuiOverlayEvent event, String string, int posX, int posY, int color) {
+        // Get the font renderer from the Minecraft instance
+        Font font = Minecraft.getInstance().font;
+        // Draw the string at the specified position with the specified color
+        event.getGuiGraphics().drawString(font, string, posX, posY, color);
+        // Reset the blend color
+        GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private void drawFontWithShadow(CustomizeGuiOverlayEvent event, String string, int posX, int posY, int color, int shadow) {

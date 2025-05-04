@@ -1,6 +1,7 @@
 package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.*;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -20,7 +21,9 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Luk = 1;
     private int Point = 0;
 
-    public PlayerStatus(int mode){ }
+    public PlayerStatus(int mode){
+
+    }
 
     @Override public int getCoin() { return this.Coin; }
     @Override public boolean HaveCoin(int value) { return this.Coin >= value; }
@@ -105,12 +108,22 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
         ListTag tagList = compoundTag.getList("rpg_status", 10);
-        CompoundTag itemTags = tagList.getCompound(0);
-        this.Coin = itemTags.getInt("coin");
-        this.Job = itemTags.getString("job");
-        this.Level = itemTags.getInt("level");
-        this.Exp = itemTags.getInt("exp");
-        this.Mana = itemTags.getInt("mana");
-        this.MaxMana = itemTags.getInt("max_mana");
+        CompoundTag tagCoin = tagList.getCompound(0);
+        this.Coin = tagCoin.getInt("coin");
+
+        CompoundTag tagJob = tagList.getCompound(1);
+        this.Job = tagJob.getString("job");
+
+        CompoundTag tagLevel = tagList.getCompound(2);
+        this.Level = tagLevel.getInt("level");
+
+        CompoundTag tagExp = tagList.getCompound(3);
+        this.Exp = tagExp.getInt("exp");
+
+        CompoundTag tagMana = tagList.getCompound(4);
+        this.Mana = tagMana.getInt("mana");
+
+        CompoundTag tagMaxMana = tagList.getCompound(5);
+        this.MaxMana = tagMaxMana.getInt("max_mana");
     }
 }

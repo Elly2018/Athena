@@ -184,6 +184,7 @@ public class Athena {
                     FoodData fd = x.getFoodData();
                     fd.setFoodLevel(16);
                     fd.setSaturation(0);
+                    x.setAirSupply(20);
                 });
             }
         }
