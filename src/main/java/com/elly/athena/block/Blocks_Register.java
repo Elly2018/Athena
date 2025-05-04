@@ -1,5 +1,6 @@
 package com.elly.athena.block;
 
+import com.elly.athena.Athena;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +34,7 @@ public class Blocks_Register {
         for (BlockRegisterData allBlock : AllBlocks) {
             String key = allBlock.get_key();
             BlockBehaviour.Properties behaviour = allBlock.get_behaviour();
-            behaviour.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.parse("rpg:" + key)));
+            behaviour.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.parse(Athena.MODID + ":" + key)));
             Supplier<Block> buffer = this.BLOCKS.register(key, () -> new Block(behaviour));
             this.RegisterDict.put(key, buffer);
         }

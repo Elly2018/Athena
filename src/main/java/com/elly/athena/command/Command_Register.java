@@ -9,6 +9,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -16,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class Command_Register {
     enum Action {
@@ -29,13 +34,14 @@ public class Command_Register {
         action.then(Commands.literal(Action.set.name()));
         action.then(Commands.literal(Action.add.name()));
 
-        LiteralArgumentBuilder<CommandSourceStack> player_status = Commands.literal("rpg_ps")
+        LiteralArgumentBuilder<CommandSourceStack> player_status = Commands.literal("athena")
                 .requires(cs -> cs.hasPermission(4))
-                .then(action
-                    .then(Commands.argument("target", EntityArgument.player())
-                            .executes(command -> _player_status(command))
-                                .then(Commands.argument("value", IntegerArgumentType.integer())
-                                    .executes(command -> _player_status(command)))));
+                .then(Commands.literal("status")
+                    .then(action
+                        .then(Commands.argument("target", EntityArgument.player())
+                                .executes(command -> _player_status(command))
+                                    .then(Commands.argument("value", IntegerArgumentType.integer())
+                                        .executes(command -> _player_status(command))))));
 
         dispatcher.register(player_status);
     }

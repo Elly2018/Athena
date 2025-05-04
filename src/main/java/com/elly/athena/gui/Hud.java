@@ -45,6 +45,7 @@ public class Hud {
 
             this.getWidgetBase(this.minecraft.player, event);
             this.getPlayerHealthBar(this.minecraft.player, event);
+            this.getFoodValue(this.minecraft.player, event);
         }
     }
 
@@ -113,8 +114,52 @@ public class Hud {
         if (player.hasEffect(MobEffects.DAMAGE_BOOST)) bar = 4;
 
         // Bind the health bar texture and render the bar
-        //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BAR);
-        // RenderDrawCallback.drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
+        RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
+        drawMediumBar(TEX_HUD_BAR, event, 48, 24, bar, fill);
+    }
+
+    private void getFoodValue(LocalPlayer player, CustomizeGuiOverlayEvent event) {
+        // Get the player's hunger value as a string
+        String hunger = String.valueOf(player.getFoodData().getFoodLevel());
+
+        // Determine the icon to display based on player's hunger effect
+        int icon = player.hasEffect(MobEffects.HUNGER) ? 2 : 1;
+
+        // Bind the food icon texture
+        //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_ICON);
+
+        // Draw the food icon on the HUD
+        drawIcon(TEX_HUD_ICON, event, 47, 31, 1, icon);
+
+        // Set default color and shadow for the food value display
+        int color = 11960912;
+        int shadow = 3349772;
+
+        // Adjust color and shadow if player has hunger effect
+        if (player.hasEffect(MobEffects.HUNGER)) {
+            color = 7636056;
+            shadow = 1710089;
+        }
+
+        // Draw the food value on the HUD with appropriate color and shadow
+        drawFontWithShadow(event, hunger, 59, 32, color, shadow);
+    }
+
+    private void drawMediumBar(ResourceLocation icon, CustomizeGuiOverlayEvent event, int posX, int posY, int bar, float fill) {
+        // Create a new matrix stack
+        PoseStack matrix = new PoseStack();
+        Minecraft minecraft = Minecraft.getInstance();
+
+        // Calculate the position in the texture for the bar
+        int barNumber = bar * 10 - 10;
+        // Calculate the position in the texture for the bar background
+        int barNumberBG = bar * 10 - 4;
+
+        // Render the bar
+        event.getGuiGraphics().blit(RenderType::guiTextured, icon, posX, posY, 0, barNumber, 91, 5, 255, 255);
+
+        // Render the filled portion of the bar based on the variable fill
+        event.getGuiGraphics().blit(RenderType::guiTextured, icon, posX + 1, posY + 1, 1, barNumberBG, (int)(fill * 89.0F), 3, 255, 255);
     }
 
     private void drawFontWithShadow(CustomizeGuiOverlayEvent event, String string, int posX, int posY, int color, int shadow) {
@@ -168,7 +213,7 @@ public class Hud {
         bufferbuilder.addVertex(x + width, y + height, -1000.0F).setUv((u + (float)width) * f, (v + (float)height) * f1);
         bufferbuilder.addVertex((x + width), (y), -1000.0F).setUv((u + (float)width) * f, v * f1);
         bufferbuilder.addVertex((x), (y), -1000.0F).setUv(u * f, v * f1);
-        //tesselator.end();
+        bufferbuilder.build();
     }
 
     private void drawFontBoldCentered(CustomizeGuiOverlayEvent event, String text, int posX, int posY, int color, int shadow) {

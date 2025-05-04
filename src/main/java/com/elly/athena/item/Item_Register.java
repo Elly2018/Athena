@@ -1,5 +1,6 @@
 package com.elly.athena.item;
 
+import com.elly.athena.Athena;
 import com.elly.athena.item.potion.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -43,7 +44,7 @@ public class Item_Register {
             String key = itemRegisterData.get_key();
             Item.Properties behaviour = itemRegisterData.get_behaviour();
             // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
-            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse("rpg:" + key)));
+            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(Athena.MODID + ":" + key)));
             Supplier<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
             this.RegisterDict.put(key, buffer);
         }

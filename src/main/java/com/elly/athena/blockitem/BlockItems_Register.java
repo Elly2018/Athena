@@ -1,5 +1,6 @@
 package com.elly.athena.blockitem;
 
+import com.elly.athena.Athena;
 import com.elly.athena.block.Blocks_Register;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -40,7 +41,7 @@ public class BlockItems_Register {
             boolean hasKey = this.BlockRegister.RegisterDict.containsKey(key);
             if (hasKey) {
                 Supplier<Block> target = this.BlockRegister.RegisterDict.get(key);
-                behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse("rpg:" + key)));
+                behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(Athena.MODID + ":" + key)));
                 Supplier<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
                 this.RegisterDict.put(key, buffer);
             }
