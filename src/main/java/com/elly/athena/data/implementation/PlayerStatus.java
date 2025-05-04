@@ -1,9 +1,9 @@
 package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -20,6 +20,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Int = 1;
     private int Luk = 1;
     private int Point = 0;
+    public boolean Dirty = true;
 
     public PlayerStatus(int mode){
 
@@ -43,16 +44,15 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
     @Override public int getManaMaximum() { return MaxMana; }
     @Override public int getMana() { return Mana; }
-
     @Override public void setMana(int value) { this.Mana = value; vaildMana(); }
     @Override public void addMana(int value) { this.Mana += value; vaildMana(); }
     private void vaildMana(){ if(this.Mana > this.MaxMana) this.Mana = this.MaxMana; }
 
     @Override public int getDex() { return this.Dex; }
-
     @Override public void setDex(int value) { this.Dex = value; }
     @Override public void addDex(int value) { this.Dex += value; }
-    @Override public int getInt() { return this.Int; }
+
+    @Override public int getInt() { return this.Int;  }
     @Override public void setInt(int value) { this.Int = value; }
     @Override public void addInt(int value) { this.Int += value; }
 
@@ -63,8 +63,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public int getLuk() { return this.Luk; }
     @Override public void setLuk(int value) { this.Luk = value; }
     @Override public void addLuk(int value) { this.Luk += value; }
-    @Override public int getPoint() { return this.Point; }
 
+    @Override public int getPoint() { return this.Point; }
     @Override public void setPoint(int value) { this.Point = value; }
     @Override public void addPoint(int value) { this.Point += value; }
     @Override public void consumer(int value) { this.Point -= value; }
@@ -101,6 +101,26 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         tagMaxMana.putInt("max_mana", this.MaxMana);
         nbtTagList.add(tagMaxMana);
 
+        CompoundTag tagStr = new CompoundTag();
+        tagStr.putInt("str", this.Str);
+        nbtTagList.add(tagStr);
+
+        CompoundTag tagDex = new CompoundTag();
+        tagDex.putInt("dex", this.Dex);
+        nbtTagList.add(tagDex);
+
+        CompoundTag tagInt = new CompoundTag();
+        tagInt.putInt("int", this.Int);
+        nbtTagList.add(tagInt);
+
+        CompoundTag tagLuk = new CompoundTag();
+        tagLuk.putInt("luk", this.Luk);
+        nbtTagList.add(tagLuk);
+
+        CompoundTag tagPoint = new CompoundTag();
+        tagPoint.putInt("point", this.Point);
+        nbtTagList.add(tagPoint);
+
         CompoundTag nbt = new CompoundTag();
         nbt.put("rpg_status", nbtTagList);
         return nbt;
@@ -126,5 +146,20 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
         CompoundTag tagMaxMana = tagList.getCompound(5);
         this.MaxMana = tagMaxMana.getInt("max_mana");
+
+        CompoundTag tagStr = tagList.getCompound(6);
+        this.Str = tagStr.getInt("str");
+
+        CompoundTag tagDex = tagList.getCompound(7);
+        this.Dex = tagDex.getInt("dex");
+
+        CompoundTag tagInt = tagList.getCompound(8);
+        this.Int = tagInt.getInt("int");
+
+        CompoundTag tagLuk = tagList.getCompound(9);
+        this.Luk = tagLuk.getInt("luk");
+
+        CompoundTag tagPoint = tagList.getCompound(10);
+        this.Point = tagPoint.getInt("point");
     }
 }

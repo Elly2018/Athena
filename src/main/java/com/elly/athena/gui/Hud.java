@@ -2,6 +2,7 @@ package com.elly.athena.gui;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.data.interfaceType.status.IExp;
 import com.elly.athena.data.interfaceType.status.ILevel;
@@ -41,6 +42,7 @@ public class Hud {
     private static final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_background");
     private static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_progress");
 
+    public static PlayerStatus LocalPlayerStatus = new PlayerStatus(0);
     Minecraft minecraft = Minecraft.getInstance();
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
@@ -70,7 +72,7 @@ public class Hud {
         // Get the player's game profile
         GameProfile profile = player.getGameProfile();
 
-        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        IPlayerStatus status = LocalPlayerStatus;
 
         // Initialize the player's skin with the default skin
         ResourceLocation playerSkin = DefaultPlayerSkin.getDefaultTexture();
@@ -143,7 +145,7 @@ public class Hud {
 
     private void getManaValue(LocalPlayer player, CustomizeGuiOverlayEvent event) {
         Profiler.get().push("mana");
-        IMana mana = player.getData(Attachment_Register.PLAYER_STATUS);
+        IMana mana = LocalPlayerStatus;
 
         float fill = Math.min(1.0F, (float)mana.getMana() / (float)mana.getManaMaximum());
 
@@ -160,12 +162,12 @@ public class Hud {
     }
 
     private void renderExperienceBar(LocalPlayer player, CustomizeGuiOverlayEvent event) {
-        Profiler.get().push("expBar");
-        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        Profiler.get().push("a_expBar");
+        IPlayerStatus status = LocalPlayerStatus;
+        Athena.LOGGER.info(String.format("exp ratio: %.2f %d %d", status.getExpProgress(status.getLevel()), status.getExp(), status.getExpMaximum(status.getLevel())));
         int x = event.getGuiGraphics().guiWidth() / 2 - 91;
         int k = (int)(status.getExpProgress(status.getLevel()) * 183.0F);
         int l = event.getGuiGraphics().guiHeight() - 32 + 3;
-        Athena.LOGGER.info(String.format("exp ratio: %.2f %d", status.getExpProgress(status.getLevel()), k));
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_BACKGROUND_SPRITE, x, l, 182, 5);
         event.getGuiGraphics().blitSprite(RenderType::guiTextured, EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, x, l, k, 5);
         Profiler.get().pop();

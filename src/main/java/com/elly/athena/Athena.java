@@ -9,6 +9,7 @@ import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.keymap.KeyMap_Register;
+import com.elly.athena.network.Payload_Manager;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
@@ -46,6 +47,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.slf4j.Logger;
@@ -64,7 +66,8 @@ public class Athena {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
-    public static Attachment_Register capability_system;
+    private final Attachment_Register capability_system;
+    private final Payload_Manager payload_manager;
     private final Blocks_Register block_register;
     private final BlockItems_Register blockitem_register;
     private final Item_Register item_register;
@@ -73,8 +76,7 @@ public class Athena {
     private final GUI_Register gui_register;
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::commonSetup);
-
+        payload_manager = new Payload_Manager();
         capability_system = new Attachment_Register(ATTACHMENT);
         block_register = new Blocks_Register(BLOCKS);
         blockitem_register = new BlockItems_Register(ITEMS, block_register);
@@ -82,6 +84,9 @@ public class Athena {
         sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
         gui_register = new GUI_Register(MENU_TYPES);
+
+        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::onRegisterPayload);
 
         ATTACHMENT.register(modEventBus);
         BLOCKS.register(modEventBus);
@@ -117,6 +122,28 @@ public class Athena {
     }
 
     @SubscribeEvent
+    private void onClientTick(ClientTickEvent.Post event) {
+        ClientModEvents.keyMap_register.onClientTick(event);
+    }
+
+    @SubscribeEvent
+    private void onServerTick(ServerTickEvent.Post event) {
+        if(!Config.hunger_exist){
+            event.getServer().getPlayerList().getPlayers().forEach(x -> {
+                FoodData fd = x.getFoodData();
+                fd.setFoodLevel(16);
+                fd.setSaturation(0);
+                x.setAirSupply(20);
+            });
+        }
+    }
+
+    @SubscribeEvent
+    private void onServerTick(ServerTickEvent.Pre event){
+        payload_manager.update(event);
+    }
+
+    @SubscribeEvent
     private void entityJoin(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
@@ -127,7 +154,7 @@ public class Athena {
     }
 
     @SubscribeEvent
-    private  void playerClone(PlayerEvent.Clone event){
+    private void playerClone(PlayerEvent.Clone event){
         event.getEntity().setData(Attachment_Register.PLAYER_STATUS, event.getOriginal().getData(Attachment_Register.PLAYER_STATUS));
     }
 
@@ -137,8 +164,12 @@ public class Athena {
         LOGGER.info("HELLO from server starting");
     }
 
+    private void onRegisterPayload(RegisterPayloadHandlersEvent event){
+        payload_manager.register_payload(event);
+    }
+
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         public static KeyMap_Register keyMap_register;
 
@@ -170,23 +201,6 @@ public class Athena {
         public static void renderGUI(RenderGuiLayerEvent.Pre event){
             if(hub == null) hub = new Hud();
             hub.renderGUI(event);
-        }
-
-        @SubscribeEvent
-        public static void onClientTick(ClientTickEvent.Post event) {
-            ClientModEvents.keyMap_register.onClientTick(event);
-        }
-
-        @SubscribeEvent
-        public static void onServerTick(ServerTickEvent.Post event) {
-            if(!Config.hunger_exist){
-                event.getServer().getPlayerList().getPlayers().forEach(x -> {
-                    FoodData fd = x.getFoodData();
-                    fd.setFoodLevel(16);
-                    fd.setSaturation(0);
-                    x.setAirSupply(20);
-                });
-            }
         }
 
         @SubscribeEvent

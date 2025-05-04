@@ -2,7 +2,6 @@ package com.elly.athena.data;
 
 import com.elly.athena.data.implementation.PlayerStatus;
 import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
