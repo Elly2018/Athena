@@ -1,7 +1,0 @@
-{
-	"heal": { "sounds": [ "rpg:heal" ] },
-	"job": { "sounds": [ "rpg:job" ] },
-	"meso": { "sounds": [ "rpg:meso" ] },
-	"potion": { "sounds": [ "rpg:potion" ] },
-	"quest_finish": { "sounds": [ "rpg:quest_finish" ] }
-}
