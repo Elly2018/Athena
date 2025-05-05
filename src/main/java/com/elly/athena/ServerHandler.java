@@ -4,6 +4,7 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IDamage_Record;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.network.LootPayload;
 import com.elly.athena.network.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.MinecraftServer;
@@ -18,7 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -45,14 +45,16 @@ public class ServerHandler {
         ItemEntity ie = event.getItemEntity();
         ItemStack is = ie.getItem();
         Item item = is.getItem();
-        Player player = event.getPlayer();
+        ServerPlayer player = (ServerPlayer) event.getPlayer();
         Item cointype = Athena.item_register.RegisterDict.get("coin").get();
-        Athena.LOGGER.debug(String.format("Pickup: %s by player %s", item.getName().getString(), player.getUUID().toString()));
         if(is.getItem() == cointype){
             IPlayerStatus ps = event.getPlayer().getData(Attachment_Register.PLAYER_STATUS);
             ps.addCoin(is.getCount());
-            event.setCanPickup(TriState.FALSE);
             ie.setRemoved(Entity.RemovalReason.KILLED);
+        }
+        if(!ie.hasPickUpDelay()){
+            var tag = LootPayload.Generate(item.getName().getString(), 16777215, is.getCount());
+            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
         }
     }
 
@@ -67,7 +69,7 @@ public class ServerHandler {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));
+            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null, player)));
         });
     }
 

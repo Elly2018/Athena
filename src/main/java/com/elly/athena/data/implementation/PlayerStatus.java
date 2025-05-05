@@ -1,11 +1,15 @@
 package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.system.BattleSystem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
+
+import java.util.Optional;
 
 public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag> {
     private int Coin = 0;
@@ -105,6 +109,64 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
         CompoundTag tagMaxMana = new CompoundTag();
         tagMaxMana.putInt("max_mana", this.MaxMana);
+        nbtTagList.add(tagMaxMana);
+
+        CompoundTag tagStr = new CompoundTag();
+        tagStr.putInt("str", this.Str);
+        nbtTagList.add(tagStr);
+
+        CompoundTag tagDex = new CompoundTag();
+        tagDex.putInt("dex", this.Dex);
+        nbtTagList.add(tagDex);
+
+        CompoundTag tagInt = new CompoundTag();
+        tagInt.putInt("int", this.Int);
+        nbtTagList.add(tagInt);
+
+        CompoundTag tagLuk = new CompoundTag();
+        tagLuk.putInt("luk", this.Luk);
+        nbtTagList.add(tagLuk);
+
+        CompoundTag tagPoint = new CompoundTag();
+        tagPoint.putInt("point", this.Point);
+        nbtTagList.add(tagPoint);
+
+        CompoundTag nbt = new CompoundTag();
+        nbt.put("rpg_status", nbtTagList);
+        return nbt;
+    }
+
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider, Player player) {
+        BattleSystem.BattleSystemProvider ps = new BattleSystem.BattleSystemProvider(player);
+        BattleSystem.BattleSystemStruct bss =  ps.GetStruct();
+        ListTag nbtTagList = new ListTag();
+
+        CompoundTag tagCoin = new CompoundTag();
+        tagCoin.putInt("coin", this.Coin);
+        nbtTagList.add(tagCoin);
+
+        CompoundTag tagJob = new CompoundTag();
+        tagJob.putString("job", this.Job);
+        nbtTagList.add(tagJob);
+
+        CompoundTag tagLevel = new CompoundTag();
+        tagLevel.putInt("level", this.Level);
+        nbtTagList.add(tagLevel);
+
+        CompoundTag tagExp = new CompoundTag();
+        tagExp.putInt("exp", this.Exp);
+        nbtTagList.add(tagExp);
+
+        CompoundTag tagHealth = new CompoundTag();
+        tagHealth.putInt("max_health", bss.MaxHP);
+        nbtTagList.add(tagHealth);
+
+        CompoundTag tagMana = new CompoundTag();
+        tagMana.putInt("mana", bss.MP);
+        nbtTagList.add(tagMana);
+
+        CompoundTag tagMaxMana = new CompoundTag();
+        tagMaxMana.putInt("max_mana", bss.MaxMP);
         nbtTagList.add(tagMaxMana);
 
         CompoundTag tagStr = new CompoundTag();

@@ -36,6 +36,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 
 import static com.elly.athena.data.Attachment_Register.ATTACHMENT;
+import static com.elly.athena.gui.GUI_Register.MENU_TYPES;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(com.elly.athena.Athena.MODID)
@@ -48,7 +49,6 @@ public class Athena {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
     public static BattleSystem battle_System;
     public static Blocks_Register block_register;
@@ -65,7 +65,6 @@ public class Athena {
         item_register = new Item_Register(ITEMS, POTIONS);
         sound_register = new Sound_Register(SOUNDS);
         creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
-        gui_register = new GUI_Register(MENU_TYPES);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -92,7 +91,6 @@ public class Athena {
                 item_register
         );
         creativeTabs_register.RegisterAllTabs(collection);
-        gui_register.registerMenu();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

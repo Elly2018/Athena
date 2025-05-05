@@ -31,6 +31,26 @@ public class LootPayload {
         }
     }
 
+    public static CompoundTag Generate(String name, int color, int amount){
+        CompoundTag nbt = new CompoundTag();
+        ListTag listTag = new ListTag();
+
+        CompoundTag itemNameTag = new CompoundTag();
+        itemNameTag.putString("item_name", name);
+        listTag.add(itemNameTag);
+
+        CompoundTag colorTag = new CompoundTag();
+        colorTag.putInt("color", color);
+        listTag.add(colorTag);
+
+        CompoundTag amountTag = new CompoundTag();
+        amountTag.putInt("amount", amount);
+        listTag.add(amountTag);
+
+        nbt.put("element", listTag);
+        return nbt;
+    }
+
     public class ClientPayloadHandler {
 
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
@@ -45,6 +65,7 @@ public class LootPayload {
             CompoundTag amountTag = listTag.getCompound(2);
             int amount = amountTag.getInt("amount");
             Hud.AddLoot(itemName, color, amount);
+            Athena.LOGGER.info(String.format("Added lot to client: %s %d %d", itemName, color, amount));
         }
     }
 
