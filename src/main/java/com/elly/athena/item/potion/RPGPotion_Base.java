@@ -3,6 +3,7 @@ package com.elly.athena.item.potion;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.status.IMana;
+import com.elly.athena.sound.Sound_Register;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +19,7 @@ public class RPGPotion_Base extends Item {
     }
 
     public void PlayPotionSound(Player player) {
-        player.playSound(SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "potion")));
+        player.playSound(Sound_Register.Potion.get());
     }
 
     @Override
