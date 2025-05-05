@@ -1,17 +1,17 @@
 package com.elly.athena.data;
 
+import com.elly.athena.data.implementation.Damage_Source;
 import com.elly.athena.data.implementation.PlayerStatus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class Attachment_Register {
-    private final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES;
-    public static Supplier<AttachmentType<PlayerStatus>> PLAYER_STATUS;
+import static com.elly.athena.Athena.MODID;
 
-    public Attachment_Register(DeferredRegister<AttachmentType<?>> _ATTACHMENT_TYPES){
-        ATTACHMENT_TYPES = _ATTACHMENT_TYPES;
-        PLAYER_STATUS = ATTACHMENT_TYPES.register("status", () -> AttachmentType.serializable(() -> new PlayerStatus(0)).build());
-    }
+public class Attachment_Register {
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
+    public static final Supplier<AttachmentType<PlayerStatus>> PLAYER_STATUS = ATTACHMENT.register("status", () -> AttachmentType.serializable(PlayerStatus::new).build());
+    public static final Supplier<AttachmentType<Damage_Source>> DAMAGE_SOURCE = ATTACHMENT.register("damage_source", () -> AttachmentType.serializable(Damage_Source::new).build());
 }

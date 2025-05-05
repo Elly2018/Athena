@@ -3,6 +3,7 @@ package com.elly.athena.gui;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.data.interfaceType.status.IMana;
+import com.elly.athena.gui.data.LootData;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,6 +22,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -38,8 +40,14 @@ public class Hud {
     private static final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace("hud/experience_bar_progress");
 
     // Update by payload manager, server -> client to update the render data
-    public static PlayerStatus LocalPlayerStatus = new PlayerStatus(0);
+    public static PlayerStatus LocalPlayerStatus = new PlayerStatus();
+    private static ArrayList<LootData> ld = new ArrayList<>();
+
     Minecraft minecraft = Minecraft.getInstance();
+
+    public static void AddLoot(String name, int color, int amount){
+        ld.add(new LootData(name, color, amount, 3F));
+    }
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);

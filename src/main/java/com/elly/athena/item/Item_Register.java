@@ -1,6 +1,7 @@
 package com.elly.athena.item;
 
 import com.elly.athena.Athena;
+import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.potion.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -35,7 +36,8 @@ public class Item_Register {
             new HP_Potion_Large(),
             new MP_Potion(),
             new MP_Potion_Large(),
-            new Elixir()
+            new Elixir(),
+            new Coin(),
         };
     }
 

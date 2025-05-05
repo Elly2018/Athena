@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "athena:coin",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "limit": 20,
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 5,
+                "max": 50
+              }
+            }
+          ],
+          "conditions": []
+        }
+      ]
+    }
+  ],
+  "functions": []
+}

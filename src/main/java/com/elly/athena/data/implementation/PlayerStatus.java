@@ -22,10 +22,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Point = 0;
     public boolean Dirty = true;
 
-    public PlayerStatus(int mode){
-
-    }
-
     @Override public int getCoin() { return this.Coin; }
     @Override public boolean HaveCoin(int value) { return this.Coin >= value; }
     @Override public void setCoin(int value) { this.Coin = value; }
