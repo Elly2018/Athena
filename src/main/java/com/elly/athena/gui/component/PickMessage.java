@@ -1,12 +1,15 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.gui.data.LootData;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.elly.athena.gui.Hud.LOOTDATA_SIZE;
 import static com.elly.athena.gui.Hud.LootDatas;
 import static com.elly.athena.gui.Utility.drawFont;
 
@@ -17,7 +20,7 @@ public class PickMessage {
     }
 
     private static void Update(float tick){
-        ArrayList<LootData> live = new ArrayList<>(5);
+        ArrayList<LootData> live = new ArrayList<>(LOOTDATA_SIZE);
         for (Iterator<LootData> it = LootDatas.iterator(); it.hasNext(); ) {
             var i = it.next();
             i.timer -= tick;
@@ -31,10 +34,13 @@ public class PickMessage {
 
     private static void draw(LocalPlayer player, GuiGraphics gui){
         int counter = 0;
+        Font font = Minecraft.getInstance().font;
         for (Iterator<LootData> it = LootDatas.iterator(); it.hasNext(); ) {
             var i = it.next();
             String message = String.format("(%s)*%d", i.name, i.amount);
-            drawFont(gui, message, 200, 200, i.color);
+            int w = font.width(message);
+
+            drawFont(gui, message, gui.guiWidth() - w - 30, 150 - (counter * font.lineHeight + 3), i.color);
             counter++;
         }
     }

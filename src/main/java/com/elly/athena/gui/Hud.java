@@ -44,13 +44,14 @@ public class Hud {
 
     // Update by payload manager, server -> client to update the render data
     public static PlayerStatus LocalPlayerStatus = new PlayerStatus();
-    public static ArrayList<LootData> LootDatas = new ArrayList<>(5);
+    public static final int LOOTDATA_SIZE = 5;
+    public static ArrayList<LootData> LootDatas = new ArrayList<>(LOOTDATA_SIZE);
 
     Minecraft minecraft = Minecraft.getInstance();
 
     public static void AddLoot(String name, int color, int amount){
         LootDatas.add(new LootData(name, color, amount, 30F));
-        if(LootDatas.size() >= 5) LootDatas.removeFirst();
+        if(LootDatas.size() >= LOOTDATA_SIZE) LootDatas.removeFirst();
     }
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
