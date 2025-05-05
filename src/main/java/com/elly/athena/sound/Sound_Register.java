@@ -13,6 +13,7 @@ public class Sound_Register {
     public static Supplier<SoundEvent> Meso;
     public static Supplier<SoundEvent> Potion;
     public static Supplier<SoundEvent> QuestFinish;
+    public static Supplier<SoundEvent> LEVELUP;
 
     private final DeferredRegister<SoundEvent> SOUND;
 
@@ -26,5 +27,6 @@ public class Sound_Register {
         Meso = SOUND.register("meso", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "meso")));
         Potion = SOUND.register("potion", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "potion")));
         QuestFinish = SOUND.register("quest_finish", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "quest_finish")));
+        LEVELUP = SOUND.register("levelup", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "levelup")));
     }
 }

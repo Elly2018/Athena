@@ -7,9 +7,15 @@ import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.StatusPayload;
+import com.elly.athena.sound.Sound_Register;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -18,6 +24,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -32,6 +41,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.UUID;
+
 
 @EventBusSubscriber(modid = Athena.MODID)
 public class ServerHandler {
@@ -49,7 +59,8 @@ public class ServerHandler {
         if(is.getItem() == cointype){
             IPlayerStatus ps = event.getPlayer().getData(Attachment_Register.PLAYER_STATUS);
             ps.addCoin(is.getCount());
-            ie.remove(Entity.RemovalReason.DISCARDED);
+            event.setCanPickup(TriState.FALSE);
+            ie.setRemoved(Entity.RemovalReason.KILLED);
         }
     }
 
@@ -61,6 +72,7 @@ public class ServerHandler {
             if(ps.isLevelUp(ps.getLevel())){
                 ps.setExp(0);
                 ps.addLevel(1);
+                player.playSound(SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "levelup")));
             }
 
             PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));
