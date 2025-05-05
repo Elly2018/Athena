@@ -8,11 +8,11 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
 
 public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag> {
-
     private int Coin = 0;
     private String Job = "none";
     private int Level = 1;
     private int Exp = 0;
+    private int MaxHealth = 20;
     private int Mana = 10;
     private int MaxMana = 10;
     private int Str = 1;
@@ -41,6 +41,10 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
     @Override public String getJob() { return this.Job; }
     @Override public void setJob(String value) { this.Job = value; }
+
+    @Override public int getHealthMaximum() { return this.MaxHealth; }
+    @Override public void setMaxHealth(int value) { this.MaxHealth = value; }
+    @Override public void addMaxHealth(int value) { this.MaxHealth += value; }
 
     @Override public int getManaMaximum() { return MaxMana; }
     @Override public int getMana() { return Mana; }
@@ -93,6 +97,10 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         tagExp.putInt("exp", this.Exp);
         nbtTagList.add(tagExp);
 
+        CompoundTag tagHealth = new CompoundTag();
+        tagHealth.putInt("max_health", this.MaxHealth);
+        nbtTagList.add(tagHealth);
+
         CompoundTag tagMana = new CompoundTag();
         tagMana.putInt("mana", this.Mana);
         nbtTagList.add(tagMana);
@@ -141,25 +149,28 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         CompoundTag tagExp = tagList.getCompound(3);
         this.Exp = tagExp.getInt("exp");
 
-        CompoundTag tagMana = tagList.getCompound(4);
+        CompoundTag tagMaxHealth = tagList.getCompound(4);
+        this.MaxHealth = tagMaxHealth.getInt("max_health");
+
+        CompoundTag tagMana = tagList.getCompound(5);
         this.Mana = tagMana.getInt("mana");
 
-        CompoundTag tagMaxMana = tagList.getCompound(5);
+        CompoundTag tagMaxMana = tagList.getCompound(6);
         this.MaxMana = tagMaxMana.getInt("max_mana");
 
-        CompoundTag tagStr = tagList.getCompound(6);
+        CompoundTag tagStr = tagList.getCompound(7);
         this.Str = tagStr.getInt("str");
 
-        CompoundTag tagDex = tagList.getCompound(7);
+        CompoundTag tagDex = tagList.getCompound(8);
         this.Dex = tagDex.getInt("dex");
 
-        CompoundTag tagInt = tagList.getCompound(8);
+        CompoundTag tagInt = tagList.getCompound(9);
         this.Int = tagInt.getInt("int");
 
-        CompoundTag tagLuk = tagList.getCompound(9);
+        CompoundTag tagLuk = tagList.getCompound(10);
         this.Luk = tagLuk.getInt("luk");
 
-        CompoundTag tagPoint = tagList.getCompound(10);
+        CompoundTag tagPoint = tagList.getCompound(11);
         this.Point = tagPoint.getInt("point");
     }
 }

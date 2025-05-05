@@ -2,11 +2,15 @@ package com.elly.athena.gui.screen;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 
 public class Skill_Screen extends Screen {
 
-    protected Skill_Screen(Component p_96550_) {
-        super(p_96550_);
+    private final Player player;
+
+    public Skill_Screen(Player _player) {
+        super(Component.empty());
+        this.player = _player;
     }
 
     @Override

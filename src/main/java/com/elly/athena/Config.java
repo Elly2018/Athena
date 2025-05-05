@@ -22,9 +22,9 @@ public class Config {
             .comment("Is hunger exist in the RPG world")
             .define("hunger_exist", false);
 
-    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.BooleanValue AIR_EXIST = BUILDER
+            .comment("Is air exist in the RPG world")
+            .define("air_exist", false);
 
     public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
             .comment("What you want the introduction message to be for the magic number")
@@ -38,7 +38,7 @@ public class Config {
     static final ModConfigSpec SPEC = BUILDER.build();
 
     public static boolean hunger_exist;
-    public static int magicNumber;
+    public static boolean air_exist;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
 
@@ -49,7 +49,7 @@ public class Config {
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         hunger_exist = HUNGER_EXIST.get();
-        magicNumber = MAGIC_NUMBER.get();
+        air_exist = AIR_EXIST.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 
         // convert the list of strings into a set of items

@@ -30,7 +30,7 @@ public class BlockItems_Register {
         this.ITEMS = _ITEMS;
         this.BlockRegister = _block_register;
         AllBlockItem = new BlockItemRegisterData[] {
-                new SymmetricAnchor()
+                new MarketBlock()
         };
     }
 

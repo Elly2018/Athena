@@ -5,12 +5,14 @@ import com.elly.athena.blockitem.BlockItems_Register;
 import com.elly.athena.command.Command_Register;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.keymap.KeyMap_Register;
 import com.elly.athena.network.Payload_Manager;
 import com.elly.athena.sound.Sound_Register;
+import com.elly.athena.system.BattleSystem;
 import com.elly.athena.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -18,6 +20,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.MenuType;
@@ -42,6 +48,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -65,6 +72,7 @@ public class Athena {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
+    private final BattleSystem battle_System;
     private final Attachment_Register capability_system;
     private final Payload_Manager payload_manager;
     private final Blocks_Register block_register;
@@ -75,6 +83,7 @@ public class Athena {
     private final GUI_Register gui_register;
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
+        battle_System = new BattleSystem();
         payload_manager = new Payload_Manager();
         capability_system = new Attachment_Register(ATTACHMENT);
         block_register = new Blocks_Register(BLOCKS);
@@ -116,7 +125,6 @@ public class Athena {
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
@@ -127,14 +135,17 @@ public class Athena {
 
     @SubscribeEvent
     private void onServerTick(ServerTickEvent.Post event) {
-        if(!Config.hunger_exist){
-            event.getServer().getPlayerList().getPlayers().forEach(x -> {
+        event.getServer().getPlayerList().getPlayers().forEach(x -> {
+            if(!Config.hunger_exist){
                 FoodData fd = x.getFoodData();
                 fd.setFoodLevel(16);
                 fd.setSaturation(0);
+            }
+            if(!Config.air_exist){
                 x.setAirSupply(20);
-            });
-        }
+            }
+            battle_System.updateHealth(x);;
+        });
     }
 
     @SubscribeEvent
@@ -189,12 +200,6 @@ public class Athena {
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME)
     public static class ClientModGameEvents {
         public static Hud hub;
-
-        @SubscribeEvent(priority = EventPriority.HIGH)
-        public static void renderOverlay(CustomizeGuiOverlayEvent.Chat event){
-            if(hub == null) hub = new Hud();
-            hub.renderOverlay(event);
-        }
 
         @SubscribeEvent(priority = EventPriority.HIGH)
         public static void renderGUI(RenderGuiLayerEvent.Pre event){

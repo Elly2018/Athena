@@ -26,7 +26,7 @@ public class Blocks_Register {
     public Blocks_Register(DeferredRegister<Block> _BLOCKS){
         this.BLOCKS = _BLOCKS;
         AllBlocks = new BlockRegisterData[] {
-                new SymmetricAnchor()
+                new MarketBlock()
         };
     }
 

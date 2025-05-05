@@ -2,11 +2,11 @@ package com.elly.athena.blockitem;
 
 import net.minecraft.world.item.Item;
 
-public class SymmetricAnchor implements BlockItems_Register.BlockItemRegisterData {
+public class MarketBlock implements BlockItems_Register.BlockItemRegisterData {
 
     @Override
     public String get_key() {
-        return "symmetric_anchor";
+        return "market_block";
     }
 
     @Override

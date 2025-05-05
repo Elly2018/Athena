@@ -27,6 +27,12 @@ public class Command_Register {
         level,
         mana,
         exp,
+        max_hp,
+        str,
+        dex,
+        _int,
+        luk,
+        point
     }
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> player_status = Commands.literal("athena")
@@ -81,6 +87,24 @@ public class Command_Register {
                 case exp -> {
                     player.displayClientMessage(Component.literal("Your exp is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true);
                 }
+                case max_hp -> {
+                    player.displayClientMessage(Component.literal("Your max hp is: %d".formatted(status.getHealthMaximum())), true);
+                }
+                case str -> {
+                    player.displayClientMessage(Component.literal("Your str is: %d".formatted(status.getStr())), true);
+                }
+                case dex -> {
+                    player.displayClientMessage(Component.literal("Your dex is: %d".formatted(status.getDex())), true);
+                }
+                case _int -> {
+                    player.displayClientMessage(Component.literal("Your int is: %d".formatted(status.getInt())), true);
+                }
+                case luk -> {
+                    player.displayClientMessage(Component.literal("Your luk is: %d".formatted(status.getLuk())), true);
+                }
+                case point -> {
+                    player.displayClientMessage(Component.literal("Your point is: %d".formatted(status.getPoint())), true);
+                }
             }
         }
 
@@ -98,6 +122,20 @@ public class Command_Register {
                     status.addExp(value);
                     player.displayClientMessage(Component.literal("Your exp now is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true);
                 }
+                case max_hp -> {
+                    status.addMaxHealth(value);
+                    player.displayClientMessage(Component.literal("Your max hp now is: %d".formatted(status.getHealthMaximum())), true);
+                }
+                case str -> {
+                }
+                case dex -> {
+                }
+                case _int -> {
+                }
+                case luk -> {
+                }
+                case point -> {
+                }
             }
         }
         else if (action == Action.set){
@@ -113,6 +151,20 @@ public class Command_Register {
                 case exp -> {
                     status.setExp(value);
                     player.displayClientMessage(Component.literal("Your exp now is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true);
+                }
+                case max_hp -> {
+                    status.setMaxHealth(value);
+                    player.displayClientMessage(Component.literal("Your level now is: %d".formatted(status.getHealthMaximum())), true);
+                }
+                case str -> {
+                }
+                case dex -> {
+                }
+                case _int -> {
+                }
+                case luk -> {
+                }
+                case point -> {
                 }
             }
         }
