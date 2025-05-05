@@ -9,6 +9,7 @@ import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.StatusPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -41,10 +42,14 @@ public class ServerHandler {
     public static void onItemPickup(ItemEntityPickupEvent.Pre event){
         ItemEntity ie = event.getItemEntity();
         ItemStack is = ie.getItem();
+        Item item = is.getItem();
+        Player player = event.getPlayer();
         Item cointype = Athena.item_register.RegisterDict.get("coin").get();
+        Athena.LOGGER.debug(String.format("Pickup: %s by player %s", item.getName().getString(), player.getUUID().toString()));
         if(is.getItem() == cointype){
             IPlayerStatus ps = event.getPlayer().getData(Attachment_Register.PLAYER_STATUS);
             ps.addCoin(is.getCount());
+            ie.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 

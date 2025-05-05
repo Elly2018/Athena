@@ -11,7 +11,6 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "limit": 20,
               "count": {
                 "type": "minecraft:uniform",
                 "min": 5,

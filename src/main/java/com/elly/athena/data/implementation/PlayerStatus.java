@@ -43,6 +43,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void addMaxHealth(int value) { this.MaxHealth += value; }
 
     @Override public int getManaMaximum() { return MaxMana; }
+    @Override public void setManaMaximum(int value) { MaxMana = value; }
+    @Override public void addManaMaximum(int value) { MaxMana += value; }
     @Override public int getMana() { return Mana; }
     @Override public void setMana(int value) { this.Mana = value; vaildMana(); }
     @Override public void addMana(int value) { this.Mana += value; vaildMana(); }
