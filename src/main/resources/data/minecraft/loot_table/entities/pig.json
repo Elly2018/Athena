@@ -63,6 +63,19 @@
             }
           ],
           "name": "minecraft:apple"
+        },
+		{
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+				"max": 10,
+                "min": 5
+              }
+            }
+          ],
+		  "name": "athena:coin"
         }
       ],
       "rolls": 1.0
