@@ -44,8 +44,6 @@ public class Athena {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
     public static BattleSystem battle_System;
     public static Sound_Register sound_register;
-    public static CreativeTabs_Register creativeTabs_register;
-    public static GUI_Register gui_register;
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
         battle_System = new BattleSystem();
