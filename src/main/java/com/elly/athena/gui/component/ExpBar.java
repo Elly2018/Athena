@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.Profiler;
 
-import static com.elly.athena.gui.Hud.*;
+import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
 import static com.elly.athena.gui.Utility.drawFont;
 
 public class ExpBar {

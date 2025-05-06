@@ -1,6 +1,6 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "athena:item/power_elixir"
+        "model": "athena:item/potion/power_elixir"
     }
 }

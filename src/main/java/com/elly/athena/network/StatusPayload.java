@@ -1,6 +1,7 @@
 package com.elly.athena.network;
 
 import com.elly.athena.Athena;
+import com.elly.athena.ClientGameHandler;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
@@ -39,7 +40,7 @@ public class StatusPayload {
             if(player == null) return;
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             ps.deserializeNBT(null, data.data);
-            Hud.LocalPlayerStatus = ps;
+            ClientGameHandler.LocalPlayerStatus = ps;
         }
     }
 

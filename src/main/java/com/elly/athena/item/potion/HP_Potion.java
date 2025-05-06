@@ -35,8 +35,6 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
         public Optional<TooltipComponent> getTooltipImage(ItemStack p_150902_) {
             return super.getTooltipImage(p_150902_);
         }
-
-
     }
 
     @Override

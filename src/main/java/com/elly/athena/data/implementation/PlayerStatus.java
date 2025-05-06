@@ -50,9 +50,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void setManaMaximum(int value) { MaxMana = value; }
     @Override public void addManaMaximum(int value) { MaxMana += value; }
     @Override public int getMana() { return Mana; }
-    @Override public void setMana(int value) { this.Mana = value; vaildMana(); }
-    @Override public void addMana(int value) { this.Mana += value; vaildMana(); }
-    private void vaildMana(){ if(this.Mana > this.MaxMana) this.Mana = this.MaxMana; }
+    @Override public void setMana(int value) { this.Mana = value; }
+    @Override public void addMana(int value) { this.Mana += value; }
 
     @Override public int getDex() { return this.Dex; }
     @Override public void setDex(int value) { this.Dex = value; }

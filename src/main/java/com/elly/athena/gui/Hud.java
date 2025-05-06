@@ -43,7 +43,6 @@ public class Hud {
     public static final ResourceLocation TEX_HUD_EFFECT = ResourceLocation.fromNamespaceAndPath(com.elly.athena.Athena.MODID,"textures/gui/hud_effects.png");
 
     // Update by payload manager, server -> client to update the render data
-    public static PlayerStatus LocalPlayerStatus = new PlayerStatus();
     public static final int LOOTDATA_SIZE = 5;
     public static ArrayList<LootData> LootDatas = new ArrayList<>(LOOTDATA_SIZE);
 

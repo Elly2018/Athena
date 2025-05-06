@@ -1,0 +1,49 @@
+{
+    "textures": {
+        "layer0": "athena:item/potion/elixir"
+    },
+    "elements": [
+        {
+            "from": [3, 0, 3],
+            "to": [12, 0, 12],
+            "rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+            "faces": {
+                "up": {"uv": [16, 16, 0, 0], "rotation": 270, "texture": "#0"},
+                "down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#0"}
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [146, 0, 0],
+            "translation": [-1.25, -6.5, 4.25]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [146, 0, 0],
+            "translation": [-1.25, -6.5, 4.25]
+        },
+        "firstperson_righthand": {
+            "rotation": [77, 92, 0],
+            "translation": [1.5, 2.25, 4.5]
+        },
+        "firstperson_lefthand": {
+            "rotation": [77, -92, 0],
+            "translation": [1.5, 2.25, 4.5]
+        },
+        "ground": {
+            "rotation": [146, 0, 0],
+            "translation": [-1.25, -6.5, 4.25]
+        },
+        "gui": {
+            "rotation": [93, 89, 0],
+            "translation": [0.75, 0.25, 0],
+            "scale": [1.5, 1.5, 1.5]
+        },
+        "fixed": {
+            "rotation": [91, 0, 0],
+            "translation": [0, -0.5, 10.25],
+            "scale": [1.2, 1.2, 1.2]
+        }
+    }
+}

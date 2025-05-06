@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.profiling.Profiler;
 
-import static com.elly.athena.gui.Hud.LocalPlayerStatus;
+import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
 import static com.elly.athena.gui.Hud.TEX_HUD_BAR;
 import static com.elly.athena.gui.Utility.drawFontWithShadow;
 import static com.elly.athena.gui.Utility.drawMediumBar;

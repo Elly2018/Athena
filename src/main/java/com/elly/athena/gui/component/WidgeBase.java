@@ -11,6 +11,7 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 
+import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
 import static com.elly.athena.gui.Hud.*;
 import static com.elly.athena.gui.Utility.*;
 

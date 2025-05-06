@@ -1,6 +1,6 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "athena:item/mp_potion"
+        "model": "athena:item/potion/mp_potion"
     }
 }

@@ -1,6 +1,6 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "athena:item/hp_potion_large"
+        "model": "athena:item/potion/hp_potion_large"
     }
 }
