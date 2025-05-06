@@ -1,0 +1,31 @@
+package com.elly.athena.gui.component;
+
+import com.elly.athena.system.BattleSystem;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.util.profiling.Profiler;
+
+import static com.elly.athena.gui.Hud.TEX_HUD_BAR;
+import static com.elly.athena.gui.Utility.drawFontWithShadow;
+import static com.elly.athena.gui.Utility.drawMediumBar;
+
+public class ManaBar {
+    public static void getManaValue(LocalPlayer player, GuiGraphics gui) {
+        Profiler.get().push("mana");
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
+
+        float fill = Math.min(1.0F, (float)bss.MP / (float)bss.MaxMP);
+
+        RenderSystem.setShaderTexture(0, TEX_HUD_BAR);
+        drawMediumBar(TEX_HUD_BAR, gui, 48, 45, 6, fill);
+
+        String mana_text = String.format("%d / %d", bss.MP, bss.MaxMP);
+
+        int color = 10862842;
+        int shadow = 726832;
+
+        drawFontWithShadow(gui, mana_text, 80, 35, color, shadow);
+        Profiler.get().pop();
+    }
+}

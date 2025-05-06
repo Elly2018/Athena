@@ -1,0 +1,8 @@
+{
+	"heal": { "sounds": [ "athena:heal" ] },
+	"job": { "sounds": [ "athena:job" ] },
+	"meso": { "sounds": [ "athena:meso" ] },
+	"potion": { "sounds": [ "athena:potion" ] },
+	"quest_finish": { "sounds": [ "athena:quest_finish" ] },
+	"levelup": { "sounds": [ "athena:levelup" ] }
+}
