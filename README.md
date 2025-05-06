@@ -1,25 +1,58 @@
 
-Installation information
-=======
+# Athena
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+Athena is a minecraft mod which provides all kinds of RPG system.
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Information
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+Version info
+* Minecraft: 1.21.4
+* NeoForge: 2.0.78
+* Mod: 1.0.0
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+## ScreenShot
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## Mechanism
+
+### 
+
+## TODO && Features list
+
+- [ ] Potion System
+  - [x] Basic Potion (HP / MP Change)
+  - [ ] Effect Potion (RPG Status Change)
+- [ ] Magic System
+- [ ] Custom Attribute
+  - [x] Mana
+  - [x] Player Status
+  - [ ] Monster
+  - [ ] NPC
+- [ ] Party
+- [ ] Voice Chat
+- [ ] Custom GUI Overlay
+- [ ] Job System
+  - [ ] Warrior
+  - [ ] Magician
+  - [ ] Archer
+- [ ] Secondary Job System
+  - [ ] Blacksmith
+  - [ ] Chief
+  - [ ] Alchemist
+- [ ] Trade System
+  - [ ] Market Block Entity
+  - [ ] Global Trade Block Entity
+- [ ] Battle System
+  - [ ] Mode Switch
+  - [ ] Skill Tree
+  - [ ] Spell System
+- [ ] Quest System
+  - [ ] Setup Wand 
+  - [ ] Main Quest
+- [ ] Custom NPC
+  - [ ] Setup Wand
+  - [ ] Can Setup status in game
+- [ ] Custom Monster
+  - [ ] With Custom RPG Attribute and DropTable Attachment
+
+
+

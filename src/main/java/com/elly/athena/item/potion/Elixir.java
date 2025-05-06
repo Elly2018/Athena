@@ -57,7 +57,6 @@ public class Elixir implements Item_Register.ItemRegisterData {
     public Item.Properties get_behaviour() {
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
         return new Item.Properties()
-                .overrideDescription("Elixir")
                 .useCooldown(0);
     }
 

@@ -46,7 +46,6 @@ public class HP_Potion_Large implements Item_Register.ItemRegisterData {
     public Item.Properties get_behaviour() {
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
         return new Item.Properties()
-                .overrideDescription("HP Potion Large")
                 .useCooldown(0);
     }
 

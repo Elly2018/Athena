@@ -45,7 +45,6 @@ public class MP_Potion_Large implements Item_Register.ItemRegisterData {
     @Override
     public Item.Properties get_behaviour() {
         return new Item.Properties()
-                .overrideDescription("MP Potion Large")
                 .useCooldown(0);
     }
 

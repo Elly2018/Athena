@@ -44,7 +44,6 @@ public class MP_Potion implements Item_Register.ItemRegisterData {
     @Override
     public Item.Properties get_behaviour() {
         return new Item.Properties()
-                .overrideDescription("MP Potion")
                 .useCooldown(0);
     }
 

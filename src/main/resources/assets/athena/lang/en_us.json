@@ -2,5 +2,14 @@
   "key.categories.athena": "Athena",
   "key.athena.skill": "Skill",
   "key.athena.status": "Status",
-  "key.athena.switch": "Switch"
+  "key.athena.switch": "Switch",
+  "key.athena.voice": "Voice Input",
+  "key.athena.voice_setting": "Voice Setting",
+
+  "item.athena.hp_potion": "HP Potion",
+  "item.athena.mp_potion": "MP Potion",
+  "item.athena.hp_potion_large": "Large HP Potion",
+  "item.athena.mp_potion_large": "Large MP Potion",
+  "item.athena.elixir": "Elixir",
+  "item.athena.power_elixir": "Power Elixir"
 }
