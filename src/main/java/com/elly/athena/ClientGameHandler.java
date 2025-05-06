@@ -3,7 +3,11 @@ package com.elly.athena;
 import com.elly.athena.command.Command_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
+import com.elly.athena.gui.menu.Status_Menu;
+import com.elly.athena.gui.screen.Status_Screen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,6 +16,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
+import static com.elly.athena.gui.GUI_Register.STATUS_MENU;
 import static com.elly.athena.keymap.KeyMap_Register.*;
 
 @EventBusSubscriber(modid = Athena.MODID, bus = EventBusSubscriber.Bus.GAME)
@@ -31,14 +36,15 @@ public class ClientGameHandler {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        Player player = Minecraft.getInstance().player;
-        if(player == null) return;
+        Minecraft instance = Minecraft.getInstance();
+        Player player = instance.player;
 
         while (SKILL_MAPPING.get().consumeClick()) {
             com.elly.athena.Athena.LOGGER.info("%s is trying to check skill", player.getName().getString());
         }
         while (STATUS_MAPPING.get().consumeClick()) {
             com.elly.athena.Athena.LOGGER.info("%s is trying to check status", player.getName().getString());
+            instance.setScreen(new Status_Screen(player));
         }
         while (SWITCH_MAPPING.get().consumeClick()) {
             com.elly.athena.Athena.LOGGER.info("%s is trying to switch mode", player.getName().getString());
