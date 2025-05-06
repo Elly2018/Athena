@@ -35,6 +35,16 @@ public class TeleportPoint extends SavedData {
         Points.put(id, new PointData(name, pos));
     }
 
+    public static TeleportPoint create() {
+        return new TeleportPoint();
+    }
+
+    public static TeleportPoint load(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        TeleportPoint data = TeleportPoint.create();
+        // Load saved data
+        return data;
+    }
+
     @Override
     public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
         ListTag list = new ListTag();
