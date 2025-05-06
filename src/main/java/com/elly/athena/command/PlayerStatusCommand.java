@@ -9,22 +9,44 @@ import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.system.BattleSystem;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.status.ServerStatus;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 import static com.elly.athena.command.Command_Register.ActionMap;
 
 public class PlayerStatusCommand {
-    public static int PlayerStatus_0(CommandContext<CommandSourceStack> command) {
+    public static int PlayerStatus_00(CommandContext<CommandSourceStack> command) {
         Player player = command.getSource().getPlayer();
         if(player == null) return -1;
 
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         ActionType action = command.getArgument("action", ActionType.class);
         PlayerDataType PlayerDataType = command.getArgument("PlayerDataType", PlayerDataType.class);
+        switch (action){
+            case set, add -> {
+                player.displayClientMessage(Component.literal("You must enter value"), true);
+                return -1;
+            }
+        }
+        return _player_status(command, player, status, action, PlayerDataType, 0);
+    }
+
+    public static int PlayerStatus_0(CommandContext<CommandSourceStack> command) throws CommandSyntaxException {
+        Player player = EntityArgument.getPlayer(command, "target");
+        if(player == null) return -1;
+
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        ActionType action = command.getArgument("action", ActionType.class);
+        PlayerDataType PlayerDataType = command.getArgument("PlayerDataType", PlayerDataType.class);
+
         switch (action){
             case set, add -> {
                 player.displayClientMessage(Component.literal("You must enter value"), true);

@@ -1,12 +1,8 @@
 package com.elly.athena.network;
 
 import com.elly.athena.Athena;
-import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.implementation.PlayerStatus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.HandlerThread;

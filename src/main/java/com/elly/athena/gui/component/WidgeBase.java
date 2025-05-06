@@ -1,5 +1,6 @@
 package com.elly.athena.gui.component;
 
+import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,7 +12,6 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 
-import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
 import static com.elly.athena.gui.Hud.*;
 import static com.elly.athena.gui.Utility.*;
 
@@ -20,7 +20,7 @@ public class WidgeBase {
         // Get the player's game profile
         GameProfile profile = player.getGameProfile();
 
-        IPlayerStatus status = LocalPlayerStatus;
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
 
         // Initialize the player's skin with the default skin
         ResourceLocation playerSkin = DefaultPlayerSkin.getDefaultTexture();

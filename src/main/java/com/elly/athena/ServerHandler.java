@@ -4,6 +4,7 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IDamage_Record;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.LootPayload;
 import com.elly.athena.network.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
@@ -47,10 +48,15 @@ public class ServerHandler {
         Item item = is.getItem();
         ServerPlayer player = (ServerPlayer) event.getPlayer();
         Item cointype = Athena.item_register.RegisterDict.get("coin").get();
-        if(is.getItem() == cointype){
+        //Item coin_bagtype = Athena.item_register.RegisterDict.get("coin_bag").get();
+
+        if(is.getItem() == cointype && !ie.hasPickUpDelay()){
+            ie.setDefaultPickUpDelay();
             IPlayerStatus ps = event.getPlayer().getData(Attachment_Register.PLAYER_STATUS);
             ps.addCoin(is.getCount());
-            ie.setRemoved(Entity.RemovalReason.KILLED);
+            ie.remove(Entity.RemovalReason.KILLED);
+            var tag = LootPayload.Generate(cointype.getName().getString(), 16777215, is.getCount());
+            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
         }
         if(!ie.hasPickUpDelay()){
             var tag = LootPayload.Generate(item.getName().getString(), 16777215, is.getCount());
@@ -69,7 +75,7 @@ public class ServerHandler {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null, player)));
+            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));
         });
     }
 

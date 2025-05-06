@@ -21,8 +21,8 @@ public class Item_Register {
         Item get_binding(Item.Properties props);
     }
 
-    public HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
-    public HashMap<String, Supplier<Potion>> RegisterDict_p = new HashMap<String, Supplier<Potion>>();
+    public static HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
+    public static HashMap<String, Supplier<Potion>> RegisterDict_p = new HashMap<String, Supplier<Potion>>();
 
     private final DeferredRegister<Item> ITEMS;
     private final DeferredRegister<Potion> POTIONS;

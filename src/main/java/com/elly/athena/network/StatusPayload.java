@@ -4,7 +4,6 @@ import com.elly.athena.Athena;
 import com.elly.athena.ClientGameHandler;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.gui.Hud;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -38,9 +37,9 @@ public class StatusPayload {
             // Do something with the data, on the main thread
             LocalPlayer player = Minecraft.getInstance().player;
             if(player == null) return;
-            PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            PlayerStatus ps = new PlayerStatus();
             ps.deserializeNBT(null, data.data);
-            ClientGameHandler.LocalPlayerStatus = ps;
+            Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_STATUS, ps);
         }
     }
 
@@ -48,8 +47,9 @@ public class StatusPayload {
 
         public static void handleDataOnMain(final StatusData data, final IPayloadContext context) {
             // Do something with the data, on the main thread
-            PlayerStatus ps = context.player().getData(Attachment_Register.PLAYER_STATUS);
+            PlayerStatus ps = new PlayerStatus();
             ps.deserializeNBT(null, data.data);
+            Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_STATUS, ps);
         }
     }
 }

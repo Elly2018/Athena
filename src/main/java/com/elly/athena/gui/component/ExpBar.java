@@ -1,5 +1,6 @@
 package com.elly.athena.gui.component;
 
+import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -9,7 +10,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.Profiler;
 
-import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
 import static com.elly.athena.gui.Utility.drawFont;
 
 public class ExpBar {
@@ -19,7 +19,7 @@ public class ExpBar {
 
     public static void getExperienceBar(LocalPlayer player, GuiGraphics gui) {
         Profiler.get().push("a_expBar");
-        IPlayerStatus status = LocalPlayerStatus;
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         int x = gui.guiWidth() / 2 - 91;
         int k = (int)(status.getExpProgress(status.getLevel()) * 183.0F);
         int l = gui.guiHeight() - 32 + 3;

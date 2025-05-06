@@ -15,8 +15,7 @@ import net.neoforged.neoforge.server.command.EnumArgument;
 import java.util.HashMap;
 import java.util.function.Function;
 
-import static com.elly.athena.command.PlayerStatusCommand.PlayerStatus_0;
-import static com.elly.athena.command.PlayerStatusCommand.PlayerStatus_1;
+import static com.elly.athena.command.PlayerStatusCommand.*;
 import static com.elly.athena.command.TeleportCommand.Teleport_0;
 
 public class Command_Register {
@@ -29,10 +28,11 @@ public class Command_Register {
                 .then(Commands.literal("status")
                     .then(Commands.argument("action", EnumArgument.enumArgument(ActionType.class))
                             .then(Commands.argument("PlayerDataType", EnumArgument.enumArgument(PlayerDataType.class))
-                                .then(Commands.argument("target", EntityArgument.player())
-                                    .executes(command -> PlayerStatus_0(command))
-                                        .then(Commands.argument("value", IntegerArgumentType.integer())
-                                            .executes(command -> PlayerStatus_1(command))
+                                    .executes(command -> PlayerStatus_00(command))
+                                        .then(Commands.argument("target", EntityArgument.player())
+                                            .executes(command -> PlayerStatus_0(command))
+                                                .then(Commands.argument("value", IntegerArgumentType.integer())
+                                                    .executes(command -> PlayerStatus_1(command))
                                         )
                                 )
                             )

@@ -1,22 +1,17 @@
 package com.elly.athena.item.potion;
 
-import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.data.interfaceType.status.IMana;
+import com.elly.athena.network.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import static com.elly.athena.ClientGameHandler.LocalPlayerStatus;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class RPGPotion_Base extends Item {
     public RPGPotion_Base(Properties p_41383_) {
@@ -32,23 +27,22 @@ public class RPGPotion_Base extends Item {
         boolean pass = false;
         float h = AddHealth(player);
         int m = AddMana(player);
-        PlayerStatus target = player.isLocalPlayer() ? LocalPlayerStatus : player.getData(Attachment_Register.PLAYER_STATUS);
+        PlayerStatus target = player.getData(Attachment_Register.PLAYER_STATUS);
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
 
         if (h > 0 && player.getHealth() < target.getHealthMaximum() && hand == InteractionHand.MAIN_HAND){
             pass = true;
             player.setHealth(Math.min(player.getHealth() + h, player.getMaxHealth()));
         }
-        if (m > 0 && target.getMana() < target.getManaMaximum() && hand == InteractionHand.MAIN_HAND) {
+        if (m > 0 && bss.MP < bss.MaxMP && hand == InteractionHand.MAIN_HAND) {
             pass = true;
-            if(!player.isLocalPlayer()){
-                BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
-                target.setMana(Math.min(bss.MP + m, bss.MaxMP));
-            }else{
-                target.setMana(Math.min(target.getMana() + m, target.getManaMaximum()));
-            }
+            target.setMana(Math.min(bss.MP + m, bss.MaxMP));
         }
 
         if(!pass) return InteractionResult.FAIL;
+        else{
+            PacketDistributor.sendToServer(new StatusPayload.StatusData(target.serializeNBT(null)));
+        }
 
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
         if (stack.getCount() > 1) {
