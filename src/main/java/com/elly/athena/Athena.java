@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 
 import static com.elly.athena.data.Attachment_Register.ATTACHMENT;
 import static com.elly.athena.gui.GUI_Register.MENU_TYPES;
+import static com.elly.athena.tabs.CreativeTabs_Register.CREATIVE_MODE_TABS;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(com.elly.athena.Athena.MODID)
@@ -47,7 +48,6 @@ public class Athena {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, MODID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(BuiltInRegistries.POTION, MODID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
     public static BattleSystem battle_System;
@@ -61,17 +61,12 @@ public class Athena {
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
         battle_System = new BattleSystem();
         block_register = new Blocks_Register(BLOCKS);
-        blockitem_register = new BlockItems_Register(ITEMS, block_register);
-        item_register = new Item_Register(ITEMS, POTIONS);
         sound_register = new Sound_Register(SOUNDS);
-        creativeTabs_register = new CreativeTabs_Register(CREATIVE_MODE_TABS);
 
         modEventBus.addListener(this::commonSetup);
 
         ATTACHMENT.register(modEventBus);
         BLOCKS.register(modEventBus);
-        ITEMS.register(modEventBus);
-        POTIONS.register(modEventBus);
         SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         RECIPE.register(modEventBus);
@@ -83,14 +78,14 @@ public class Athena {
 
         block_register.RegisterAllBlocks();
         blockitem_register.RegisterAllItems();
-        item_register.RegisterAllItems();
+        Item_Register.RegisterAllItems();
         sound_register.registerSounds();
         CreativeTabs_Register.RegisterCollection collection = new CreativeTabs_Register.RegisterCollection(
                 block_register,
                 blockitem_register,
                 item_register
         );
-        creativeTabs_register.RegisterAllTabs(collection);
+        CreativeTabs_Register.RegisterAllTabs(collection);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

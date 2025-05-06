@@ -1,17 +1,20 @@
 package com.elly.athena.item;
 
-import com.elly.athena.Athena;
 import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.potion.*;
+import com.elly.athena.item.weapon.warrior.Sword;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.alchemy.Potion;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
 import java.util.function.Supplier;
+
+import static com.elly.athena.Athena.ITEMS;
+import static com.elly.athena.Athena.MODID;
 
 public class Item_Register {
 
@@ -23,32 +26,28 @@ public class Item_Register {
 
     public static HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
     public static HashMap<String, Supplier<Potion>> RegisterDict_p = new HashMap<String, Supplier<Potion>>();
+    public static HashMap<String, Supplier<SwordItem>> RegisterDict_w = new HashMap<String, Supplier<SwordItem>>();
 
-    private final DeferredRegister<Item> ITEMS;
-    private final DeferredRegister<Potion> POTIONS;
-    private final ItemRegisterData[] AllItems;
+    private static ItemRegisterData[] AllItems = new ItemRegisterData[0];
 
-    public Item_Register(DeferredRegister<Item> _ITEMS, DeferredRegister<Potion> _POTIONS){
-        this.ITEMS = _ITEMS;
-        this.POTIONS = _POTIONS;
-        this.AllItems = new ItemRegisterData[]{
-            new HP_Potion(),
-            new HP_Potion_Large(),
-            new MP_Potion(),
-            new MP_Potion_Large(),
-            new Elixir(),
-            new Coin(),
+    public static void RegisterAllItems() {
+        AllItems = new ItemRegisterData[]{
+                new HP_Potion(),
+                new HP_Potion_Large(),
+                new MP_Potion(),
+                new MP_Potion_Large(),
+                new Elixir(),
+                new Coin(),
+                new Sword()
         };
-    }
 
-    public void RegisterAllItems() {
         for (ItemRegisterData itemRegisterData : AllItems){
             String key = itemRegisterData.get_key();
             Item.Properties behaviour = itemRegisterData.get_behaviour();
             // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
-            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(Athena.MODID + ":" + key)));
-            Supplier<Item> buffer = this.ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
-            this.RegisterDict.put(key, buffer);
+            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(MODID + ":" + key)));
+            Supplier<Item> buffer = ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
+            RegisterDict.put(key, buffer);
         }
     }
 }

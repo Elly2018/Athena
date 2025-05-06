@@ -3,6 +3,7 @@ package com.elly.athena.tabs;
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
 import com.elly.athena.item.Item_Register;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
+
+import static com.elly.athena.Athena.MODID;
 
 public class CreativeTabs_Register {
 
@@ -29,7 +32,7 @@ public class CreativeTabs_Register {
         }
     }
 
-    public class TabsCategory {
+    static class TabsCategory {
         public final String[] BlockItem_ids;
         public final String[] Item_ids;
         public final String Tab_id;
@@ -43,33 +46,13 @@ public class CreativeTabs_Register {
         }
     }
 
-    private final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS;
-    private final List<TabsCategory> categories;
-    private final HashMap<String, Supplier<CreativeModeTab>> RegisterDict;
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    private static List<TabsCategory> categories = new ArrayList<>();
+    private static HashMap<String, Supplier<CreativeModeTab>> RegisterDict = new HashMap<>();
 
-    public CreativeTabs_Register(DeferredRegister<CreativeModeTab> _CREATIVE_MODE_TABS) {
-        this.CREATIVE_MODE_TABS = _CREATIVE_MODE_TABS;
-        this.RegisterDict = new HashMap<String, Supplier<CreativeModeTab>>();
-        this.categories = new ArrayList<TabsCategory>();
-        this.categories.add(new TabsCategory(
-                new String[] {
-                        "symmetric_anchor"
-                },
-                new String[] {
-                        "hp_potion",
-                        "hp_potion_large",
-                        "mp_potion",
-                        "mp_potion_large",
-                        "elixir",
-                        "power_elixir"
-                },
-                "athena_use", "Athena Use"
-            )
-        );
-    }
-
-    public void RegisterAllTabs(RegisterCollection collection)
+    public static void RegisterAllTabs(RegisterCollection collection)
     {
+        CreativeTabs_Register();
         for(TabsCategory i: categories){
             Supplier<BlockItem>[] blockitems = new Supplier[i.BlockItem_ids.length];
             Supplier<Item>[] items = new Supplier[i.Item_ids.length];
@@ -80,7 +63,7 @@ public class CreativeTabs_Register {
                 items[y] = collection._Item_Register.RegisterDict.get(i.Item_ids[y]);
             }
 
-            Supplier<CreativeModeTab> buffer = this.CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()
+            Supplier<CreativeModeTab> buffer = CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()
                 .title(Component.translatable(i.Tab_Display))
                 .icon(Items.CAKE::getDefaultInstance)
                 .displayItems((parameters, output) -> {
@@ -93,5 +76,34 @@ public class CreativeTabs_Register {
                 }).build());
             RegisterDict.put(i.Tab_id, buffer);
         }
+    }
+
+    public static void CreativeTabs_Register() {
+        RegisterDict = new HashMap<String, Supplier<CreativeModeTab>>();
+        categories = new ArrayList<TabsCategory>();
+        categories.add(new TabsCategory(
+                        new String[]{
+                                "symmetric_anchor"
+                        },
+                        new String[]{
+                                "hp_potion",
+                                "hp_potion_large",
+                                "mp_potion",
+                                "mp_potion_large",
+                                "elixir",
+                                "power_elixir"
+                        },
+                        "athena_use", "Athena Use"
+                )
+        );
+        categories.add(new TabsCategory(
+                new String[]{
+
+                },
+                new String[]{
+                        "sword"
+                },
+                "athena_weapon", "Athena Weapon"
+        ));
     }
 }
