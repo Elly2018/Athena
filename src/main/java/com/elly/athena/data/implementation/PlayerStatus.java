@@ -81,156 +81,66 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
-        ListTag nbtTagList = new ListTag();
+        CompoundTag elementTag = new CompoundTag();
 
-        CompoundTag tagCoin = new CompoundTag();
-        tagCoin.putInt("coin", this.Coin);
-        nbtTagList.add(tagCoin);
-
-        CompoundTag tagJob = new CompoundTag();
-        tagJob.putString("job", this.Job);
-        nbtTagList.add(tagJob);
-
-        CompoundTag tagLevel = new CompoundTag();
-        tagLevel.putInt("level", this.Level);
-        nbtTagList.add(tagLevel);
-
-        CompoundTag tagExp = new CompoundTag();
-        tagExp.putInt("exp", this.Exp);
-        nbtTagList.add(tagExp);
-
-        CompoundTag tagHealth = new CompoundTag();
-        tagHealth.putInt("max_health", this.MaxHealth);
-        nbtTagList.add(tagHealth);
-
-        CompoundTag tagMana = new CompoundTag();
-        tagMana.putInt("mana", this.Mana);
-        nbtTagList.add(tagMana);
-
-        CompoundTag tagMaxMana = new CompoundTag();
-        tagMaxMana.putInt("max_mana", this.MaxMana);
-        nbtTagList.add(tagMaxMana);
-
-        CompoundTag tagStr = new CompoundTag();
-        tagStr.putInt("str", this.Str);
-        nbtTagList.add(tagStr);
-
-        CompoundTag tagDex = new CompoundTag();
-        tagDex.putInt("dex", this.Dex);
-        nbtTagList.add(tagDex);
-
-        CompoundTag tagInt = new CompoundTag();
-        tagInt.putInt("int", this.Int);
-        nbtTagList.add(tagInt);
-
-        CompoundTag tagLuk = new CompoundTag();
-        tagLuk.putInt("luk", this.Luk);
-        nbtTagList.add(tagLuk);
-
-        CompoundTag tagPoint = new CompoundTag();
-        tagPoint.putInt("point", this.Point);
-        nbtTagList.add(tagPoint);
+        elementTag.putInt("coin", this.Coin);
+        elementTag.putString("job", this.Job);
+        elementTag.putInt("level", this.Level);
+        elementTag.putInt("exp", this.Exp);
+        elementTag.putInt("max_health", this.MaxHealth);
+        elementTag.putInt("mana", this.Mana);
+        elementTag.putInt("max_mana", this.MaxMana);
+        elementTag.putInt("str", this.Str);
+        elementTag.putInt("dex", this.Dex);
+        elementTag.putInt("int", this.Int);
+        elementTag.putInt("luk", this.Luk);
+        elementTag.putInt("point", this.Point);
 
         CompoundTag nbt = new CompoundTag();
-        nbt.put("rpg_status", nbtTagList);
+        nbt.put("status", elementTag);
         return nbt;
     }
 
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider, Player player) {
         BattleSystem.BattleSystemProvider ps = new BattleSystem.BattleSystemProvider(player);
         BattleSystem.BattleSystemStruct bss =  ps.GetStruct();
-        ListTag nbtTagList = new ListTag();
 
-        CompoundTag tagCoin = new CompoundTag();
-        tagCoin.putInt("coin", this.Coin);
-        nbtTagList.add(tagCoin);
+        CompoundTag elementTag = new CompoundTag();
+        elementTag.putInt("coin", this.Coin);
+        elementTag.putString("job", this.Job);
+        elementTag.putInt("level", this.Level);
+        elementTag.putInt("exp", this.Exp);
+        elementTag.putInt("max_health", bss.MaxHP);
+        elementTag.putInt("mana", bss.MP);
+        elementTag.putInt("max_mana", bss.MaxMP);
+        elementTag.putInt("str", this.Str);
+        elementTag.putInt("dex", this.Dex);
+        elementTag.putInt("int", this.Int);
 
-        CompoundTag tagJob = new CompoundTag();
-        tagJob.putString("job", this.Job);
-        nbtTagList.add(tagJob);
+        elementTag.putInt("luk", this.Luk);
 
-        CompoundTag tagLevel = new CompoundTag();
-        tagLevel.putInt("level", this.Level);
-        nbtTagList.add(tagLevel);
-
-        CompoundTag tagExp = new CompoundTag();
-        tagExp.putInt("exp", this.Exp);
-        nbtTagList.add(tagExp);
-
-        CompoundTag tagHealth = new CompoundTag();
-        tagHealth.putInt("max_health", bss.MaxHP);
-        nbtTagList.add(tagHealth);
-
-        CompoundTag tagMana = new CompoundTag();
-        tagMana.putInt("mana", bss.MP);
-        nbtTagList.add(tagMana);
-
-        CompoundTag tagMaxMana = new CompoundTag();
-        tagMaxMana.putInt("max_mana", bss.MaxMP);
-        nbtTagList.add(tagMaxMana);
-
-        CompoundTag tagStr = new CompoundTag();
-        tagStr.putInt("str", this.Str);
-        nbtTagList.add(tagStr);
-
-        CompoundTag tagDex = new CompoundTag();
-        tagDex.putInt("dex", this.Dex);
-        nbtTagList.add(tagDex);
-
-        CompoundTag tagInt = new CompoundTag();
-        tagInt.putInt("int", this.Int);
-        nbtTagList.add(tagInt);
-
-        CompoundTag tagLuk = new CompoundTag();
-        tagLuk.putInt("luk", this.Luk);
-        nbtTagList.add(tagLuk);
-
-        CompoundTag tagPoint = new CompoundTag();
-        tagPoint.putInt("point", this.Point);
-        nbtTagList.add(tagPoint);
+        elementTag.putInt("point", this.Point);
 
         CompoundTag nbt = new CompoundTag();
-        nbt.put("rpg_status", nbtTagList);
+        nbt.put("status", elementTag);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
-        ListTag tagList = compoundTag.getList("rpg_status", 10);
-        CompoundTag tagCoin = tagList.getCompound(0);
-        this.Coin = tagCoin.getInt("coin");
+        CompoundTag elementTag = compoundTag.getCompound("status");
 
-        CompoundTag tagJob = tagList.getCompound(1);
-        this.Job = tagJob.getString("job");
-
-        CompoundTag tagLevel = tagList.getCompound(2);
-        this.Level = tagLevel.getInt("level");
-
-        CompoundTag tagExp = tagList.getCompound(3);
-        this.Exp = tagExp.getInt("exp");
-
-        CompoundTag tagMaxHealth = tagList.getCompound(4);
-        this.MaxHealth = tagMaxHealth.getInt("max_health");
-
-        CompoundTag tagMana = tagList.getCompound(5);
-        this.Mana = tagMana.getInt("mana");
-
-        CompoundTag tagMaxMana = tagList.getCompound(6);
-        this.MaxMana = tagMaxMana.getInt("max_mana");
-
-        CompoundTag tagStr = tagList.getCompound(7);
-        this.Str = tagStr.getInt("str");
-
-        CompoundTag tagDex = tagList.getCompound(8);
-        this.Dex = tagDex.getInt("dex");
-
-        CompoundTag tagInt = tagList.getCompound(9);
-        this.Int = tagInt.getInt("int");
-
-        CompoundTag tagLuk = tagList.getCompound(10);
-        this.Luk = tagLuk.getInt("luk");
-
-        CompoundTag tagPoint = tagList.getCompound(11);
-        this.Point = tagPoint.getInt("point");
+        this.Coin = elementTag.getInt("coin");
+        this.Job = elementTag.getString("job");
+        this.Level = elementTag.getInt("level");
+        this.Exp = elementTag.getInt("exp");
+        this.MaxHealth = elementTag.getInt("max_health");
+        this.Mana = elementTag.getInt("mana");
+        this.MaxMana = elementTag.getInt("max_mana");
+        this.Str = elementTag.getInt("str");
+        this.Dex = elementTag.getInt("dex");
+        this.Int = elementTag.getInt("int");
+        this.Luk = elementTag.getInt("luk");
+        this.Point = elementTag.getInt("point");
     }
 }

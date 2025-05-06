@@ -33,21 +33,9 @@ public class LootPayload {
 
     public static CompoundTag Generate(String name, int color, int amount){
         CompoundTag nbt = new CompoundTag();
-        ListTag listTag = new ListTag();
-
-        CompoundTag itemNameTag = new CompoundTag();
-        itemNameTag.putString("item_name", name);
-        listTag.add(itemNameTag);
-
-        CompoundTag colorTag = new CompoundTag();
-        colorTag.putInt("color", color);
-        listTag.add(colorTag);
-
-        CompoundTag amountTag = new CompoundTag();
-        amountTag.putInt("amount", amount);
-        listTag.add(amountTag);
-
-        nbt.put("element", listTag);
+        nbt.putString("item_name", name);
+        nbt.putInt("color", color);
+        nbt.putInt("amount", amount);
         return nbt;
     }
 
@@ -57,13 +45,10 @@ public class LootPayload {
             // Do something with the data, on the main thread
             LocalPlayer player = Minecraft.getInstance().player;
             if(player == null) return;
-            ListTag listTag = data.data.getList("element", 10);
-            CompoundTag itemNameTag = listTag.getCompound(0);
-            String itemName = itemNameTag.getString("item_name");
-            CompoundTag colorTag = listTag.getCompound(1);
-            int color = colorTag.getInt("color");
-            CompoundTag amountTag = listTag.getCompound(2);
-            int amount = amountTag.getInt("amount");
+
+            String itemName = data.data.getString("item_name");
+            int color = data.data.getInt("color");
+            int amount = data.data.getInt("amount");
             Hud.AddLoot(itemName, color, amount);
             Athena.LOGGER.info(String.format("Added lot to client: %s %d %d", itemName, color, amount));
         }

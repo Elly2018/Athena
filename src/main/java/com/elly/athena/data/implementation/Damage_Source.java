@@ -44,24 +44,16 @@ public class Damage_Source implements IDamage_Record, INBTSerializable<CompoundT
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         ListTag nbtTagList = new ListTag();
 
-        nbtTagList.add(IntTag.valueOf(sourceDict.size()));
-
         for(var i: sourceDict.keySet()){
-            ListTag element = new ListTag();
-
-            CompoundTag element_uuid = new CompoundTag();
-            element_uuid.putString("uuid", i.toString());
-
-            CompoundTag element_amount = new CompoundTag();
-            element_amount.putFloat("value", sourceDict.get(i));
-
-            element.add(element_uuid);
-            element.add(element_amount);
-            nbtTagList.add(element);
+            CompoundTag elementTag = new CompoundTag();
+            elementTag.putString("uuid", i.toString());
+            elementTag.putFloat("value", sourceDict.get(i));
+            nbtTagList.add(elementTag);
         }
 
         CompoundTag nbt = new CompoundTag();
         nbt.put("damage_source", nbtTagList);
+        nbt.putInt("size", sourceDict.size());
         return nbt;
     }
 
@@ -69,11 +61,11 @@ public class Damage_Source implements IDamage_Record, INBTSerializable<CompoundT
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
         sourceDict.clear();
         ListTag nbtTagList = compoundTag.getList("damage_source", 10);
-        int amount = nbtTagList.getInt(0);
+        int amount = compoundTag.getInt("size");
         for(int i = 0; i < amount; i++){
-            ListTag element = nbtTagList.getList(i + 1);
-            String uuid = element.getString(0);
-            float value = element.getFloat(1);
+            CompoundTag elementTag = nbtTagList.getCompound(i);
+            String uuid = elementTag.getString("uuid");
+            float value = elementTag.getFloat("value");
             sourceDict.put(UUID.fromString(uuid), value);
         }
     }
