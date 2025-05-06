@@ -1,6 +1,5 @@
 package com.elly.athena.tabs;
 
-import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.core.registries.Registries;
@@ -19,19 +18,6 @@ import java.util.function.Supplier;
 import static com.elly.athena.Athena.MODID;
 
 public class CreativeTabs_Register {
-
-    public static class RegisterCollection {
-        public final Blocks_Register _Blocks_Register;
-        public final BlockItems_Register _BlockItems_Register;
-        public final Item_Register _Item_Register;
-
-        public RegisterCollection(Blocks_Register blocksRegister, BlockItems_Register blockItemsRegister, Item_Register itemRegister) {
-            _Blocks_Register = blocksRegister;
-            _BlockItems_Register = blockItemsRegister;
-            _Item_Register = itemRegister;
-        }
-    }
-
     static class TabsCategory {
         public final String[] BlockItem_ids;
         public final String[] Item_ids;
@@ -50,17 +36,17 @@ public class CreativeTabs_Register {
     private static List<TabsCategory> categories = new ArrayList<>();
     private static HashMap<String, Supplier<CreativeModeTab>> RegisterDict = new HashMap<>();
 
-    public static void RegisterAllTabs(RegisterCollection collection)
+    public static void RegisterAllTabs()
     {
         CreativeTabs_Register();
         for(TabsCategory i: categories){
             Supplier<BlockItem>[] blockitems = new Supplier[i.BlockItem_ids.length];
             Supplier<Item>[] items = new Supplier[i.Item_ids.length];
             for(int y = 0; y < i.BlockItem_ids.length; y++){
-                blockitems[y] = collection._BlockItems_Register.RegisterDict.get(i.BlockItem_ids[y]);
+                blockitems[y] = BlockItems_Register.RegisterDict.get(i.BlockItem_ids[y]);
             }
             for(int y = 0; y < i.Item_ids.length; y++){
-                items[y] = collection._Item_Register.RegisterDict.get(i.Item_ids[y]);
+                items[y] = Item_Register.RegisterDict.get(i.Item_ids[y]);
             }
 
             Supplier<CreativeModeTab> buffer = CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()

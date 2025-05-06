@@ -1,6 +1,9 @@
 package com.elly.athena.item;
 
 import com.elly.athena.item.etc.Coin;
+import com.elly.athena.item.etc.CoinBag;
+import com.elly.athena.item.etc.GoldenCoin;
+import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
 import com.elly.athena.item.weapon.warrior.Sword;
 import net.minecraft.core.registries.Registries;
@@ -38,6 +41,9 @@ public class Item_Register {
                 new MP_Potion_Large(),
                 new Elixir(),
                 new Coin(),
+                new GoldenCoin(),
+                new CoinBag(),
+                new GoldenCoinBag(),
                 new Sword()
         };
 

@@ -3,7 +3,7 @@ package com.elly.athena.item.etc;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.world.item.Item;
 
-public class Coin implements Item_Register.ItemRegisterData{
+public class CoinBag implements Item_Register.ItemRegisterData{
 
     static class Coin_Item extends RPGETC_Base {
 
@@ -14,7 +14,7 @@ public class Coin implements Item_Register.ItemRegisterData{
 
     @Override
     public String get_key() {
-        return "coin";
+        return "coin_bag";
     }
 
     @Override

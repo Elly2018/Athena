@@ -47,17 +47,8 @@ public class ServerHandler {
         ItemStack is = ie.getItem();
         Item item = is.getItem();
         ServerPlayer player = (ServerPlayer) event.getPlayer();
-        Item cointype = Athena.item_register.RegisterDict.get("coin").get();
-        //Item coin_bagtype = Athena.item_register.RegisterDict.get("coin_bag").get();
 
-        if(is.getItem() == cointype && !ie.hasPickUpDelay()){
-            ie.setDefaultPickUpDelay();
-            IPlayerStatus ps = event.getPlayer().getData(Attachment_Register.PLAYER_STATUS);
-            ps.addCoin(is.getCount());
-            ie.remove(Entity.RemovalReason.KILLED);
-            var tag = LootPayload.Generate(cointype.getName().getString(), 16777215, is.getCount());
-            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
-        }
+        PickupGoldenHelper(player, ie, is);
         if(!ie.hasPickUpDelay()){
             var tag = LootPayload.Generate(item.getName().getString(), 16777215, is.getCount());
             PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
@@ -159,5 +150,36 @@ public class ServerHandler {
     public static void onServerStopped(ServerStoppedEvent event){
         Athena.LOGGER.info("BYE from Athena server handler");
         m_Server = null;
+    }
+
+    private static void PickupGoldenHelper(ServerPlayer player, ItemEntity ie, ItemStack is){
+        Item cointype = Item_Register.RegisterDict.get("coin").get();
+        Item goldencointype = Item_Register.RegisterDict.get("coin_golden").get();
+        Item coinbagtype = Item_Register.RegisterDict.get("coin_bag").get();
+        Item goldencoinbagtype = Item_Register.RegisterDict.get("coin_golden_bag").get();
+
+        int count = 0;
+        if(!ie.hasPickUpDelay()){
+            if(is.getItem() == cointype){
+                count = is.getCount();
+            }
+            else if(is.getItem() == goldencointype){
+                count = is.getCount() * 100;
+            }
+            else if(is.getItem() == coinbagtype){
+                count = is.getCount() * 1000;
+            }
+            else if(is.getItem() == goldencoinbagtype){
+                count = is.getCount() * 10000;
+            }
+        }
+        if(count > 0){
+            ie.setDefaultPickUpDelay();
+            IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            ps.addCoin(count);
+            ie.remove(Entity.RemovalReason.KILLED);
+            var tag = LootPayload.Generate(cointype.getName().getString(), 16777215, is.getCount());
+            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
+        }
     }
 }

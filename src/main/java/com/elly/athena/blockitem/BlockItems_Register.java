@@ -8,10 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
 import java.util.function.Supplier;
+
+import static com.elly.athena.Athena.ITEMS;
 
 public class BlockItems_Register {
 
@@ -20,30 +21,24 @@ public class BlockItems_Register {
         Item.Properties get_behaviour();
     }
 
-    public HashMap<String, Supplier<BlockItem>> RegisterDict = new HashMap<String, Supplier<BlockItem>>();
+    public static HashMap<String, Supplier<BlockItem>> RegisterDict = new HashMap<String, Supplier<BlockItem>>();
 
-    private final DeferredRegister<Item> ITEMS;
-    private final Blocks_Register BlockRegister;
-    private final BlockItemRegisterData[] AllBlockItem;
+    private static BlockItemRegisterData[] AllBlockItem = new BlockItemRegisterData[0];
 
-    public BlockItems_Register (DeferredRegister<Item> _ITEMS, Blocks_Register _block_register) {
-        this.ITEMS = _ITEMS;
-        this.BlockRegister = _block_register;
+    public static void RegisterAllItems () {
         AllBlockItem = new BlockItemRegisterData[] {
                 new MarketBlock()
         };
-    }
 
-    public void RegisterAllItems () {
         for (BlockItemRegisterData blockItemRegisterData : AllBlockItem) {
             String key = blockItemRegisterData.get_key();
             Item.Properties behaviour = blockItemRegisterData.get_behaviour();
-            boolean hasKey = this.BlockRegister.RegisterDict.containsKey(key);
+            boolean hasKey = RegisterDict.containsKey(key);
             if (hasKey) {
-                Supplier<Block> target = this.BlockRegister.RegisterDict.get(key);
+                Supplier<Block> target = Blocks_Register.RegisterDict.get(key);
                 behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(Athena.MODID + ":" + key)));
-                Supplier<BlockItem> buffer = this.ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
-                this.RegisterDict.put(key, buffer);
+                Supplier<BlockItem> buffer = ITEMS.register(key, () -> new BlockItem(target.get(), behaviour));
+                RegisterDict.put(key, buffer);
             }
         }
     }
