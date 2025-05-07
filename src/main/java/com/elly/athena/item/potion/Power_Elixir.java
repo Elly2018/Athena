@@ -1,7 +1,7 @@
 package com.elly.athena.item.potion;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.status.IMana;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +29,7 @@ public class Power_Elixir implements Item_Register.ItemRegisterData {
 
         @Override
         public int AddMana(Player player) {
-            IMana o_target = player.getData(Attachment_Register.PLAYER_STATUS);
+            IPlayerStatus o_target = player.getData(Attachment_Register.PLAYER_STATUS);
             if(o_target != null) return 0;
             return o_target.getManaMaximum();
         }

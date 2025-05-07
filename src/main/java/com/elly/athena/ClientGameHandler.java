@@ -1,13 +1,9 @@
 package com.elly.athena;
 
 import com.elly.athena.command.Command_Register;
-import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
-import com.elly.athena.gui.menu.Status_Menu;
 import com.elly.athena.gui.screen.Status_Screen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,7 +12,6 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-import static com.elly.athena.gui.GUI_Register.STATUS_MENU;
 import static com.elly.athena.keymap.KeyMap_Register.*;
 
 @EventBusSubscriber(modid = Athena.MODID, bus = EventBusSubscriber.Bus.GAME)

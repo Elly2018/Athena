@@ -24,6 +24,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Int = 1;
     private int Luk = 1;
     private int Point = 0;
+    private int Mode = 0;
     public boolean Dirty = true;
 
     @Override public int getCoin() { return this.Coin; }
@@ -78,6 +79,9 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void setStr(int value) { this.Str = value; }
     @Override public void addStr(int value) { this.Str += value; }
 
+    @Override public int getMode() { return Mode; }
+    @Override public void setMode(int value) { Mode = value; }
+
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag elementTag = new CompoundTag();
@@ -94,6 +98,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         elementTag.putInt("int", this.Int);
         elementTag.putInt("luk", this.Luk);
         elementTag.putInt("point", this.Point);
+        elementTag.putInt("mode", this.Mode);
 
         CompoundTag nbt = new CompoundTag();
         nbt.put("status", elementTag);
@@ -115,10 +120,9 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         elementTag.putInt("str", this.Str);
         elementTag.putInt("dex", this.Dex);
         elementTag.putInt("int", this.Int);
-
         elementTag.putInt("luk", this.Luk);
-
         elementTag.putInt("point", this.Point);
+        elementTag.putInt("mode", this.Mode);
 
         CompoundTag nbt = new CompoundTag();
         nbt.put("status", elementTag);
