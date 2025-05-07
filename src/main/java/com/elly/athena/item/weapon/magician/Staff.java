@@ -1,24 +1,22 @@
-package com.elly.athena.item.weapon.warrior;
+package com.elly.athena.item.weapon.magician;
 
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.weapon.Weapon_Base;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.ToolMaterial;
 
-public class Sword implements Item_Register.ItemRegisterData {
+public class Staff implements Item_Register.ItemRegisterData {
 
-    static class Sword_Item extends Weapon_Base {
-        public Sword_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
+    public static class Staff_Item extends Weapon_Base {
+        public Staff_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
             super(material, attackDamage, attackSpeed, properties);
         }
     }
 
-
     @Override
     public String get_key() {
-        return "sword";
+        return "staff";
     }
 
     @Override
@@ -30,6 +28,6 @@ public class Sword implements Item_Register.ItemRegisterData {
 
     @Override
     public SwordItem get_binding(Item.Properties props) {
-        return new Sword_Item(ToolMaterial.IRON, 6, 1.6F, props);
+        return new Staff_Item(ToolMaterial.WOOD, 2, 1.0F, props);
     }
 }

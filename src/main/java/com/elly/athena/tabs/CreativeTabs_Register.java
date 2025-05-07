@@ -86,7 +86,10 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
-                        "sword"
+                        "sword",
+                        "spear",
+                        "wand",
+                        "staff",
                 },
                 "athena_weapon", "Athena Weapon"
         ));

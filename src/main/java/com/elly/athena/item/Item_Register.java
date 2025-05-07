@@ -5,6 +5,9 @@ import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
 import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
+import com.elly.athena.item.weapon.magician.Staff;
+import com.elly.athena.item.weapon.magician.Wand;
+import com.elly.athena.item.weapon.warrior.Spear;
 import com.elly.athena.item.weapon.warrior.Sword;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -34,16 +37,22 @@ public class Item_Register {
 
     public static void RegisterAllItems() {
         AllItems = new ItemRegisterData[]{
+                new Coin(),
+                new GoldenCoin(),
+                new CoinBag(),
+                new GoldenCoinBag(),
+
                 new HP_Potion(),
                 new HP_Potion_Large(),
                 new MP_Potion(),
                 new MP_Potion_Large(),
                 new Elixir(),
-                new Coin(),
-                new GoldenCoin(),
-                new CoinBag(),
-                new GoldenCoinBag(),
-                new Sword()
+
+                new Sword(),
+                new Spear(),
+
+                new Staff(),
+                new Wand()
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){
