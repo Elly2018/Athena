@@ -35,7 +35,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
     @Override public float getExpProgress(int level) { return (float)this.Exp / (float)getExpMaximum(level); }
     @Override public int getExp() { return this.Exp; }
-    @Override public int getExpMaximum(int level) { return (int)(Math.pow((double)(level * 100), (double)1.27F)); }
+    @Override public int getExpMaximum(int level) { return (int)(Math.pow((Math.pow(2, level) * 100) + 10, (double)1.1F)); }
     @Override public void addExp(int value) { this.Exp += value; }
     @Override public void setExp(int value) { this.Exp = value; }
     @Override public boolean isLevelUp(int level) { return this.Exp >= this.getExpMaximum(level); }
@@ -105,30 +105,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         return nbt;
     }
 
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider, Player player) {
-        BattleSystem.BattleSystemProvider ps = new BattleSystem.BattleSystemProvider(player);
-        BattleSystem.BattleSystemStruct bss =  ps.GetStruct();
-
-        CompoundTag elementTag = new CompoundTag();
-        elementTag.putInt("coin", this.Coin);
-        elementTag.putString("job", this.Job);
-        elementTag.putInt("level", this.Level);
-        elementTag.putInt("exp", this.Exp);
-        elementTag.putInt("max_health", bss.MaxHP);
-        elementTag.putInt("mana", bss.MP);
-        elementTag.putInt("max_mana", bss.MaxMP);
-        elementTag.putInt("str", this.Str);
-        elementTag.putInt("dex", this.Dex);
-        elementTag.putInt("int", this.Int);
-        elementTag.putInt("luk", this.Luk);
-        elementTag.putInt("point", this.Point);
-        elementTag.putInt("mode", this.Mode);
-
-        CompoundTag nbt = new CompoundTag();
-        nbt.put("status", elementTag);
-        return nbt;
-    }
-
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
         CompoundTag elementTag = compoundTag.getCompound("status");
@@ -145,5 +121,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         this.Int = elementTag.getInt("int");
         this.Luk = elementTag.getInt("luk");
         this.Point = elementTag.getInt("point");
+        this.Mode = elementTag.getInt("mode");
     }
 }

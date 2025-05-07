@@ -1,5 +1,6 @@
 package com.elly.athena.gui;
 
+import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -8,6 +9,8 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.Objects;
 
 public class Utility {
     public static void drawMediumBar(ResourceLocation icon, GuiGraphics gui, int posX, int posY, int bar, float fill) {
@@ -78,7 +81,7 @@ public class Utility {
         bufferbuilder.addVertex(x + width, y + height, -1000.0F).setUv((u + (float)width) * f, (v + (float)height) * f1);
         bufferbuilder.addVertex((x + width), (y), -1000.0F).setUv((u + (float)width) * f, v * f1);
         bufferbuilder.addVertex((x), (y), -1000.0F).setUv(u * f, v * f1);
-        bufferbuilder.build();
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
     public static void drawFontBoldCentered(GuiGraphics gui, String text, int posX, int posY, int color, int shadow) {

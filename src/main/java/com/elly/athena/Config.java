@@ -30,6 +30,10 @@ public class Config {
             .comment("What you want the introduction message to be for the magic number")
             .define("vanilla_exp_drop", false);
 
+    private static final ModConfigSpec.BooleanValue DAMAGE_COOLDOWN = BUILDER
+            .comment("Has damage cooldown")
+            .define("damage_cooldown", false);
+
     // a list of strings that are treated as resource locations for items
     private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
             .comment("A list of items to log on common setup.")
@@ -40,6 +44,7 @@ public class Config {
     public static boolean hunger_exist;
     public static boolean air_exist;
     public static boolean vanilla_exp_drop;
+    public static boolean damage_cooldown;
     public static Set<Item> items;
 
     private static boolean validateItemName(final Object obj) {
@@ -51,6 +56,7 @@ public class Config {
         hunger_exist = HUNGER_EXIST.get();
         air_exist = AIR_EXIST.get();
         vanilla_exp_drop = VANILLA_EXP_DROP.get();
+        damage_cooldown = DAMAGE_COOLDOWN.get();
 
         // convert the list of strings into a set of items
         items = ITEM_STRINGS.get().stream()

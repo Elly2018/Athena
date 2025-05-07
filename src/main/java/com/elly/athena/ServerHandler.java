@@ -80,10 +80,9 @@ public class ServerHandler {
         }
     }
 
-
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent.Pre event){
-
+        if(!Config.damage_cooldown) event.getEntity().invulnerableTime = 0;
     }
 
     @SubscribeEvent

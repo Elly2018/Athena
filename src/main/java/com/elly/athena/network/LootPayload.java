@@ -42,22 +42,26 @@ public class LootPayload {
     public static class ClientPayloadHandler {
 
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if(player == null) return;
+            context.enqueueWork(() -> {
+                LocalPlayer player = Minecraft.getInstance().player;
+                if(player == null) return;
 
-            String itemName = data.data.getString("item_name");
-            int color = data.data.getInt("color");
-            int amount = data.data.getInt("amount");
-            Hud.AddLoot(itemName, color, amount);
-            Athena.LOGGER.info(String.format("Added lot to client: %s %d %d", itemName, color, amount));
+                String itemName = data.data.getString("item_name");
+                int color = data.data.getInt("color");
+                int amount = data.data.getInt("amount");
+                Hud.AddLoot(itemName, color, amount);
+                Athena.LOGGER.info(String.format("Added lot to client: %s %d %d", itemName, color, amount));
+            });
         }
     }
 
     public static class ServerPayloadHandler {
 
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
-            PlayerStatus ps = context.player().getData(Attachment_Register.PLAYER_STATUS);
-            ps.deserializeNBT(null, data.data);
+            context.enqueueWork(() -> {
+                PlayerStatus ps = context.player().getData(Attachment_Register.PLAYER_STATUS);
+                ps.deserializeNBT(null, data.data);
+            });
         }
     }
 }

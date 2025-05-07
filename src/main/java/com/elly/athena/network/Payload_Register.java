@@ -3,6 +3,7 @@ package com.elly.athena.network;
 import com.elly.athena.Athena;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.HandlerThread;
@@ -39,5 +40,10 @@ public class Payload_Register {
                         StatusPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
+    }
+
+    @SubscribeEvent
+    public static void register_task(final RegisterConfigurationTasksEvent event) {
+
     }
 }

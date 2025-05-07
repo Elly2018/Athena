@@ -3,10 +3,7 @@ package com.elly.athena.network;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -42,18 +39,20 @@ public class StatusApplyPayload {
     public static class ServerPayloadHandler {
 
         public static void handleDataOnMain(final StatusApplyData data, final IPayloadContext context) {
-            PlayerStatus buffer = new PlayerStatus();
-            buffer.deserializeNBT(null, data.data);
+            context.enqueueWork(() -> {
+                PlayerStatus buffer = new PlayerStatus();
+                buffer.deserializeNBT(null, data.data);
 
-            Player player = context.player();
-            PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-            ps.addStr(buffer.getStr());
-            ps.addDex(buffer.getDex());
-            ps.addInt(buffer.getInt());
-            ps.addLuk(buffer.getLuk());
-            ps.addPoint(buffer.getPoint());
+                Player player = context.player();
+                PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+                ps.addStr(buffer.getStr());
+                ps.addDex(buffer.getDex());
+                ps.addInt(buffer.getInt());
+                ps.addLuk(buffer.getLuk());
+                ps.addPoint(buffer.getPoint());
 
-            player.setData(Attachment_Register.PLAYER_STATUS, ps);
+                player.setData(Attachment_Register.PLAYER_STATUS, ps);
+            });
         }
     }
 }

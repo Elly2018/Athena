@@ -1,5 +1,8 @@
 package com.elly.athena.gui;
 
+import com.elly.athena.Athena;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.gui.data.LootData;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
@@ -38,12 +41,15 @@ public class Hud {
     }
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
+        IPlayerStatus ps = minecraft.player.getData(Attachment_Register.PLAYER_STATUS);
+
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:experience_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:air_level")) event.setCanceled(true);
-        if(event.getName().toString().equals("minecraft:hotbar")){
+        if(event.getName().toString().equals("minecraft:hotbar")) event.setCanceled(ps.getMode() == 1);
+        if(event.getName().toString().equals("minecraft:camera_overlays")){
             renderOverlay(event);
         }
     }

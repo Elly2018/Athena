@@ -205,7 +205,7 @@ public class Status_Screen extends Screen {
 
         InitX = 62 + offsetWidth;
         InitY = 87 + offsetHeight;
-        Gap = font.lineHeight + 15;
+        Gap = font.lineHeight + 5;
         String _str_d = (adding.get(0) > 0 ? "+" : "-") + String.format("%d", Math.abs(adding.get(0)));
         String _dex_d = (adding.get(1) > 0 ? "+" : "-") + String.format("%d", Math.abs(adding.get(1)));
         String _int_d = (adding.get(2) > 0 ? "+" : "-") + String.format("%d", Math.abs(adding.get(2)));

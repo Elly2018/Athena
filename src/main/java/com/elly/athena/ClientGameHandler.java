@@ -1,8 +1,11 @@
 package com.elly.athena;
 
 import com.elly.athena.command.Command_Register;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.Status_Screen;
+import com.elly.athena.network.StatusPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
@@ -11,6 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import static com.elly.athena.keymap.KeyMap_Register.*;
 
@@ -33,16 +37,21 @@ public class ClientGameHandler {
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft instance = Minecraft.getInstance();
         Player player = instance.player;
+        assert player != null;
 
         while (SKILL_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.info("%s is trying to check skill", player.getName().getString());
+            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
         }
         while (STATUS_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.info("%s is trying to check status", player.getName().getString());
+            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check status", player.getName().getString()));
             instance.setScreen(new Status_Screen(player));
         }
         while (SWITCH_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.info("%s is trying to switch mode", player.getName().getString());
+            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to switch mode", player.getName().getString()));
+            PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            int mode = ps.getMode();
+            ps.setMode(mode == 0 ? 1 : 0);
+            PacketDistributor.sendToServer(new StatusPayload.StatusData(ps.serializeNBT(null)));
         }
     }
 }
