@@ -90,6 +90,7 @@ public class CreativeTabs_Register {
                         "spear",
                         "wand",
                         "staff",
+                        "bow",
                 },
                 "athena_weapon", "Athena Weapon"
         ));

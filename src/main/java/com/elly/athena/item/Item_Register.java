@@ -5,6 +5,7 @@ import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
 import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
+import com.elly.athena.item.weapon.archer.Bow;
 import com.elly.athena.item.weapon.magician.Staff;
 import com.elly.athena.item.weapon.magician.Wand;
 import com.elly.athena.item.weapon.warrior.Spear;
@@ -52,7 +53,9 @@ public class Item_Register {
                 new Spear(),
 
                 new Staff(),
-                new Wand()
+                new Wand(),
+
+                new Bow()
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

@@ -1,15 +1,14 @@
 package com.elly.athena.item.weapon.warrior;
 
 import com.elly.athena.item.Item_Register;
-import com.elly.athena.item.weapon.Weapon_Base;
-import net.minecraft.world.entity.EquipmentSlot;
+import com.elly.athena.item.weapon.RPGMelee_Base;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.ToolMaterial;
 
 public class Sword implements Item_Register.ItemRegisterData {
 
-    static class Sword_Item extends Weapon_Base {
+    static class Sword_Item extends RPGMelee_Base {
         public Sword_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
             super(material, attackDamage, attackSpeed, properties);
         }
