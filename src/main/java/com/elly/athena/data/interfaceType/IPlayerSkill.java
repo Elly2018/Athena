@@ -1,4 +1,13 @@
 package com.elly.athena.data.interfaceType;
 
-public class IPlayerSkill {
+import com.elly.athena.system.skill.SkillCategory;
+import com.elly.athena.system.skill.SkillData;
+
+public interface IPlayerSkill {
+    SkillCategory[] getSkills();
+    SkillCategory getCategory(String name);
+    SkillData getData(String category, String name);
+    int getPoint(String category, String name);
+    void addPoint(String category, String name, int point);
+    void setPoint(String category, String name, int point);
 }
