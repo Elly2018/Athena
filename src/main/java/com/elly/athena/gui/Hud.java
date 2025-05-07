@@ -1,28 +1,12 @@
 package com.elly.athena.gui;
 
-import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.data.interfaceType.status.IMana;
 import com.elly.athena.gui.data.LootData;
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.profiling.Profiler;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import static com.elly.athena.gui.component.Effects.getEffects;
 import static com.elly.athena.gui.component.ExpBar.getExperienceBar;
