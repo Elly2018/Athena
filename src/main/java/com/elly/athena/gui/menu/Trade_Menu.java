@@ -4,22 +4,20 @@ import com.elly.athena.gui.GUI_Register;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-public class Market_Menu extends AbstractContainerMenu {
+public class Trade_Menu extends AbstractContainerMenu {
     private final Inventory inventory;
     private final Player player;
 
-    public Market_Menu(int containerId, Inventory _inventory, Player player) {
-        super(GUI_Register.MARKET_MENU.get(), containerId);
+    public Trade_Menu(int containerId, Inventory _inventory, Player player) {
+        super(GUI_Register.TRADE_MENU.get(), containerId);
         this.inventory = _inventory;
         this.player = player;
     }
 
-    public Market_Menu(int containerId, Inventory _inventory) {
-        super(GUI_Register.MARKET_MENU.get(), containerId);
+    public Trade_Menu(int containerId, Inventory _inventory) {
+        super(GUI_Register.TRADE_MENU.get(), containerId);
         this.inventory = _inventory;
         this.player = null;
     }

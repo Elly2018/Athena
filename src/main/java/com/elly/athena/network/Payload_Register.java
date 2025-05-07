@@ -13,7 +13,8 @@ public class Payload_Register {
 
     @SubscribeEvent
     public static void register_payload(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("1")
+            .executesOn(HandlerThread.NETWORK);
         registrar.playBidirectional(
                 LootPayload.LootData.TYPE,
                 LootPayload.LootData.STREAM_CODEC,
@@ -22,10 +23,15 @@ public class Payload_Register {
                         LootPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
-
-        final PayloadRegistrar registrar_network = event.registrar("1")
-                .executesOn(HandlerThread.NETWORK);
-        registrar_network.playBidirectional(
+        registrar.playBidirectional(
+                StatusApplyPayload.StatusApplyData.TYPE,
+                StatusApplyPayload.StatusApplyData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        StatusApplyPayload.ClientPayloadHandler::handleDataOnMain,
+                        StatusApplyPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
+        registrar.playBidirectional(
                 StatusPayload.StatusData.TYPE,
                 StatusPayload.StatusData.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(

@@ -68,20 +68,19 @@ public class CreativeTabs_Register {
         RegisterDict = new HashMap<String, Supplier<CreativeModeTab>>();
         categories = new ArrayList<TabsCategory>();
         categories.add(new TabsCategory(
-                        new String[]{
-                                "symmetric_anchor"
-                        },
-                        new String[]{
-                                "hp_potion",
-                                "hp_potion_large",
-                                "mp_potion",
-                                "mp_potion_large",
-                                "elixir",
-                                "power_elixir"
-                        },
-                        "athena_use", "Athena Use"
-                )
-        );
+                new String[]{
+                        "symmetric_anchor"
+                },
+                new String[]{
+                        "hp_potion",
+                        "hp_potion_large",
+                        "mp_potion",
+                        "mp_potion_large",
+                        "elixir",
+                        "power_elixir"
+                },
+                "athena_use", "Athena Use"
+        ));
         categories.add(new TabsCategory(
                 new String[]{
 

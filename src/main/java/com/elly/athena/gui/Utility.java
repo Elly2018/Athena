@@ -22,7 +22,7 @@ public class Utility {
         // Get the font renderer from the Minecraft instance
         Font font = Minecraft.getInstance().font;
         // Draw the string at the specified position with the specified color
-        gui.drawString(font, string, posX, posY, color);
+        gui.drawString(font, string, posX, posY, color, false);
         // Reset the blend color
         GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
     }

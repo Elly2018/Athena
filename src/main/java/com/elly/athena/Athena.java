@@ -2,7 +2,6 @@ package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
-import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
@@ -42,17 +41,14 @@ public class Athena {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
-    public static BattleSystem battle_System;
-    public static Sound_Register sound_register;
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
-        battle_System = new BattleSystem();
-        sound_register = new Sound_Register(SOUNDS);
-
         modEventBus.addListener(this::commonSetup);
 
         ATTACHMENT.register(modEventBus);
         BLOCKS.register(modEventBus);
+        ITEMS.register(modEventBus);
+        POTIONS.register(modEventBus);
         SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         RECIPE.register(modEventBus);
@@ -65,7 +61,7 @@ public class Athena {
         Blocks_Register.RegisterAllBlocks();
         BlockItems_Register.RegisterAllItems();
         Item_Register.RegisterAllItems();
-        sound_register.registerSounds();
+        Sound_Register.registerSounds();
         CreativeTabs_Register.RegisterAllTabs();
     }
 
@@ -86,7 +82,7 @@ public class Athena {
             if(!Config.air_exist){
                 x.setAirSupply(20);
             }
-            battle_System.updateHealth(x);;
+            BattleSystem.UpdateHealth(x);;
         });
     }
 }

@@ -23,8 +23,8 @@ public class BattleSystem {
         public int AttackSpeed;
         public int MinMagicDamage;
         public int MaxMagicDamage;
-        public int Defense;
-        public int MagicDefense;
+        public int Defense; // Mostly Depends on Equip
+        public int MagicDefense; // Mostly Depends on  Equip
         public int Dodge;
         public int MagicDodge;
         public int Accuracy;
@@ -45,17 +45,23 @@ public class BattleSystem {
             BattleSystemStruct buffer = new BattleSystemStruct();
             buffer.Level = status.getLevel();
             buffer.HP = (int)player.getHealth();
-            buffer.MaxHP = this.status.getHealthMaximum() + status.getStr();
+            buffer.MaxHP = this.status.getHealthMaximum() + status.getStr() + ((status.getLevel() - 1) * 4);
             buffer.MP = status.getMana();
-            buffer.MaxMP = status.getManaMaximum() + status.getInt();
+            buffer.MaxMP = status.getManaMaximum() + status.getInt() + ((status.getLevel() - 1) * 4);
+            buffer.MaxDamage = + (status.getLevel() * 5) + (status.getStr() * 3);
+            buffer.MinDamage = + (status.getLevel() * 5) + (status.getStr() * 3);
+            buffer.AttackSpeed = (status.getLevel()) + status.getDex();
+            buffer.Dodge = (status.getLevel()) + status.getLuk();
+            buffer.Accuracy = (status.getLevel()) + status.getLuk();
+            buffer.MagicAccuracy = (status.getLevel()) + status.getLuk();
             return buffer;
         }
     }
 
-    ResourceLocation max_health_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "max_health_modifier");
-    ResourceLocation damage_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "damage_modifier");
+    private static final ResourceLocation max_health_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "max_health_modifier");
+    private static final ResourceLocation damage_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "damage_modifier");
 
-    public void updateHealth(ServerPlayer player){
+    public static void UpdateHealth(ServerPlayer player){
         BattleSystemStruct bs = new BattleSystemProvider(player).GetStruct();
         AttributeInstance maxH = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
         AttributeInstance damage = player.getAttributes().getInstance(Attributes.ATTACK_DAMAGE);

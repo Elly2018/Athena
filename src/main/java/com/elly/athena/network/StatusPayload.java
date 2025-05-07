@@ -31,10 +31,9 @@ public class StatusPayload {
         }
     }
 
-    public class ClientPayloadHandler {
+    public static class ClientPayloadHandler {
 
         public static void handleDataOnMain(final StatusData data, final IPayloadContext context) {
-            // Do something with the data, on the main thread
             LocalPlayer player = Minecraft.getInstance().player;
             if(player == null) return;
             PlayerStatus ps = new PlayerStatus();
@@ -43,13 +42,12 @@ public class StatusPayload {
         }
     }
 
-    public class ServerPayloadHandler {
+    public static class ServerPayloadHandler {
 
         public static void handleDataOnMain(final StatusData data, final IPayloadContext context) {
-            // Do something with the data, on the main thread
             PlayerStatus ps = new PlayerStatus();
             ps.deserializeNBT(null, data.data);
-            Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_STATUS, ps);
+            context.player().setData(Attachment_Register.PLAYER_STATUS, ps);
         }
     }
 }

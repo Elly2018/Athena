@@ -30,9 +30,9 @@ public class RPGPotion_Base extends Item {
         PlayerStatus target = player.getData(Attachment_Register.PLAYER_STATUS);
         BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
 
-        if (h > 0 && player.getHealth() < target.getHealthMaximum() && hand == InteractionHand.MAIN_HAND){
+        if (h > 0 && player.getHealth() < bss.MaxHP && hand == InteractionHand.MAIN_HAND){
             pass = true;
-            player.setHealth(Math.min(player.getHealth() + h, player.getMaxHealth()));
+            player.setHealth(Math.min(player.getHealth() + h, bss.MaxHP));
         }
         if (m > 0 && bss.MP < bss.MaxMP && hand == InteractionHand.MAIN_HAND) {
             pass = true;

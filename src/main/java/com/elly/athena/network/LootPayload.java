@@ -39,10 +39,9 @@ public class LootPayload {
         return nbt;
     }
 
-    public class ClientPayloadHandler {
+    public static class ClientPayloadHandler {
 
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
-            // Do something with the data, on the main thread
             LocalPlayer player = Minecraft.getInstance().player;
             if(player == null) return;
 
@@ -54,10 +53,9 @@ public class LootPayload {
         }
     }
 
-    public class ServerPayloadHandler {
+    public static class ServerPayloadHandler {
 
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
-            // Do something with the data, on the main thread
             PlayerStatus ps = context.player().getData(Attachment_Register.PLAYER_STATUS);
             ps.deserializeNBT(null, data.data);
         }

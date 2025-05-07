@@ -29,7 +29,6 @@ public class Item_Register {
 
     public static HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
     public static HashMap<String, Supplier<Potion>> RegisterDict_p = new HashMap<String, Supplier<Potion>>();
-    public static HashMap<String, Supplier<SwordItem>> RegisterDict_w = new HashMap<String, Supplier<SwordItem>>();
 
     private static ItemRegisterData[] AllItems = new ItemRegisterData[0];
 
