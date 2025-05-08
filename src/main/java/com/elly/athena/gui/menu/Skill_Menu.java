@@ -9,18 +9,18 @@ import net.minecraft.world.item.ItemStack;
 
 public class Skill_Menu extends AbstractContainerMenu {
     private final Inventory inventory;
-    private final ServerPlayer player;
+    private final Player player;
 
     public Skill_Menu(int containerId, Inventory _inventory) {
         super(GUI_Register.SKILL_MENU.get(), containerId);
         this.inventory = _inventory;
-        this.player = (ServerPlayer) _inventory.player;
+        this.player = _inventory.player;
     }
 
     public Skill_Menu(int containerId, Inventory _inventory, Player player) {
         super(GUI_Register.SKILL_MENU.get(), containerId);
         this.inventory = _inventory;
-        this.player = (ServerPlayer) player;
+        this.player = player;
     }
 
     @Override
