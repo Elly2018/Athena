@@ -6,10 +6,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 
-public class HeavyAttack implements Item_Register.ItemRegisterData {
+public class WindSlash implements Item_Register.ItemRegisterData {
 
-    static class HeavyAttack_RPG_Skill extends RPGSkill_Base {
-        public HeavyAttack_RPG_Skill(Properties properties) {
+    static class WindSlash_RPG_Skill extends RPGSkill_Base {
+        public WindSlash_RPG_Skill(Properties properties) {
             super(properties);
         }
 
@@ -21,7 +21,7 @@ public class HeavyAttack implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "skill.heavy_attack";
+        return "skill.wind_slash";
     }
 
     @Override
@@ -32,6 +32,6 @@ public class HeavyAttack implements Item_Register.ItemRegisterData {
 
     @Override
     public Item get_binding(Item.Properties props) {
-        return new HeavyAttack_RPG_Skill(props);
+        return new WindSlash_RPG_Skill(props);
     }
 }

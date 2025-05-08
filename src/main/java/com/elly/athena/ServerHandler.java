@@ -1,6 +1,9 @@
 package com.elly.athena;
 
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.BattleHotbar;
+import com.elly.athena.data.implementation.PlayerEquipment;
+import com.elly.athena.data.implementation.PlayerSkill;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IDamage_Record;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
@@ -10,9 +13,9 @@ import com.elly.athena.gui.menu.Skill_Menu;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
-import com.elly.athena.network.LootPayload;
-import com.elly.athena.network.StatusPayload;
+import com.elly.athena.network.*;
 import com.elly.athena.sound.Sound_Register;
+import com.elly.athena.system.SkillSystem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -101,6 +104,9 @@ public class ServerHandler {
     public static void update(ServerTickEvent.Pre event){
         event.getServer().getPlayerList().getPlayers().forEach( player -> {
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
+            PlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
+            BattleHotbar bh = player.getData(Attachment_Register.BATTLE_HOTBAR);
 
             if(ps.isLevelUp(ps.getLevel())){
                 ps.setExp(0);
@@ -123,6 +129,9 @@ public class ServerHandler {
             }
 
             PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));
+            PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(null)));
+            PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(pe.serializeNBT(null)));
+            PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(bh.serializeNBT(null)));
         });
     }
 
@@ -134,6 +143,11 @@ public class ServerHandler {
             if(!player.hasData(Attachment_Register.PLAYER_STATUS))
                 player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
         }
+    }
+
+    @SubscribeEvent
+    public static void playerLoggin(PlayerEvent.PlayerLoggedInEvent event){
+        SkillSystem.initCheck(event.getEntity());
     }
 
     @SubscribeEvent

@@ -6,6 +6,7 @@ import com.elly.athena.system.skill.SkillData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.ArrayList;
@@ -19,27 +20,34 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     public SkillCategory[] getSkills() { return (SkillCategory[]) skills.toArray(); }
 
     @Override
+    @NotNull
     public SkillCategory getCategory(String name) {
         for (SkillCategory skill : skills) {
             if (Objects.equals(skill.Name, name)) return skill;
         }
-        return null;
+        SkillCategory sc = new SkillCategory();
+        sc.Name = name;
+        sc.Skills = new ArrayList<>();
+        skills.add(sc);
+        return sc;
     }
 
     @Override
+    @NotNull
     public SkillData getData(String category, String name) {
         SkillCategory cate = getCategory(category);
-        if(cate == null) return null;
         for(SkillData skill : cate.Skills){
             if(Objects.equals(skill.Name, name)) return skill;
         }
-        return null;
+        SkillData sd = new SkillData(name, -1);
+        cate.Skills.add(sd);
+        return sd;
     }
 
     @Override
     public int getPoint(String category, String name) {
         SkillData sd = getData(category, name);
-        return sd == null ? 0 : sd.Point;
+        return sd.Point;
     }
 
     @Override
@@ -55,7 +63,7 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     }
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("size", skills.size());
         for (int i = 0; i < skills.size(); i++) {
@@ -66,7 +74,7 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         int size = compoundTag.getInt("size");
         skills = new ArrayList<>();
         skills = new ArrayList<>(size);

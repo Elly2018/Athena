@@ -101,7 +101,7 @@ public class CreativeTabs_Register {
                 new String[]{
                         "skill.speed_boost",
                         "skill.hp_boost",
-                        "skill.heavy_attack",
+                        "skill.wind_slash",
                 },
                 "athena_skill", "Athena Skill"
         ));

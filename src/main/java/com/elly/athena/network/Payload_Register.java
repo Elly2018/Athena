@@ -56,6 +56,22 @@ public class Payload_Register {
                         TradePayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
+        registrar.playBidirectional(
+                HotbarPayload.HotbarData.TYPE,
+                HotbarPayload.HotbarData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        HotbarPayload.ClientPayloadHandler::handleDataOnMain,
+                        HotbarPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
+        registrar.playBidirectional(
+                EquipmentPayload.EquipmentData.TYPE,
+                EquipmentPayload.EquipmentData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        EquipmentPayload.ClientPayloadHandler::handleDataOnMain,
+                        EquipmentPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
     }
 
     @SubscribeEvent

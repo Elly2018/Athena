@@ -16,6 +16,7 @@ import static com.elly.athena.gui.component.ExpBar.getExperienceBar;
 import static com.elly.athena.gui.component.HealthBar.getPlayerHealthBar;
 import static com.elly.athena.gui.component.ManaBar.getManaValue;
 import static com.elly.athena.gui.component.PickMessage.getPickupMessage;
+import static com.elly.athena.gui.component.RPGHotbar.getRPGHotBar;
 import static com.elly.athena.gui.component.WidgeBase.getWidgetBase;
 
 /**
@@ -48,7 +49,11 @@ public class Hud {
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:air_level")) event.setCanceled(true);
-        if(event.getName().toString().equals("minecraft:hotbar")) event.setCanceled(ps.getMode() == 1);
+        if(event.getName().toString().equals("minecraft:hotbar")) {
+            event.setCanceled(ps.getMode() == 1);
+            if(ps.getMode() == 1)
+                getRPGHotBar(minecraft.player, event.getGuiGraphics(), event.getPartialTick());
+        }
         if(event.getName().toString().equals("minecraft:camera_overlays")){
             renderOverlay(event);
         }

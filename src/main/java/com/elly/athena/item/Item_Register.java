@@ -7,7 +7,7 @@ import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
 import com.elly.athena.item.skill.commom.SpeedBoost;
 import com.elly.athena.item.skill.warrior.HPBoost;
-import com.elly.athena.item.skill.warrior.HeavyAttack;
+import com.elly.athena.item.skill.warrior.WindSlash;
 import com.elly.athena.item.weapon.archer.Bow;
 import com.elly.athena.item.weapon.magician.Staff;
 import com.elly.athena.item.weapon.magician.Wand;
@@ -17,7 +17,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.alchemy.Potion;
 
 import java.util.HashMap;
@@ -64,7 +63,7 @@ public class Item_Register {
                 new SpeedBoost(),
                 // skill warrior
                 new HPBoost(),
-                new HeavyAttack(),
+                new WindSlash(),
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

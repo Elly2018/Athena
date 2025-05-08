@@ -10,7 +10,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class RPGSkill_Base extends Item {
@@ -32,11 +31,7 @@ public class RPGSkill_Base extends Item {
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         if(ps.getMana() < requireMana(1)) return InteractionResult.FAIL;
 
-        if(player.isLocalPlayer()){
-            PacketDistributor.sendToServer(new SkillPayload.SkillData(
-                    SkillPayload.Generate(player.getUUID().toString(), descriptionId, 1)
-            ));
-        }
+        if(!player.isLocalPlayer()) server_apply(level, player, 1, hand);
         return InteractionResult.SUCCESS;
     }
 

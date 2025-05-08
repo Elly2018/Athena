@@ -2,6 +2,7 @@ package com.elly.athena.command;
 
 import com.elly.athena.command.struct.ActionStruct;
 import com.elly.athena.command.types.ActionType;
+import com.elly.athena.command.types.DebugType;
 import com.elly.athena.command.types.PlayerDataType;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.mojang.brigadier.CommandDispatcher;
@@ -14,10 +15,6 @@ import net.neoforged.neoforge.server.command.EnumArgument;
 
 import java.util.HashMap;
 import java.util.function.Function;
-
-import static com.elly.athena.command.DebugCommand.Debug_0;
-import static com.elly.athena.command.PlayerStatusCommand.*;
-import static com.elly.athena.command.TeleportCommand.Teleport_0;
 
 public class Command_Register {
 
@@ -51,12 +48,14 @@ public class Command_Register {
         LiteralArgumentBuilder<CommandSourceStack> debug = Commands.literal("athena")
                 .requires(cs -> cs.hasPermission(4))
                 .then(Commands.literal("debug")
-                                .executes(DebugCommand::Debug_0)
+                        .then(Commands.argument("type", EnumArgument.enumArgument(DebugType.class))
+                            .executes(DebugCommand::Debug_0)
+                        )
                 );
 
         dispatcher.register(player_status);
-        dispatcher.register(player_status);
-        dispatcher.register(player_status);
+        dispatcher.register(tp_setter);
+        dispatcher.register(debug);
         ActionMap = new HashMap<>();
         ActionMap.put(PlayerDataType.level, ActionStruct.LEVEL());
         ActionMap.put(PlayerDataType.coin, ActionStruct.COIN());

@@ -2,7 +2,7 @@ package com.elly.athena.network;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.implementation.PlayerSkill;
+import com.elly.athena.data.implementation.PlayerEquipment;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -14,14 +14,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public class SkillPayload {
-    public record SkillData(CompoundTag data) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<SkillData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "skill"));
+public class EquipmentPayload {
+    public record EquipmentData(CompoundTag data) implements CustomPacketPayload {
+        public static final CustomPacketPayload.Type<EquipmentPayload.EquipmentData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "equip"));
 
-        public static final StreamCodec<ByteBuf, SkillData> STREAM_CODEC = StreamCodec.composite(
+        public static final StreamCodec<ByteBuf, EquipmentPayload.EquipmentData> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG,
-                SkillData::data,
-                SkillData::new
+                EquipmentPayload.EquipmentData::data,
+                EquipmentPayload.EquipmentData::new
         );
 
         @Override
@@ -32,25 +32,25 @@ public class SkillPayload {
 
     public static class ClientPayloadHandler {
 
-        public static void handleDataOnMain(final SkillPayload.SkillData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final EquipmentPayload.EquipmentData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
-                PlayerSkill ps = new PlayerSkill();
+                PlayerEquipment ps = new PlayerEquipment();
                 ps.deserializeNBT(null, data.data);
-                Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_SKILL, ps);
+                Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
             });
         }
     }
 
     public static class ServerPayloadHandler {
 
-        public static void handleDataOnMain(final SkillPayload.SkillData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final EquipmentPayload.EquipmentData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
-                PlayerSkill ps = new PlayerSkill();
+                PlayerEquipment ps = new PlayerEquipment();
                 ps.deserializeNBT(null, data.data);
-                context.player().setData(Attachment_Register.PLAYER_SKILL, ps);
+                context.player().setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
             });
         }
     }

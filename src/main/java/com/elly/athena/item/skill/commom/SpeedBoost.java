@@ -24,6 +24,11 @@ public class SpeedBoost implements Item_Register.ItemRegisterData {
                     MobEffects.MOVEMENT_SPEED, (30 + (level * 5)) * 20, (int) Math.ceil(level / 3F) - 1
             ));
         }
+
+        @Override
+        public int requireMana(int level) {
+            return 3;
+        }
     }
 
     @Override
