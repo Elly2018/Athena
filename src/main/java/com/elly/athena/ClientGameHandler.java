@@ -68,11 +68,9 @@ public class ClientGameHandler {
         assert player != null;
 
         while (STATUS_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check status", player.getName().getString()));
             instance.setScreen(new Status_Screen(player));
         }
         while (SWITCH_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to switch mode", player.getName().getString()));
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             int mode = ps.getMode();
             ps.setMode(mode == 0 ? 1 : 0);

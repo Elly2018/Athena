@@ -1,7 +1,6 @@
 package com.elly.athena.gui.menu;
 
 import com.elly.athena.gui.GUI_Register;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,12 +14,18 @@ public class Skill_Menu extends AbstractContainerMenu {
         super(GUI_Register.SKILL_MENU.get(), containerId);
         this.inventory = _inventory;
         this.player = _inventory.player;
+        init();
     }
 
     public Skill_Menu(int containerId, Inventory _inventory, Player player) {
         super(GUI_Register.SKILL_MENU.get(), containerId);
         this.inventory = _inventory;
         this.player = player;
+        init();
+    }
+
+    private void init(){
+        this.addInventoryHotbarSlots(inventory, 8, 84 + 58);
     }
 
     @Override
@@ -30,6 +35,6 @@ public class Skill_Menu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return false;
+        return true;
     }
 }

@@ -38,6 +38,9 @@ public class Equipment_Screen extends AbstractContainerScreen<Equipment_Menu> {
     }
 
     @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) { }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int xMouse, int yMouse, float tick) {
         super.render(guiGraphics, xMouse, yMouse, tick);
         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,
@@ -50,9 +53,5 @@ public class Equipment_Screen extends AbstractContainerScreen<Equipment_Menu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
         guiGraphics.blit(RenderType::guiTextured, CONTAINER_BACKGROUND,
                 offsetWidth, offsetHeight, 0, 0, imageWidth, imageHeight, 256, 256);
-    }
-
-    private void RenderItemStack(GuiGraphics guiGraphics){
-
     }
 }

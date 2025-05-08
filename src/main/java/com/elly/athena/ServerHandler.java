@@ -76,17 +76,16 @@ public class ServerHandler {
             }
 
             while (EQUIPMENT_MAPPING.get().consumeClick()){
-                com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check equipment", player.getName().getString()));
                 player.openMenu(new SimpleMenuProvider(
                         Equipment_Menu::new,
-                        Component.translatable("menu.title.athena.equipment")
+                        Component.empty()
                 ));
             }
             while (SKILL_MAPPING.get().consumeClick()) {
                 com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
                 player.openMenu(new SimpleMenuProvider(
                         Skill_Menu::new,
-                        Component.translatable("menu.title.athena.skill")
+                        Component.empty()
                 ));
             }
 

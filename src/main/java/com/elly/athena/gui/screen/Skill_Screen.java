@@ -6,6 +6,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,6 +24,9 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
 
     private final Player player;
 
+    protected int offsetWidth;
+    protected int offsetHeight;
+
     public Skill_Screen(Skill_Menu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         player = playerInventory.player;
@@ -30,15 +35,22 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
     @Override
     protected void init() {
         super.init();
+        offsetWidth = (this.width - this.imageWidth) / 2; // 40
+        offsetHeight = (this.height - this.imageHeight) / 2; // 45
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) { }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int xMouse, int yMouse, float tick) {
+        super.render(guiGraphics, xMouse, yMouse, tick);
+        this.renderTooltip(guiGraphics, xMouse, yMouse);
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-
-    }
-
-    @Override
-    public void onClose() {
-        super.onClose();
+        guiGraphics.blit(RenderType::guiTextured, CONTAINER_BACKGROUND,
+                offsetWidth, offsetHeight, 0, 0, imageWidth, imageHeight, 256, 256);
     }
 }
