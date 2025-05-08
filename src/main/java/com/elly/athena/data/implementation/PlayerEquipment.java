@@ -148,7 +148,10 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
     }
 
     private Tag AddTag(HolderLookup.Provider provider, ItemStack t){
-        Tag b = new CompoundTag();
-        return t.save(provider, b);
+        CompoundTag b = new CompoundTag();
+        if(!t.isEmpty()){
+            t.save(provider, b);
+        }
+        return b;
     }
 }

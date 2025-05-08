@@ -36,8 +36,11 @@ public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag nbt = new CompoundTag();
         for(int i = 0; i < 10; i++){
-            Tag tag = new CompoundTag();
-            items.get(i).save(provider, tag);
+            CompoundTag tag = new CompoundTag();
+            CompoundTag itemTag = new CompoundTag();
+            tag.putBoolean("is_empty", items.get(i).isEmpty());
+            if(!items.get(i).isEmpty()) items.get(i).save(provider, itemTag);
+            tag.put("item", itemTag);
             nbt.put(String.valueOf(i), tag);
         }
         return nbt;
@@ -46,7 +49,9 @@ public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
         for(int i = 0; i < 10; i++){
-            ItemStack iss = ItemStack.parseOptional(provider, compoundTag.getCompound(String.valueOf(i)));
+            CompoundTag buffer = compoundTag.getCompound(String.valueOf(i));
+            CompoundTag itemTag = buffer.getCompound("item");
+            ItemStack iss = ItemStack.parseOptional(provider, itemTag);
             items.set(i, iss);
         }
     }
