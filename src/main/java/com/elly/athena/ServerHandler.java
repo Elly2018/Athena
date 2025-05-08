@@ -4,9 +4,12 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IDamage_Record;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.gui.menu.Equipment_Menu;
 import com.elly.athena.gui.menu.Skill_Menu;
 import com.elly.athena.item.Item_Register;
+import com.elly.athena.item.potion.RPGPotion_Base;
+import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.network.LootPayload;
 import com.elly.athena.network.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
@@ -14,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,8 +26,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -61,6 +63,37 @@ public class ServerHandler {
         if(!ie.hasPickUpDelay()){
             var tag = LootPayload.Generate(item.getName().getString(), 16777215, is.getCount());
             PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.RightClickItem event){
+        Player player = event.getEntity();
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        if(status.getMode() == 1) {
+            onSkillUse(player, status);
+            event.setCanceled(true);
+            ServerPlayer pl;
+        }
+    }
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.RightClickEmpty event){
+        Player player = event.getEntity();
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        if(status.getMode() == 1) {
+            onSkillUse(player, status);
+        }
+    }
+
+    private static void onSkillUse(Player player, IPlayerStatus status){
+        ModContainer container = new ModContainer(player);
+        ItemStack iss = container.playerInventory.getSelected();
+        if(iss == ItemStack.EMPTY) return;
+        if(iss.getItem() instanceof RPGPotion_Base){
+            iss.use(player.level(), player, InteractionHand.MAIN_HAND);
+        }
+        else if(iss.getItem() instanceof RPGSkill_Base){
+
         }
     }
 

@@ -2,6 +2,7 @@ package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IPlayerEquipment;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
@@ -10,19 +11,36 @@ import org.jetbrains.annotations.UnknownNullability;
 
 public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<CompoundTag> {
 
-    private ItemStack Main;
-    private ItemStack Secondary;
-    private ItemStack Ring0;
-    private ItemStack Ring1;
-    private ItemStack Ring2;
-    private ItemStack Ring3;
-    private ItemStack Cape;
-    private ItemStack Belt;
-    private ItemStack FaceWear;
-    private ItemStack Necklace;
-    private ItemStack Glove;
-    private ItemStack Orb;
+    private ItemStack Main = ItemStack.EMPTY;
+    private ItemStack Secondary = ItemStack.EMPTY;
+    private ItemStack Ring0 = ItemStack.EMPTY;
+    private ItemStack Ring1 = ItemStack.EMPTY;
+    private ItemStack Ring2 = ItemStack.EMPTY;
+    private ItemStack Ring3 = ItemStack.EMPTY;
+    private ItemStack Cape = ItemStack.EMPTY;
+    private ItemStack Belt = ItemStack.EMPTY;
+    private ItemStack FaceWear = ItemStack.EMPTY;
+    private ItemStack Necklace = ItemStack.EMPTY;
+    private ItemStack Glove = ItemStack.EMPTY;
+    private ItemStack Orb = ItemStack.EMPTY;
 
+    @Override
+    public NonNullList<ItemStack> getList() {
+        NonNullList<ItemStack> r = NonNullList.withSize(12, ItemStack.EMPTY);
+        r.set(0, Main);
+        r.set(1, Secondary);
+        r.set(2, Ring0);
+        r.set(3, Ring1);
+        r.set(4, Ring2);
+        r.set(5, Ring3);
+        r.set(6, Cape);
+        r.set(7, Belt);
+        r.set(8, FaceWear);
+        r.set(9, Necklace);
+        r.set(10, Glove);
+        r.set(11, Orb);
+        return r;
+    }
     @Override public ItemStack getMain() { return Main; }
     @Override public ItemStack getSecondary() { return Secondary; }
     @Override public ItemStack getRing0() { return Ring0; }
@@ -61,6 +79,39 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
     @Override public boolean hasNecklace() { return Necklace != null; }
     @Override public boolean hasGlove() { return Glove != null; }
     @Override public boolean hasOrb() { return Orb != null; }
+
+    @Override
+    public ItemStack getSlot(int index) {
+        if(index == 0) return Main;
+        else if(index == 1) return Secondary;
+        else if(index == 2) return Ring0;
+        else if(index == 3) return Ring1;
+        else if(index == 4) return Ring2;
+        else if(index == 5) return Ring3;
+        else if(index == 6) return Cape;
+        else if(index == 7) return Belt;
+        else if(index == 8) return FaceWear;
+        else if(index == 9) return Necklace;
+        else if(index == 10) return Glove;
+        else if(index == 11) return Orb;
+        else return ItemStack.EMPTY;
+    }
+
+    @Override
+    public void setSlot(int index, ItemStack value) {
+        if(index == 0) Main = value;
+        else if(index == 1) Secondary = value;
+        else if(index == 2) Ring0 = value;
+        else if(index == 3) Ring1 = value;
+        else if(index == 4) Ring2 = value;
+        else if(index == 5) Ring3 = value;
+        else if(index == 6) Cape = value;
+        else if(index == 7) Belt = value;
+        else if(index == 8) FaceWear = value;
+        else if(index == 9) Necklace = value;
+        else if(index == 10) Glove = value;
+        else if(index == 11) Orb = value;
+    }
 
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {

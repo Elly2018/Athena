@@ -1,5 +1,6 @@
 package com.elly.athena.gui.menu;
 
+import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.menu.slot.ArmorSlot;
@@ -14,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Map;
 
 public class Equipment_Menu extends AbstractContainerMenu {
-
-
     private static final Map<EquipmentSlot, ResourceLocation> TEXTURE_EMPTY_SLOTS = Map.of(
             EquipmentSlot.FEET, InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS,
             EquipmentSlot.LEGS, InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS,
@@ -28,20 +27,20 @@ public class Equipment_Menu extends AbstractContainerMenu {
             ModEquipmentSlot.RING0, ModEquipmentSlot.RING1,
             ModEquipmentSlot.RING2, ModEquipmentSlot.RING3};
 
-    private final Inventory inventory;
+    private final ModContainer inventory;
     private final Player player;
 
     public Equipment_Menu(int containerId, Inventory _inventory) {
         super(GUI_Register.EQUIPMENT_MENU.get(), containerId);
-        this.inventory = _inventory;
-        this.player = _inventory.player;
+        player = _inventory.player;
+        inventory = new ModContainer(player);
         init();
     }
 
-    public Equipment_Menu(int containerId, Inventory _inventory, Player player) {
+    public Equipment_Menu(int containerId, Inventory _inventory, Player _player) {
         super(GUI_Register.EQUIPMENT_MENU.get(), containerId);
-        this.inventory = _inventory;
-        this.player = player;
+        player = _player;
+        inventory = new ModContainer(player);
         init();
     }
 

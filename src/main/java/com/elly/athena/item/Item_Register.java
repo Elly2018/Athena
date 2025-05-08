@@ -5,6 +5,8 @@ import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
 import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
+import com.elly.athena.item.skill.warrior.HPBoost;
+import com.elly.athena.item.skill.warrior.HeavyAttack;
 import com.elly.athena.item.weapon.archer.Bow;
 import com.elly.athena.item.weapon.magician.Staff;
 import com.elly.athena.item.weapon.magician.Wand;
@@ -55,7 +57,10 @@ public class Item_Register {
                 new Staff(),
                 new Wand(),
 
-                new Bow()
+                new Bow(),
+
+                new HPBoost(),
+                new HeavyAttack(),
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

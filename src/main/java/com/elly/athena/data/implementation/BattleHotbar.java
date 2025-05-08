@@ -2,20 +2,24 @@ package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IBattleHotbar;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
 
-import java.util.ArrayList;
-
 public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag> {
 
-    private ArrayList<ItemStack> items;
+    private final NonNullList<ItemStack> items;
 
     public BattleHotbar(){
-        Reset();
+        items = NonNullList.withSize(9, ItemStack.EMPTY);
+    }
+
+    @Override
+    public NonNullList<ItemStack> getList() {
+        return items;
     }
 
     @Override
@@ -41,17 +45,9 @@ public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag
 
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
-        Reset();
         for(int i = 0; i < 10; i++){
             ItemStack iss = ItemStack.parseOptional(provider, compoundTag.getCompound(String.valueOf(i)));
             items.set(i, iss);
-        }
-    }
-
-    private void Reset(){
-        items = new ArrayList<>(10);
-        for(int i = 0; i < 10; i++){
-            items.add(ItemStack.EMPTY);
         }
     }
 }

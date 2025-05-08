@@ -1,8 +1,13 @@
 package com.elly.athena.data.interfaceType;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 
 public interface IPlayerEquipment {
+    NonNullList<ItemStack> getList();
+    ItemStack getSlot(int index);
+    void setSlot(int index, ItemStack value);
+
     ItemStack getMain();
     ItemStack getSecondary();
     ItemStack getRing0();
