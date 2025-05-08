@@ -17,7 +17,10 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     ArrayList<SkillCategory> skills = new ArrayList<>();
 
     @Override
-    public SkillCategory[] getSkills() { return (SkillCategory[]) skills.toArray(); }
+    public SkillCategory[] getSkills() {
+        SkillCategory[] sc = new SkillCategory[skills.size()];
+        return skills.toArray(sc);
+    }
 
     @Override
     @NotNull
@@ -70,13 +73,12 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
             SkillCategory cate = skills.get(i);
             nbt.put(String.valueOf(i), cate.serializeNBT(provider));
         }
-        return null;
+        return nbt;
     }
 
     @Override
     public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         int size = compoundTag.getInt("size");
-        skills = new ArrayList<>();
         skills = new ArrayList<>(size);
         for(int i = 0; i < size; i++){
             SkillCategory sc = new SkillCategory();

@@ -16,12 +16,12 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class SkillPayload {
     public record SkillData(CompoundTag data) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<SkillData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "skill"));
+        public static final CustomPacketPayload.Type<SkillPayload.SkillData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "skill"));
 
-        public static final StreamCodec<ByteBuf, SkillData> STREAM_CODEC = StreamCodec.composite(
+        public static final StreamCodec<ByteBuf, SkillPayload.SkillData> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG,
-                SkillData::data,
-                SkillData::new
+                SkillPayload.SkillData::data,
+                SkillPayload.SkillData::new
         );
 
         @Override
