@@ -1,5 +1,6 @@
 {
   "key.categories.athena": "Athena",
+  "key.athena.equipment": "Equipment",
   "key.athena.skill": "Skill",
   "key.athena.status": "Status",
   "key.athena.switch": "Switch",
@@ -7,6 +8,9 @@
   "key.athena.voice_setting": "Voice Setting",
 
   "player.interact.menu.trade": "Trade",
+
+  "menu.title.athena.equipment": "Equipment",
+  "menu.title.athena.skill": "Skill",
 
   "item.athena.sword": "Sword",
   "item.athena.spear": "Spear",

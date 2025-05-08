@@ -4,13 +4,17 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IDamage_Record;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.gui.menu.Equipment_Menu;
+import com.elly.athena.gui.menu.Skill_Menu;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.LootPayload;
 import com.elly.athena.network.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
@@ -37,6 +41,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.UUID;
+
+import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
+import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
 
 
 @EventBusSubscriber(modid = Athena.MODID)
@@ -66,6 +73,21 @@ public class ServerHandler {
                 ps.setExp(0);
                 ps.addLevel(1);
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
+
+            while (EQUIPMENT_MAPPING.get().consumeClick()){
+                com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check equipment", player.getName().getString()));
+                player.openMenu(new SimpleMenuProvider(
+                        Equipment_Menu::new,
+                        Component.translatable("menu.title.athena.equipment")
+                ));
+            }
+            while (SKILL_MAPPING.get().consumeClick()) {
+                com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
+                player.openMenu(new SimpleMenuProvider(
+                        Skill_Menu::new,
+                        Component.translatable("menu.title.athena.skill")
+                ));
             }
 
             PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));

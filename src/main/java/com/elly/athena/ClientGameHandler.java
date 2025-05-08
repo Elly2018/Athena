@@ -24,7 +24,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static com.elly.athena.keymap.KeyMap_Register.*;
+import static com.elly.athena.keymap.KeyMap_Register.STATUS_MAPPING;
+import static com.elly.athena.keymap.KeyMap_Register.SWITCH_MAPPING;
 
 @EventBusSubscriber(modid = Athena.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ClientGameHandler {
@@ -66,9 +67,6 @@ public class ClientGameHandler {
         Player player = instance.player;
         assert player != null;
 
-        while (SKILL_MAPPING.get().consumeClick()) {
-            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
-        }
         while (STATUS_MAPPING.get().consumeClick()) {
             com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check status", player.getName().getString()));
             instance.setScreen(new Status_Screen(player));

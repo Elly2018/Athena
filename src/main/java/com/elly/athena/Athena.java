@@ -2,6 +2,7 @@ package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
+import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
