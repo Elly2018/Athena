@@ -2,7 +2,6 @@ package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
-import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
@@ -11,6 +10,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
@@ -40,12 +40,14 @@ public class Athena {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, MODID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(BuiltInRegistries.POTION, MODID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MODID);
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(BuiltInRegistries.ATTRIBUTE, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
+        ATTRIBUTES.register(modEventBus);
         ATTACHMENT.register(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);

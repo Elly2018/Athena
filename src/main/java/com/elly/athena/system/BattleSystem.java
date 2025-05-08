@@ -3,12 +3,16 @@ package com.elly.athena.system;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 
 public class BattleSystem {
 
@@ -33,12 +37,32 @@ public class BattleSystem {
 
     public static class BattleSystemProvider {
         public final Player player;
-
         public final IPlayerStatus status;
+        public LivingEntity target;
+
+        private final RandomSource random;
 
         public BattleSystemProvider(Player _player){
+            this.random = _player.getRandom();
             this.player =_player;
             this.status = this.player.getData(Attachment_Register.PLAYER_STATUS);
+        }
+
+        public void setTarget(LivingEntity _target){
+            target = _target;
+        }
+
+        public int DamageCalculat(RPGSkill_Base skill, int level){
+            if(skill == null) return DamageCalculat();
+            return 0;
+        }
+
+        public int DamageCalculat(){
+            return 0;
+        }
+
+        public int MagicDamageCalculat(RPGSkill_Base skill, int level){
+            return 0;
         }
 
         public BattleSystemStruct GetStruct(){

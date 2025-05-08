@@ -48,6 +48,7 @@ public class ModContainer implements Container, Nameable {
         if(slot <= 11 && !stack.has(DataComponent_Register.EQUIP)) return false;
         if(slot <= 11){
             int iee = stack.get(DataComponent_Register.EQUIP).slot();
+            if(iee == ModEquipmentSlot.RING0.index && slot >= 2 && slot <= 5) return true;
             return iee == slot;
         }else{
             return stack.getItem() instanceof RPGPotion_Base ||

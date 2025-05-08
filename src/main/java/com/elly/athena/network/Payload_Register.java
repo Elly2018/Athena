@@ -40,6 +40,22 @@ public class Payload_Register {
                         StatusPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
+        registrar.playBidirectional(
+                SkillPayload.SkillData.TYPE,
+                SkillPayload.SkillData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SkillPayload.ClientPayloadHandler::handleDataOnMain,
+                        SkillPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
+        registrar.playBidirectional(
+                TradePayload.TradePayloadData.TYPE,
+                TradePayload.TradePayloadData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        TradePayload.ClientPayloadHandler::handleDataOnMain,
+                        TradePayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
     }
 
     @SubscribeEvent
