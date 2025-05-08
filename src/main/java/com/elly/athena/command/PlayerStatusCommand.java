@@ -13,11 +13,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.status.ServerStatus;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Collection;
 import java.util.function.Function;
 
 import static com.elly.athena.command.Command_Register.ActionMap;
@@ -68,7 +65,7 @@ public class PlayerStatusCommand {
     }
 
     private static int _player_status(CommandContext<CommandSourceStack> command, Player player, IPlayerStatus status, ActionType action, PlayerDataType PlayerDataType, int value){
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetSourceBasic();
         if (action == ActionType.add){
             addStatus(PlayerDataType, status, value);
         }

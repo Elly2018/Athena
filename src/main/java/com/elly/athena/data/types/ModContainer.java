@@ -6,6 +6,7 @@ import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import com.elly.athena.system.BattleSystem;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -77,13 +78,11 @@ public class ModContainer implements Container, Nameable {
                 return false;
             }
         }
-
         for(ItemStack itemstack1 : hotbar) {
             if (!itemstack1.isEmpty()) {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -143,10 +142,22 @@ public class ModContainer implements Container, Nameable {
 
     @Override
     public void setItem(int i, ItemStack itemStack) {
-        if (i == 0) playerEquipment.setRing0(itemStack);
-        if (i == 1) playerEquipment.setRing1(itemStack);
-        if (i == 2) playerEquipment.setRing2(itemStack);
-        if (i == 3) playerEquipment.setRing3(itemStack);
+        if(i >= getContainerSize()) return;
+        if (i == 0) playerEquipment.setMain(itemStack);
+        else if (i == 1) playerEquipment.setSecondary(itemStack);
+        else if (i == 2) playerEquipment.setRing0(itemStack);
+        else if (i == 3) playerEquipment.setRing1(itemStack);
+        else if (i == 4) playerEquipment.setRing2(itemStack);
+        else if (i == 5) playerEquipment.setRing3(itemStack);
+        else if (i == 6) playerEquipment.setCape(itemStack);
+        else if (i == 7) playerEquipment.setBelt(itemStack);
+        else if (i == 8) playerEquipment.setFaceWear(itemStack);
+        else if (i == 9) playerEquipment.setNecklace(itemStack);
+        else if (i == 10) playerEquipment.setGlove(itemStack);
+        else if (i == 11) playerEquipment.setOrb(itemStack);
+        else {
+            battleHotbar.setSlot(i - 12, itemStack);
+        }
     }
 
     @Override
@@ -156,6 +167,7 @@ public class ModContainer implements Container, Nameable {
     public int getTimesChanged() {
         return this.timesChanged;
     }
+
 
     @Override
     public boolean stillValid(Player player) {
@@ -172,5 +184,10 @@ public class ModContainer implements Container, Nameable {
     @Override
     public Component getName() {
         return Component.translatable("athena.container.inventory");
+    }
+
+    private void equipEvent(ItemStack target){
+        BattleSystem.BattleSystemStruct bss = BattleSystem.ApplyCalculateAttribute(player);
+        BattleSystem.ApplyModAttribute(player, bss, true);
     }
 }

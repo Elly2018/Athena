@@ -94,5 +94,16 @@ public class CreativeTabs_Register {
                 },
                 "athena_weapon", "Athena Weapon"
         ));
+        categories.add(new TabsCategory(
+                new String[]{
+
+                },
+                new String[]{
+                        "skill.speed_boost",
+                        "skill.hp_boost",
+                        "skill.heavy_attack",
+                },
+                "athena_skill", "Athena Skill"
+        ));
     }
 }

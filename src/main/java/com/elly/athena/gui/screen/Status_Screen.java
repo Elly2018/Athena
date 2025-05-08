@@ -220,7 +220,7 @@ public class Status_Screen extends Screen {
         int InitX = 100 + offsetWidth;
         int InitY = 8 + offsetHeight;
         int Gap = font.lineHeight + 5;
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetSourceBasic();
         String[] texts = new String[]{
                 String.format("MaxHP: %d", bss.MaxHP),
                 String.format("MaxMP: %d", bss.MaxMP),

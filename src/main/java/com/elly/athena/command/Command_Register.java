@@ -15,6 +15,7 @@ import net.neoforged.neoforge.server.command.EnumArgument;
 import java.util.HashMap;
 import java.util.function.Function;
 
+import static com.elly.athena.command.DebugCommand.Debug_0;
 import static com.elly.athena.command.PlayerStatusCommand.*;
 import static com.elly.athena.command.TeleportCommand.Teleport_0;
 
@@ -28,11 +29,11 @@ public class Command_Register {
                 .then(Commands.literal("status")
                     .then(Commands.argument("action", EnumArgument.enumArgument(ActionType.class))
                             .then(Commands.argument("PlayerDataType", EnumArgument.enumArgument(PlayerDataType.class))
-                                    .executes(command -> PlayerStatus_00(command))
+                                    .executes(PlayerStatusCommand::PlayerStatus_00)
                                         .then(Commands.argument("target", EntityArgument.player())
-                                            .executes(command -> PlayerStatus_0(command))
+                                            .executes(PlayerStatusCommand::PlayerStatus_0)
                                                 .then(Commands.argument("value", IntegerArgumentType.integer())
-                                                    .executes(command -> PlayerStatus_1(command))
+                                                    .executes(PlayerStatusCommand::PlayerStatus_1)
                                         )
                                 )
                             )
@@ -43,11 +44,18 @@ public class Command_Register {
                 .requires(cs -> cs.hasPermission(4))
                 .then(Commands.literal("tp")
                         .then(Commands.argument("action", EnumArgument.enumArgument(ActionType.class))
-                                .executes(command -> Teleport_0(command))
+                                .executes(TeleportCommand::Teleport_0)
                         )
                 );
 
+        LiteralArgumentBuilder<CommandSourceStack> debug = Commands.literal("athena")
+                .requires(cs -> cs.hasPermission(4))
+                .then(Commands.literal("debug")
+                                .executes(DebugCommand::Debug_0)
+                );
 
+        dispatcher.register(player_status);
+        dispatcher.register(player_status);
         dispatcher.register(player_status);
         ActionMap = new HashMap<>();
         ActionMap.put(PlayerDataType.level, ActionStruct.LEVEL());

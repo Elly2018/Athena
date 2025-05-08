@@ -13,7 +13,7 @@ import static com.elly.athena.gui.Utility.drawMediumBar;
 public class ManaBar {
     public static void getManaValue(LocalPlayer player, GuiGraphics gui) {
         Profiler.get().push("mana");
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetSourceBasic();
 
         float fill = Math.min(1.0F, (float)bss.MP / (float)bss.MaxMP);
 

@@ -28,7 +28,7 @@ public class RPGPotion_Base extends Item {
         float h = AddHealth(player);
         int m = AddMana(player);
         PlayerStatus target = player.getData(Attachment_Register.PLAYER_STATUS);
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
+        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetSourceBasic();
 
         if (h > 0 && player.getHealth() < bss.MaxHP && hand == InteractionHand.MAIN_HAND){
             pass = true;
