@@ -1,31 +1,27 @@
-package com.elly.athena.network;
+package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
-import com.elly.athena.ClientGameHandler;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.data.implementation.PlayerSkill;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public class StatusPayload {
+public class SkillPayload {
+    public record SkillData(CompoundTag data) implements CustomPacketPayload {
+        public static final CustomPacketPayload.Type<SkillPayload.SkillData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "skill"));
 
-    public record StatusData(CompoundTag data) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<StatusData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "status"));
-
-        public static final StreamCodec<ByteBuf, StatusData> STREAM_CODEC = StreamCodec.composite(
+        public static final StreamCodec<ByteBuf, SkillPayload.SkillData> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG,
-                StatusData::data,
-                StatusData::new
+                SkillPayload.SkillData::data,
+                SkillPayload.SkillData::new
         );
 
         @Override
@@ -36,25 +32,25 @@ public class StatusPayload {
 
     public static class ClientPayloadHandler {
 
-        public static void handleDataOnMain(final StatusData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final SkillPayload.SkillData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
-                PlayerStatus ps = new PlayerStatus();
+                PlayerSkill ps = new PlayerSkill();
                 ps.deserializeNBT(null, data.data);
-                Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_STATUS, ps);
+                Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_SKILL, ps);
             });
         }
     }
 
     public static class ServerPayloadHandler {
 
-        public static void handleDataOnMain(final StatusData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final SkillPayload.SkillData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
-                PlayerStatus ps = new PlayerStatus();
+                PlayerSkill ps = new PlayerSkill();
                 ps.deserializeNBT(null, data.data);
-                context.player().setData(Attachment_Register.PLAYER_STATUS, ps);
+                context.player().setData(Attachment_Register.PLAYER_SKILL, ps);
             });
         }
     }

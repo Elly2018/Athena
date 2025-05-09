@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
@@ -50,7 +51,10 @@ public class Equipment_Menu extends AbstractContainerMenu {
             ResourceLocation resourcelocation = (ResourceLocation)TEXTURE_EMPTY_SLOTS.get(equipmentslot);
             this.addSlot(new ArmorSlot(inventory, player, equipmentslot, 39 - i, 8, 8 + i * 18, resourcelocation));
         }
-        this.addStandardInventorySlots(inventory, 8, 84);
+        for(int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 84 + 58));
+        }
+        addInventoryExtendedSlots(inventory.playerInventory, 8, 84);
     }
 
     @Override

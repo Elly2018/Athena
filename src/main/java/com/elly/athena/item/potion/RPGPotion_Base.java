@@ -2,7 +2,7 @@ package com.elly.athena.item.potion;
 
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.network.StatusPayload;
+import com.elly.athena.network.general.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
 import net.minecraft.world.InteractionHand;

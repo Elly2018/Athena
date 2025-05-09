@@ -1,8 +1,8 @@
-package com.elly.athena.network;
+package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.implementation.PlayerEquipment;
+import com.elly.athena.data.implementation.BattleHotbar;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -14,14 +14,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public class EquipmentPayload {
-    public record EquipmentData(CompoundTag data) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<EquipmentPayload.EquipmentData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "equip"));
+public class HotbarPayload {
+    public record HotbarData(CompoundTag data) implements CustomPacketPayload {
+        public static final CustomPacketPayload.Type<HotbarPayload.HotbarData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "hotbar"));
 
-        public static final StreamCodec<ByteBuf, EquipmentPayload.EquipmentData> STREAM_CODEC = StreamCodec.composite(
+        public static final StreamCodec<ByteBuf, HotbarPayload.HotbarData> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG,
-                EquipmentPayload.EquipmentData::data,
-                EquipmentPayload.EquipmentData::new
+                HotbarPayload.HotbarData::data,
+                HotbarPayload.HotbarData::new
         );
 
         @Override
@@ -32,25 +32,25 @@ public class EquipmentPayload {
 
     public static class ClientPayloadHandler {
 
-        public static void handleDataOnMain(final EquipmentPayload.EquipmentData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final HotbarPayload.HotbarData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
-                PlayerEquipment ps = new PlayerEquipment();
+                BattleHotbar ps = new BattleHotbar();
                 ps.deserializeNBT(null, data.data);
-                Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
+                Minecraft.getInstance().player.setData(Attachment_Register.BATTLE_HOTBAR, ps);
             });
         }
     }
 
     public static class ServerPayloadHandler {
 
-        public static void handleDataOnMain(final EquipmentPayload.EquipmentData data, final IPayloadContext context) {
+        public static void handleDataOnMain(final HotbarPayload.HotbarData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
-                PlayerEquipment ps = new PlayerEquipment();
+                BattleHotbar ps = new BattleHotbar();
                 ps.deserializeNBT(null, data.data);
-                context.player().setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
+                context.player().setData(Attachment_Register.BATTLE_HOTBAR, ps);
             });
         }
     }

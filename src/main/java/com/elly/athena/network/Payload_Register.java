@@ -1,6 +1,8 @@
 package com.elly.athena.network;
 
 import com.elly.athena.Athena;
+import com.elly.athena.network.general.*;
+import com.elly.athena.network.menu.SkillMenuPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
@@ -16,6 +18,16 @@ public class Payload_Register {
     public static void register_payload(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1")
             .executesOn(HandlerThread.NETWORK);
+        register_general(registrar);
+        register_menu(registrar);
+    }
+
+    @SubscribeEvent
+    public static void register_task(final RegisterConfigurationTasksEvent event) {
+
+    }
+
+    private static void register_general(final PayloadRegistrar registrar) {
         registrar.playBidirectional(
                 LootPayload.LootData.TYPE,
                 LootPayload.LootData.STREAM_CODEC,
@@ -74,8 +86,14 @@ public class Payload_Register {
         );
     }
 
-    @SubscribeEvent
-    public static void register_task(final RegisterConfigurationTasksEvent event) {
-
+    private static void register_menu(final PayloadRegistrar registrar){
+        registrar.playBidirectional(
+                SkillMenuPayload.SkillMenuData.TYPE,
+                SkillMenuPayload.SkillMenuData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SkillMenuPayload.ClientPayloadHandler::handleDataOnMain,
+                        SkillMenuPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
     }
 }

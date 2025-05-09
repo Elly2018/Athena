@@ -4,7 +4,7 @@ import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.network.StatusApplyPayload;
+import com.elly.athena.network.general.StatusApplyPayload;
 import com.elly.athena.system.BattleSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

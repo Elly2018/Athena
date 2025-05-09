@@ -6,7 +6,7 @@ import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.PlayerInteract_Screen;
 import com.elly.athena.gui.screen.Status_Screen;
-import com.elly.athena.network.StatusPayload;
+import com.elly.athena.network.general.StatusPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;

@@ -1,8 +1,14 @@
 package com.elly.athena.gui.screen;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.PlayerSkill;
+import com.elly.athena.data.interfaceType.IPlayerSkill;
 import com.elly.athena.gui.menu.Skill_Menu;
+import com.elly.athena.network.menu.SkillMenuPayload;
+import com.elly.athena.system.skill.SkillCategory;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,6 +18,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.Objects;
+
+import static com.elly.athena.gui.Utility.drawFont;
 
 public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
 
@@ -26,6 +37,9 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
 
     protected int offsetWidth;
     protected int offsetHeight;
+    protected int selected;
+    protected int page;
+    protected IPlayerSkill playerSkill;
 
     public Skill_Screen(Skill_Menu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -37,20 +51,71 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
         super.init();
         offsetWidth = (this.width - this.imageWidth) / 2; // 40
         offsetHeight = (this.height - this.imageHeight) / 2; // 45
+        selected = 0;
+        playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);
+        renderTags_init();
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) { }
+    protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) { }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int xMouse, int yMouse, float tick) {
-        super.render(guiGraphics, xMouse, yMouse, tick);
-        this.renderTooltip(guiGraphics, xMouse, yMouse);
+    public void render(GuiGraphics gui, int xMouse, int yMouse, float tick) {
+        super.render(gui, xMouse, yMouse, tick);
+        this.renderTooltip(gui, xMouse, yMouse);
+        IPlayerSkill playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);
+        renderList(gui);
+        renderDescription(gui);
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
         guiGraphics.blit(RenderType::guiTextured, CONTAINER_BACKGROUND,
                 offsetWidth, offsetHeight, 0, 0, imageWidth, imageHeight, 256, 256);
+    }
+
+    private void renderTags_init(){
+        int InitX = 8;
+        int InitY = 3;
+        SkillCategory[] sc = playerSkill.getSkills();
+        for (int i = 0; i < sc.length; i++) {
+            SkillCategory skillCategory = sc[i];
+            int size = font.width(skillCategory.Name);
+            Button button = Button.builder(Component.literal(String.valueOf(i)), this::TagPressed)
+                    .pos(InitX + offsetWidth, InitY + offsetHeight)
+                    .size(size, 10)
+                    .build();
+            addRenderableOnly(button);
+            InitX += button.getWidth() + 5;
+        }
+    }
+
+    private void renderList(GuiGraphics gui){
+        int color = 10862842;
+        int InitX = 37;
+        int InitY = 18;
+        drawFont(gui, "", 37, 18, color);
+    }
+
+    private void renderDescription(GuiGraphics gui){
+
+    }
+
+    private void TagPressed(Button cate){
+        String cateName = cate.getMessage().getString();
+        SkillCategory[] sc = playerSkill.getSkills();
+        for(int i = 0; i < sc.length; i++){
+            if(Objects.equals(sc[i].Name, cateName)){
+                ChangePage(i, 0);
+                return;
+            }
+        }
+        ChangePage(0, 0);
+    }
+
+    private void ChangePage(int _selected, int _page){
+        selected = _selected;
+        page = _page;
+        PacketDistributor.sendToServer(new SkillMenuPayload.SkillMenuData(SkillMenuPayload.Generate(selected, page)));
     }
 }

@@ -13,7 +13,7 @@ import com.elly.athena.gui.menu.Skill_Menu;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
-import com.elly.athena.network.*;
+import com.elly.athena.network.general.*;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.SkillSystem;
 import net.minecraft.network.chat.Component;

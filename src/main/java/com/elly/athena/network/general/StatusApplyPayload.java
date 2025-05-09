@@ -1,4 +1,4 @@
-package com.elly.athena.network;
+package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;

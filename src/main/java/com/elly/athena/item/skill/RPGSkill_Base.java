@@ -1,10 +1,7 @@
 package com.elly.athena.item.skill;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.network.SkillPayload;
-import com.elly.athena.system.BattleSystem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
