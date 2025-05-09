@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag> {
@@ -33,13 +34,14 @@ public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag
     }
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         for(int i = 0; i < 9; i++){
             CompoundTag tag = new CompoundTag();
-            CompoundTag itemTag = new CompoundTag();
-            tag.putBoolean("is_empty", items.get(i).isEmpty());
-            if(!items.get(i).isEmpty()) items.get(i).save(provider, itemTag);
+            Tag itemTag = new CompoundTag();
+            if(!items.get(i).isEmpty()) {
+                itemTag = items.get(i).save(provider, itemTag);
+            }
             tag.put("item", itemTag);
             nbt.put(String.valueOf(i), tag);
         }
@@ -47,7 +49,7 @@ public class BattleHotbar implements IBattleHotbar, INBTSerializable<CompoundTag
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag compoundTag) {
         for(int i = 0; i < 9; i++){
             CompoundTag buffer = compoundTag.getCompound(String.valueOf(i));
             CompoundTag itemTag = buffer.getCompound("item");

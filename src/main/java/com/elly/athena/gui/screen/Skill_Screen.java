@@ -5,6 +5,7 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerSkill;
 import com.elly.athena.data.interfaceType.IPlayerSkill;
 import com.elly.athena.gui.menu.Skill_Menu;
+import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.menu.SkillMenuPayload;
 import com.elly.athena.system.skill.SkillCategory;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,6 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
@@ -51,9 +53,9 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
         super.init();
         offsetWidth = (this.width - this.imageWidth) / 2; // 40
         offsetHeight = (this.height - this.imageHeight) / 2; // 45
-        selected = 0;
         playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);
         renderTags_init();
+        ChangePage(0, 0);
     }
 
     @Override
@@ -63,7 +65,6 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
     public void render(GuiGraphics gui, int xMouse, int yMouse, float tick) {
         super.render(gui, xMouse, yMouse, tick);
         this.renderTooltip(gui, xMouse, yMouse);
-        IPlayerSkill playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);
         renderList(gui);
         renderDescription(gui);
     }
@@ -85,7 +86,7 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
                     .pos(InitX + offsetWidth, InitY + offsetHeight)
                     .size(size, 10)
                     .build();
-            addRenderableOnly(button);
+            addRenderableWidget(button);
             InitX += button.getWidth() + 5;
         }
     }
@@ -113,9 +114,15 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
         ChangePage(0, 0);
     }
 
+    @Override
+    public void onClose() {
+        ChangePage(0, 0);
+        super.onClose();
+    }
+
     private void ChangePage(int _selected, int _page){
         selected = _selected;
         page = _page;
-        PacketDistributor.sendToServer(new SkillMenuPayload.SkillMenuData(SkillMenuPayload.Generate(selected, page)));
+        this.menu.ChangeState(selected, page);
     }
 }

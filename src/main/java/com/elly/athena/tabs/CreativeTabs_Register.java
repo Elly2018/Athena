@@ -99,9 +99,9 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
-                        "skill.speed_boost",
-                        "skill.hp_boost",
-                        "skill.wind_slash",
+                        "speed_boost",
+                        "hp_boost",
+                        "wind_slash",
                 },
                 "athena_skill", "Athena Skill"
         ));

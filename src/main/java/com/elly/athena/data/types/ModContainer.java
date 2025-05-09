@@ -29,8 +29,8 @@ public class ModContainer implements Container, Nameable {
     public final Inventory playerInventory;
 
     private final Player player;
-    private final NonNullList<ItemStack> equips;
-    private final NonNullList<ItemStack> hotbar;
+    private NonNullList<ItemStack> equips;
+    private NonNullList<ItemStack> hotbar;
     private final List<NonNullList<ItemStack>> compartments;
     private int timesChanged;
 
@@ -158,14 +158,23 @@ public class ModContainer implements Container, Nameable {
         else {
             battleHotbar.setSlot(i - 12, itemStack);
         }
+        setChanged();
     }
 
     @Override
     public void setChanged() {
         ++this.timesChanged;
+        changeState();
     }
     public int getTimesChanged() {
         return this.timesChanged;
+    }
+
+    private void changeState(){
+        player.setData(Attachment_Register.PLAYER_EQUIPMENT, playerEquipment);
+        player.setData(Attachment_Register.BATTLE_HOTBAR, battleHotbar);
+        equips = playerEquipment.getList();
+        hotbar = battleHotbar.getList();
     }
 
 

@@ -16,7 +16,10 @@ import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.network.general.*;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.SkillSystem;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -41,11 +44,14 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
@@ -72,16 +78,17 @@ public class ServerHandler {
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.RightClickItem event){
         Player player = event.getEntity();
+        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickItem: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
             onSkillUse(player, status);
             event.setCanceled(true);
-            ServerPlayer pl;
         }
     }
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.RightClickEmpty event){
         Player player = event.getEntity();
+        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickEmpty: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
             onSkillUse(player, status);
@@ -90,19 +97,21 @@ public class ServerHandler {
 
     private static void onSkillUse(Player player, IPlayerStatus status){
         ModContainer container = new ModContainer(player);
-        ItemStack iss = container.playerInventory.getSelected();
+        ItemStack iss = container.getSelected();
         if(iss == ItemStack.EMPTY) return;
         if(iss.getItem() instanceof RPGPotion_Base){
             iss.use(player.level(), player, InteractionHand.MAIN_HAND);
         }
         else if(iss.getItem() instanceof RPGSkill_Base){
-
+            RPGSkill_Base item = (RPGSkill_Base) iss.getItem();
+            item.use(player.level(), player, InteractionHand.MAIN_HAND);
         }
     }
 
     @SubscribeEvent
     public static void update(ServerTickEvent.Pre event){
         event.getServer().getPlayerList().getPlayers().forEach( player -> {
+
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
             PlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
@@ -128,10 +137,21 @@ public class ServerHandler {
                 ));
             }
 
-            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(null)));
-            PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(null)));
-            PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(pe.serializeNBT(null)));
-            PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(bh.serializeNBT(null)));
+            HolderLookup.Provider provider = new HolderLookup.Provider() {
+                @Override
+                public Stream<ResourceKey<? extends Registry<?>>> listRegistryKeys() {
+                    return Stream.empty();
+                }
+
+                @Override
+                public <T> Optional<? extends HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
+                    return Optional.empty();
+                }
+            };
+            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
+            PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(player.registryAccess())));
+            PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(pe.serializeNBT(player.registryAccess())));
+            PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(bh.serializeNBT(player.registryAccess())));
         });
     }
 
@@ -139,9 +159,18 @@ public class ServerHandler {
     public static void entityJoin(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
-
             if(!player.hasData(Attachment_Register.PLAYER_STATUS))
                 player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
+        }
+    }
+
+    @SubscribeEvent
+    public static void entityTick(EntityTickEvent.Pre event){
+        if (event.getEntity() instanceof ItemEntity){
+            ItemEntity item = (ItemEntity) event.getEntity();
+            if(item.getItem().getItem() instanceof RPGSkill_Base){
+                item.remove(Entity.RemovalReason.KILLED);
+            }
         }
     }
 

@@ -3,20 +3,30 @@ package com.elly.athena;
 import com.elly.athena.command.Command_Register;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.data.interfaceType.IPlayerSkill;
+import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.PlayerInteract_Screen;
 import com.elly.athena.gui.screen.Status_Screen;
 import com.elly.athena.network.general.StatusPayload;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -54,6 +64,11 @@ public class ClientGameHandler {
         while (!gui_worker.isEmpty()){
             gui_worker.take().run();
         }
+    }
+
+    @SubscribeEvent
+    public static void renderPlayer(RenderPlayerEvent.Pre event) {
+
     }
 
     @SubscribeEvent

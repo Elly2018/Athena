@@ -37,7 +37,7 @@ public class HotbarPayload {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
                 BattleHotbar ps = new BattleHotbar();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 Minecraft.getInstance().player.setData(Attachment_Register.BATTLE_HOTBAR, ps);
             });
         }
@@ -49,7 +49,7 @@ public class HotbarPayload {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
                 BattleHotbar ps = new BattleHotbar();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 context.player().setData(Attachment_Register.BATTLE_HOTBAR, ps);
             });
         }

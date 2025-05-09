@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "athena:item/coin"
+        "layer0": "athena:item/coin_golden_bag"
     }
 }

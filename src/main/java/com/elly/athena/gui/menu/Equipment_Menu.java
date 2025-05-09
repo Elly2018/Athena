@@ -49,7 +49,7 @@ public class Equipment_Menu extends AbstractContainerMenu {
         for(int i = 0; i < 4; ++i) {
             EquipmentSlot equipmentslot = SLOT_IDS[i];
             ResourceLocation resourcelocation = (ResourceLocation)TEXTURE_EMPTY_SLOTS.get(equipmentslot);
-            this.addSlot(new ArmorSlot(inventory, player, equipmentslot, 39 - i, 8, 8 + i * 18, resourcelocation));
+            this.addSlot(new ArmorSlot(inventory.playerInventory, player, equipmentslot, 39 - i, 8, 8 + i * 18, resourcelocation));
         }
         for(int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 84 + 58));
@@ -59,6 +59,7 @@ public class Equipment_Menu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int i) {
+        //return inventory.playerInventory.;
         return null;
     }
 

@@ -33,7 +33,7 @@ public class SpeedBoost implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "skill.speed_boost";
+        return "speed_boost";
     }
 
     @Override

@@ -26,9 +26,13 @@ public class RPGSkill_Base extends Item {
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         if(skillType == SkillType.Passive) return InteractionResult.FAIL;
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-        if(ps.getMana() < requireMana(1)) return InteractionResult.FAIL;
+        int mana_req = requireMana(1);
+        if(ps.getMana() < mana_req) return InteractionResult.FAIL;
 
-        if(!player.isLocalPlayer()) server_apply(level, player, 1, hand);
+        if(!player.isLocalPlayer()) {
+            ps.addMana(-mana_req);
+            server_apply(level, player, 1, hand);
+        }
         return InteractionResult.SUCCESS;
     }
 

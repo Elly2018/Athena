@@ -1,5 +1,6 @@
 package com.elly.athena.gui.component;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IBattleHotbar;
 import com.elly.athena.data.interfaceType.IPlayerEquipment;
@@ -22,16 +23,8 @@ public class RPGHotbar {
     private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_selection");
 
     public static void getRPGHotBar(LocalPlayer player, GuiGraphics gui, DeltaTracker deltaTracker){
-        IPlayerEquipment equip_int = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
-        IBattleHotbar hotbar_int = player.getData(Attachment_Register.BATTLE_HOTBAR);
-        HumanoidArm humanoidarm = player.getMainArm().getOpposite();
-        NonNullList<ItemStack> hotbar = hotbar_int.getList();
-        ItemStack main = equip_int.getMain();
-        ItemStack secondary = equip_int.getSecondary();
-
         render_background(player, gui);
         render_items(player, gui, deltaTracker);
-
     }
 
     private static void render_background(LocalPlayer player, GuiGraphics gui){
@@ -58,9 +51,10 @@ public class RPGHotbar {
         int half_width = gui.guiWidth() / 2;
         int seed = 1;
         for(int i = 0; i < 9; i++){
-            int x = i - 90 + i * 20 + 2;
+            int x = half_width - 90 + i * 20 + 2;
             int y = gui.guiHeight() - 16 - 3;
-            renderSlot(gui, x, y, deltaTracker, player, hotbar.get(i), seed++);
+            ItemStack item = hotbar.get(i);
+            renderSlot(gui, x, y, deltaTracker, player, item, seed++);
         }
 
         if (!main.isEmpty()) {
@@ -92,7 +86,6 @@ public class RPGHotbar {
                 gui.pose().scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
                 gui.pose().translate((float)(-(x + 8)), (float)(-(y + 12)), 0.0F);
             }
-
             gui.renderItem(player, stack, x, y, seed);
             if (f > 0.0F) {
                 gui.pose().popPose();
@@ -101,6 +94,5 @@ public class RPGHotbar {
             Font font = Minecraft.getInstance().font;
             gui.renderItemDecorations(font, stack, x, y);
         }
-
     }
 }

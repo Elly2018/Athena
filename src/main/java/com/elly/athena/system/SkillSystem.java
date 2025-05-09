@@ -23,6 +23,6 @@ public class SkillSystem {
     }
 
     private static void applyCommonSkill(IPlayerSkill target){
-        target.setPoint("common", "skill.speed_boost", 0);
+        target.setPoint("common", "speed_boost", 0);
     }
 }
