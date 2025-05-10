@@ -14,8 +14,6 @@ import net.minecraft.world.entity.player.Player;
 public class Equipment_Screen extends AbstractContainerScreen<Equipment_Menu> {
 
     private static final ResourceLocation CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"textures/gui/container/equipment.png");
-
-
     private final Player player;
     protected int offsetWidth;
     protected int offsetHeight;

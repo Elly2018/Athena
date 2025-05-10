@@ -32,7 +32,15 @@ public class Config {
 
     private static final ModConfigSpec.IntValue HEAL_COUNTDOWN = BUILDER
             .comment("How long does the nature heal happen")
-            .defineInRange("heal_countdown", 40, -1, 99999);
+            .defineInRange("heal_countdown", 600, -1, 99999);
+
+    private static final ModConfigSpec.IntValue LEVEL_POINT = BUILDER
+            .comment("The amounts of status point when player level up")
+            .defineInRange("level_point", 5, 5, 99999);
+
+    private static final ModConfigSpec.IntValue LEVEL_SKILL_POINT = BUILDER
+            .comment("The amounts of skill point when player level up")
+            .defineInRange("level_skill", 5, 5, 99999);
 
     private static final ModConfigSpec.BooleanValue DAMAGE_COOLDOWN = BUILDER
             .comment("Has damage cooldown")
@@ -49,6 +57,8 @@ public class Config {
     public static boolean air_exist;
     public static boolean vanilla_exp_drop;
     public static int heal_countdown;
+    public static int level_point;
+    public static int level_skill;
     public static boolean damage_cooldown;
     public static Set<Item> items;
 
@@ -62,6 +72,8 @@ public class Config {
         air_exist = AIR_EXIST.get();
         vanilla_exp_drop = VANILLA_EXP_DROP.get();
         heal_countdown = HEAL_COUNTDOWN.get();
+        level_point = LEVEL_POINT.get();
+        level_skill = LEVEL_SKILL_POINT.get();
         damage_cooldown = DAMAGE_COOLDOWN.get();
 
         // convert the list of strings into a set of items

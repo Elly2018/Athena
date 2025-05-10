@@ -8,6 +8,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -82,6 +84,14 @@ public class Payload_Register {
                 new DirectionalPayloadHandler<>(
                         EquipmentPayload.ClientPayloadHandler::handleDataOnMain,
                         EquipmentPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
+        registrar.playBidirectional(
+                RightClickPayload.RightClickPayloadData.TYPE,
+                RightClickPayload.RightClickPayloadData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        RightClickPayload.ClientPayloadHandler::handleDataOnMain,
+                        RightClickPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
     }

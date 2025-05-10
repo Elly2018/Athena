@@ -17,6 +17,7 @@ import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ModContainer implements Container, Nameable {
     private final Player player;
     private NonNullList<ItemStack> equips;
     private NonNullList<ItemStack> hotbar;
-    private final List<NonNullList<ItemStack>> compartments;
+    private List<NonNullList<ItemStack>> compartments;
     private int timesChanged;
 
     public ModContainer(Player _player){
@@ -114,7 +115,7 @@ public class ModContainer implements Container, Nameable {
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int index) {
+    public @NotNull ItemStack removeItemNoUpdate(int index) {
         NonNullList<ItemStack> nonnulllist = null;
 
         for(NonNullList<ItemStack> nonnulllist1 : this.compartments) {
@@ -136,7 +137,7 @@ public class ModContainer implements Container, Nameable {
     }
 
     @Override
-    public void setItem(int i, ItemStack itemStack) {
+    public void setItem(int i, @NotNull ItemStack itemStack) {
         if(i >= getContainerSize()) return;
         if (i == 0) playerEquipment.setMain(itemStack);
         else if (i == 1) playerEquipment.setSecondary(itemStack);
@@ -170,6 +171,7 @@ public class ModContainer implements Container, Nameable {
         player.setData(Attachment_Register.BATTLE_HOTBAR, battleHotbar);
         equips = playerEquipment.getList();
         hotbar = battleHotbar.getList();
+        compartments = ImmutableList.of(equips, hotbar);
     }
 
 

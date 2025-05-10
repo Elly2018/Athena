@@ -41,6 +41,8 @@ import static com.elly.athena.keymap.KeyMap_Register.SWITCH_MAPPING;
 public class ClientGameHandler {
     public static Hud hub;
     static BlockingQueue<Runnable> gui_worker = new ArrayBlockingQueue<>(5);
+    static boolean status_mapping = false;
+    static boolean switch_mapping = false;
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -77,19 +79,38 @@ public class ClientGameHandler {
     }
 
     @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
+    @OnlyIn(Dist.CLIENT)
+    public static void onClientTickPre(ClientTickEvent.Pre event){
+
+    }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void onClientTickPost(ClientTickEvent.Post event) {
         Minecraft instance = Minecraft.getInstance();
         Player player = instance.player;
         assert player != null;
 
-        while (STATUS_MAPPING.get().consumeClick()) {
+        boolean status_mapping_buffer = STATUS_MAPPING.get().isDown();
+        boolean switch_mapping_buffer = SWITCH_MAPPING.get().isDown();
+
+        if (!status_mapping && status_mapping_buffer) {
             instance.setScreen(new Status_Screen(player));
+            status_mapping = true;
         }
-        while (SWITCH_MAPPING.get().consumeClick()) {
+        else if (status_mapping && !status_mapping_buffer){
+            status_mapping = false;
+        }
+
+        if (!switch_mapping && switch_mapping_buffer) {
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             int mode = ps.getMode();
             ps.setMode(mode == 0 ? 1 : 0);
             PacketDistributor.sendToServer(new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
+            switch_mapping = true;
+        }
+        else if (switch_mapping && !switch_mapping_buffer){
+            switch_mapping = false;
         }
     }
 }

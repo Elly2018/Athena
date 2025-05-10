@@ -26,6 +26,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Int = 1;
     private int Luk = 1;
     private int Point = 0;
+    private int Skill = 0;
     private int Mode = 0;
     public boolean Dirty = true;
 
@@ -77,6 +78,11 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void addPoint(int value) { this.Point += value; }
     @Override public void consumer(int value) { this.Point -= value; }
 
+    @Override public int getSkillPoint() { return this.Skill; }
+    @Override public void setSkillPoint(int value) { this.Skill = value; }
+    @Override public void addSkillPoint(int value) { this.Skill += value; }
+    @Override public void consumerSkill(int value) { this.Skill -= value; }
+
     @Override public int getStr() { return this.Str; }
     @Override public void setStr(int value) { this.Str = value; }
     @Override public void addStr(int value) { this.Str += value; }
@@ -100,6 +106,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         elementTag.putInt("int", this.Int);
         elementTag.putInt("luk", this.Luk);
         elementTag.putInt("point", this.Point);
+        elementTag.putInt("skill", this.Skill);
         elementTag.putInt("mode", this.Mode);
 
         CompoundTag nbt = new CompoundTag();
@@ -123,6 +130,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         this.Int = elementTag.getInt("int");
         this.Luk = elementTag.getInt("luk");
         this.Point = elementTag.getInt("point");
+        this.Skill = elementTag.getInt("skill");
         this.Mode = elementTag.getInt("mode");
     }
 }

@@ -37,7 +37,7 @@ public class SkillPayload {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
                 PlayerSkill ps = new PlayerSkill();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_SKILL, ps);
             });
         }
@@ -49,7 +49,7 @@ public class SkillPayload {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
                 PlayerSkill ps = new PlayerSkill();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 context.player().setData(Attachment_Register.PLAYER_SKILL, ps);
             });
         }

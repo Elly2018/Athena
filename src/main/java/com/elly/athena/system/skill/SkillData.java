@@ -5,9 +5,11 @@ public class SkillData {
     public String Name;
     // Skill level
     public int Point;
+    public int Cooldown;
 
-    public SkillData(String id, int point) {
+    public SkillData(String id, int point, int cooldown) {
         Name = id;
-        this.Point = point;
+        Point = point;
+        Cooldown = cooldown;
     }
 }

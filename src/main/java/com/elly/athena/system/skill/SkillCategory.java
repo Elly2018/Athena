@@ -3,6 +3,7 @@ package com.elly.athena.system.skill;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class SkillCategory implements INBTSerializable<CompoundTag> {
     public ArrayList<SkillData> Skills;
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         nbt.putString("name", Name);
         nbt.putInt("size", Skills.size());
@@ -23,13 +24,14 @@ public class SkillCategory implements INBTSerializable<CompoundTag> {
             CompoundTag local = new CompoundTag();
             local.putString("name", data.Name);
             local.putInt("point", data.Point);
+            local.putInt("cooldown", data.Cooldown);
             nbt.put(String.valueOf(i), local);
         }
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         this.Name = compoundTag.getString("name");
         int size = compoundTag.getInt("size");
         this.Skills = new ArrayList<>(size);
@@ -37,7 +39,8 @@ public class SkillCategory implements INBTSerializable<CompoundTag> {
             CompoundTag local = compoundTag.getCompound(String.valueOf(i));
             String n = local.getString("name");
             int p = local.getInt("point");
-            this.Skills.add(new SkillData(n, p));
+            int c = local.getInt("cooldown");
+            this.Skills.add(new SkillData(n, p, c));
         }
     }
 }

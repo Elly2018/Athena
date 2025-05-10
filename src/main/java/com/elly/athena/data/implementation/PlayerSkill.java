@@ -42,7 +42,7 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
         for(SkillData skill : cate.Skills){
             if(Objects.equals(skill.Name, name)) return skill;
         }
-        SkillData sd = new SkillData(name, -1);
+        SkillData sd = new SkillData(name, -1, 0);
         cate.Skills.add(sd);
         return sd;
     }
@@ -66,6 +66,29 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     }
 
     @Override
+    public void SetCooldown(String category, String name, int time) {
+        SkillData sd = getData(category, name);
+        sd.Cooldown = time;
+    }
+
+    @Override
+    public void UpdateCooldown() {
+        skills.forEach(x -> {
+            x.Skills.forEach(y -> {
+                if(y.Cooldown > 0){
+                    y.Cooldown--;
+                }
+            });
+        });
+    }
+
+    @Override
+    public boolean CheckCooldown(String category, String name) {
+        SkillData sd = getData(category, name);
+        return sd.Cooldown == 0;
+    }
+
+    @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("size", skills.size());
@@ -82,7 +105,7 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
         skills = new ArrayList<>(size);
         for(int i = 0; i < size; i++){
             SkillCategory sc = new SkillCategory();
-            sc.deserializeNBT(null, compoundTag.getCompound(String.valueOf(i)));
+            sc.deserializeNBT(provider, compoundTag.getCompound(String.valueOf(i)));
             skills.add(sc);
         }
     }

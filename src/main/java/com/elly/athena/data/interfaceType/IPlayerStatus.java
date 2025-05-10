@@ -51,6 +51,11 @@ public interface IPlayerStatus{
     void addPoint(int value);
     void consumer(int value);
 
+    int getSkillPoint();
+    void setSkillPoint(int value);
+    void addSkillPoint(int value);
+    void consumerSkill(int value);
+
     int getStr();
     void setStr(int value);
     void addStr(int value);

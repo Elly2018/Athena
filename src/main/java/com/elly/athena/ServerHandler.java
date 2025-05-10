@@ -34,6 +34,9 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -85,17 +88,28 @@ public class ServerHandler {
         Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickItem: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
-            onSkillUse(player, status);
+            onSkillUse(player);
             event.setCanceled(true);
         }
     }
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void onEntityInteract(PlayerInteractEvent.RightClickEmpty event){
         Player player = event.getEntity();
         Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickEmpty: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
-            onSkillUse(player, status);
+            PacketDistributor.sendToServer(new RightClickPayload.RightClickPayloadData(0));
+        }
+    }
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.RightClickBlock event){
+        Player player = event.getEntity();
+        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickBlock: %s", player.getName().getString()));
+        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        if(status.getMode() == 1) {
+            onSkillUse(player);
+            event.setCanceled(true);
         }
     }
     @SubscribeEvent
@@ -107,16 +121,20 @@ public class ServerHandler {
         }
     }
 
-    private static void onSkillUse(Player player, IPlayerStatus status){
+    public static void onSkillUse(Player player){
         ModContainer container = new ModContainer(player);
         ItemStack iss = container.getSelected();
-        if(iss == ItemStack.EMPTY) return;
+        if(iss == ItemStack.EMPTY) {
+            Athena.LOGGER.debug(String.format("onSkillUse but selected is empty: %s", player.getName().getString()));
+            return;
+        }
         if(iss.getItem() instanceof RPGPotion_Base){
+            Athena.LOGGER.debug(String.format("onSkillUse start use point: %s", player.getName().getString()));
             iss.use(player.level(), player, InteractionHand.MAIN_HAND);
         }
         else if(iss.getItem() instanceof RPGSkill_Base){
-            RPGSkill_Base item = (RPGSkill_Base) iss.getItem();
-            item.use(player.level(), player, InteractionHand.MAIN_HAND);
+            Athena.LOGGER.debug(String.format("onSkillUse start use skill: %s", player.getName().getString()));
+            iss.use(player.level(), player, InteractionHand.MAIN_HAND);
         }
     }
 
@@ -133,6 +151,8 @@ public class ServerHandler {
             if(ps.isLevelUp(ps.getLevel())){
                 ps.setExp(0);
                 ps.addLevel(1);
+                ps.addPoint(Config.level_point);
+                ps.addSkillPoint(Config.level_skill);
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
@@ -149,18 +169,8 @@ public class ServerHandler {
                         Component.empty()
                 ));
             }
+            pss.UpdateCooldown();
 
-            HolderLookup.Provider provider = new HolderLookup.Provider() {
-                @Override
-                public Stream<ResourceKey<? extends Registry<?>>> listRegistryKeys() {
-                    return Stream.empty();
-                }
-
-                @Override
-                public <T> Optional<? extends HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey) {
-                    return Optional.empty();
-                }
-            };
             PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
             PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(player.registryAccess())));
             PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(pe.serializeNBT(player.registryAccess())));

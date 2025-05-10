@@ -8,6 +8,7 @@ public abstract class RPGSkill_Header implements Item_Register.ItemRegisterData 
     @Override
     public Item.Properties get_behaviour() {
         return new Item.Properties()
+                .durability(100)
                 .stacksTo(1);
     }
 }
