@@ -43,7 +43,7 @@ public class RPGHotbar {
     private static void render_items(LocalPlayer player, GuiGraphics gui, DeltaTracker deltaTracker){
         IPlayerEquipment equip_int = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
         IBattleHotbar hotbar_int = player.getData(Attachment_Register.BATTLE_HOTBAR);
-        HumanoidArm humanoidarm = player.getMainArm().getOpposite();
+        HumanoidArm humanoidarm = player.getMainArm();
         NonNullList<ItemStack> hotbar = hotbar_int.getList();
         ItemStack main = equip_int.getMain();
         ItemStack secondary = equip_int.getSecondary();
@@ -59,10 +59,10 @@ public class RPGHotbar {
 
         if (!main.isEmpty()) {
             int i2 = gui.guiHeight() - 16 - 3;
-            if (humanoidarm == HumanoidArm.LEFT) {
-                renderSlot(gui, half_width - 91 - 26, i2, deltaTracker, player, main, seed++);
-            } else {
+            if (humanoidarm == HumanoidArm.RIGHT) {
                 renderSlot(gui, half_width + 91 + 10, i2, deltaTracker, player, main, seed++);
+            } else {
+                renderSlot(gui, half_width - 91 - 26, i2, deltaTracker, player, main, seed++);
             }
         }
 
