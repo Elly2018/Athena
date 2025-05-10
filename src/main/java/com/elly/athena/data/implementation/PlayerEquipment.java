@@ -120,9 +120,9 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
         if(hasMain()) nbt.put("Main", AddTag(provider, Main));
         if(hasSecondary()) nbt.put("Secondary", AddTag(provider, Secondary));
         if(hasRing0()) nbt.put("Ring0", AddTag(provider, Ring0));
-        if(hasRing1()) nbt.put("Ring0", AddTag(provider, Ring0));
-        if(hasRing2()) nbt.put("Ring0", AddTag(provider, Ring0));
-        if(hasRing3()) nbt.put("Ring0", AddTag(provider, Ring0));
+        if(hasRing1()) nbt.put("Ring1", AddTag(provider, Ring1));
+        if(hasRing2()) nbt.put("Ring2", AddTag(provider, Ring2));
+        if(hasRing3()) nbt.put("Ring3", AddTag(provider, Ring3));
         if(hasCape()) nbt.put("Cape", AddTag(provider, Cape));
         if(hasBelt()) nbt.put("Belt", AddTag(provider, Belt));
         if(hasFaceWear()) nbt.put("FaceWear", AddTag(provider, FaceWear));
@@ -137,9 +137,9 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
         if(compoundTag.contains("Main")) { Main = ItemStack.parseOptional(provider, compoundTag.getCompound("Main")); }
         if(compoundTag.contains("Secondary")) { Secondary = ItemStack.parseOptional(provider, compoundTag.getCompound("Secondary")); }
         if(compoundTag.contains("Ring0")) { Ring0 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring0")); }
-        if(compoundTag.contains("Ring0")) { Ring1 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring0")); }
-        if(compoundTag.contains("Ring0")) { Ring2 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring0")); }
-        if(compoundTag.contains("Ring0")) { Ring3 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring0")); }
+        if(compoundTag.contains("Ring1")) { Ring1 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring1")); }
+        if(compoundTag.contains("Ring2")) { Ring2 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring2")); }
+        if(compoundTag.contains("Ring3")) { Ring3 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring3")); }
         if(compoundTag.contains("Cape")) { Cape = ItemStack.parseOptional(provider, compoundTag.getCompound("Cape")); }
         if(compoundTag.contains("Belt")) { Belt = ItemStack.parseOptional(provider, compoundTag.getCompound("Belt")); }
         if(compoundTag.contains("FaceWear")) { FaceWear = ItemStack.parseOptional(provider, compoundTag.getCompound("FaceWear")); }

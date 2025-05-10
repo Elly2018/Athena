@@ -24,5 +24,6 @@ public class SkillSystem {
 
     private static void applyCommonSkill(IPlayerSkill target){
         target.setPoint("common", "speed_boost", 0);
+        target.setPoint("common", "healing", 0);
     }
 }

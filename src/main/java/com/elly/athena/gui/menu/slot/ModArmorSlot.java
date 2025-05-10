@@ -77,5 +77,6 @@ public class ModArmorSlot extends Slot {
         if(!owner.isSilent())
             owner.level().playSeededSound((Player)null, owner.getX(), owner.getY(), owner.getZ(), SoundEvents.ARMOR_EQUIP_CHAIN, owner.getSoundSource(), 1.0F, 1.0F, owner.getRandom().nextLong());
         owner.gameEvent(canEquip ? GameEvent.EQUIP : GameEvent.UNEQUIP);
+        this.setChanged();
     }
 }

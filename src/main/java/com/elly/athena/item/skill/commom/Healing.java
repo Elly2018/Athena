@@ -21,7 +21,7 @@ public class Healing extends RPGSkill_Header {
         @Override
         public void server_apply(Level world, Player player, int level, InteractionHand hand) {
             player.addEffect(new MobEffectInstance(
-                    MobEffects.HEAL, (10 + (level * 2)) * 20, (int) Math.ceil(level / 3F) - 1
+                    MobEffects.REGENERATION, (10 + (level * 2)) * 20, (int) Math.ceil(level / 3F) - 1
             ));
         }
 
