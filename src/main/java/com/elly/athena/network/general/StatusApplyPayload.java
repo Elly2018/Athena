@@ -41,7 +41,7 @@ public class StatusApplyPayload {
         public static void handleDataOnMain(final StatusApplyData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 PlayerStatus buffer = new PlayerStatus();
-                buffer.deserializeNBT(null, data.data);
+                buffer.deserializeNBT(context.player().registryAccess(), data.data);
 
                 Player player = context.player();
                 PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);

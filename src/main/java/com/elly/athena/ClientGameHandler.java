@@ -89,7 +89,7 @@ public class ClientGameHandler {
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             int mode = ps.getMode();
             ps.setMode(mode == 0 ? 1 : 0);
-            PacketDistributor.sendToServer(new StatusPayload.StatusData(ps.serializeNBT(null)));
+            PacketDistributor.sendToServer(new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
         }
     }
 }

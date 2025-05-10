@@ -3,8 +3,8 @@ package com.elly.athena.system;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
-import com.elly.athena.data.implementation.PlayerEquipment;
-import com.elly.athena.data.implementation.PlayerSkill;
+import com.elly.athena.data.interfaceType.IPlayerEquipment;
+import com.elly.athena.data.interfaceType.IPlayerSkill;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.core.Holder;
@@ -184,7 +184,8 @@ public class BattleSystem {
         }
 
         public int DamageCalculat(){
-            return 0;
+            BattleSystemStruct fi = GetSourceFinal();
+            return random.nextIntBetweenInclusive(fi.MinDamage, fi.MaxDamage);
         }
 
         public int MagicDamageCalculat(RPGSkill_Base skill, int level){
@@ -246,8 +247,9 @@ public class BattleSystem {
         // Get base value
         BattleSystemStruct r = new BattleSystemProvider(player).GetSourceBasic();
 
-        PlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
-        PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
+        IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        IPlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
+        IPlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
         NonNullList<ItemStack> am = player.getInventory().armor; // size 4
         NonNullList<ItemStack> pem = pe.getList(); // size 4
 

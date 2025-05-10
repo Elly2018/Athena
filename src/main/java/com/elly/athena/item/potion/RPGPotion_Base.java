@@ -41,7 +41,7 @@ public class RPGPotion_Base extends Item {
 
         if(!pass) return InteractionResult.FAIL;
         else{
-            PacketDistributor.sendToServer(new StatusPayload.StatusData(target.serializeNBT(null)));
+            PacketDistributor.sendToServer(new StatusPayload.StatusData(target.serializeNBT(player.registryAccess())));
         }
 
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);

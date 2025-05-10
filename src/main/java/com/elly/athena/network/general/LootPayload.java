@@ -59,7 +59,7 @@ public class LootPayload {
         public static void handleDataOnMain(final LootPayload.LootData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
                 PlayerStatus ps = context.player().getData(Attachment_Register.PLAYER_STATUS);
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
             });
         }
     }

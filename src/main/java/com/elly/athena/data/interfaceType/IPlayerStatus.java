@@ -1,5 +1,7 @@
 package com.elly.athena.data.interfaceType;
 
+import com.elly.athena.data.types.JobType;
+
 public interface IPlayerStatus{
     int getCoin();
     boolean HaveCoin(int value);
@@ -26,8 +28,8 @@ public interface IPlayerStatus{
     void setInt(int value);
     void addInt(int value);
 
-    String getJob();
-    void setJob(String value);
+    JobType getJob();
+    void setJob(JobType value);
 
     int getLevel();
     void setLevel(int value);

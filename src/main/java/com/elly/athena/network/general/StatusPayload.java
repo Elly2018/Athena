@@ -38,7 +38,7 @@ public class StatusPayload {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
                 PlayerStatus ps = new PlayerStatus();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_STATUS, ps);
             });
         }
@@ -50,7 +50,7 @@ public class StatusPayload {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
                 PlayerStatus ps = new PlayerStatus();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 context.player().setData(Attachment_Register.PLAYER_STATUS, ps);
             });
         }

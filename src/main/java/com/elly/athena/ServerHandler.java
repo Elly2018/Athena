@@ -15,6 +15,7 @@ import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.network.general.*;
 import com.elly.athena.sound.Sound_Register;
+import com.elly.athena.system.BattleSystem;
 import com.elly.athena.system.SkillSystem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
@@ -182,6 +183,13 @@ public class ServerHandler {
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent.Pre event){
         if(!Config.damage_cooldown) event.getEntity().invulnerableTime = 0;
+        Entity entity = event.getSource().getEntity();
+        if(entity instanceof Player){
+            Player player = (Player) entity;
+            IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            var battle = new BattleSystem.BattleSystemProvider(player);
+            event.setNewDamage(battle.DamageCalculat());
+        }
     }
 
     @SubscribeEvent

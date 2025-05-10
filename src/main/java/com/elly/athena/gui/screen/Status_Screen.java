@@ -272,7 +272,7 @@ public class Status_Screen extends Screen {
         ps.setInt(adding.get(2));
         ps.setLuk(adding.get(3));
         ps.setPoint(-totalUsePoint());
-        PacketDistributor.sendToServer(new StatusApplyPayload.StatusApplyData(ps.serializeNBT(null)));
+        PacketDistributor.sendToServer(new StatusApplyPayload.StatusApplyData(ps.serializeNBT(player.registryAccess())));
         adding.replaceAll(ignored -> 0);
         this.onClose();
     }

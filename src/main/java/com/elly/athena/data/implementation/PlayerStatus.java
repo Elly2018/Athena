@@ -1,19 +1,21 @@
 package com.elly.athena.data.implementation;
 
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.types.JobType;
 import com.elly.athena.system.BattleSystem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.Optional;
 
 public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag> {
     private int Coin = 0;
-    private String Job = "none";
+    private JobType Job = JobType.NEWBIE;
     private int Level = 1;
     private int Exp = 0;
     private int MaxHealth = 20;
@@ -40,8 +42,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void setExp(int value) { this.Exp = value; }
     @Override public boolean isLevelUp(int level) { return this.Exp >= this.getExpMaximum(level); }
 
-    @Override public String getJob() { return this.Job; }
-    @Override public void setJob(String value) { this.Job = value; }
+    @Override public JobType getJob() { return this.Job; }
+    @Override public void setJob(JobType value) { this.Job = value; }
 
     @Override public int getHealthMaximum() { return this.MaxHealth; }
     @Override public void setMaxHealth(int value) { this.MaxHealth = value; }
@@ -83,11 +85,11 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void setMode(int value) { Mode = value; }
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag elementTag = new CompoundTag();
 
         elementTag.putInt("coin", this.Coin);
-        elementTag.putString("job", this.Job);
+        elementTag.putInt("job", this.Job.id);
         elementTag.putInt("level", this.Level);
         elementTag.putInt("exp", this.Exp);
         elementTag.putInt("max_health", this.MaxHealth);
@@ -106,11 +108,11 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         CompoundTag elementTag = compoundTag.getCompound("status");
 
         this.Coin = elementTag.getInt("coin");
-        this.Job = elementTag.getString("job");
+        this.Job = JobType.getEnumFromId(elementTag.getInt("job"));
         this.Level = elementTag.getInt("level");
         this.Exp = elementTag.getInt("exp");
         this.MaxHealth = elementTag.getInt("max_health");
