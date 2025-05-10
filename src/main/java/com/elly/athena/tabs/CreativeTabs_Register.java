@@ -69,7 +69,7 @@ public class CreativeTabs_Register {
         categories = new ArrayList<TabsCategory>();
         categories.add(new TabsCategory(
                 new String[]{
-                        "symmetric_anchor"
+                        "market_block"
                 },
                 new String[]{
                         "hp_potion",
@@ -86,11 +86,21 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
+                        "leather_belt",
+                        "single_earring"
+                },
+                "athena_equipment", "Athena Equipment"
+        ));
+        categories.add(new TabsCategory(
+                new String[]{
+
+                },
+                new String[]{
                         "sword",
                         "spear",
                         "wand",
                         "staff",
-                        "bow.json",
+                        "bow",
                 },
                 "athena_weapon", "Athena Weapon"
         ));
@@ -100,6 +110,7 @@ public class CreativeTabs_Register {
                 },
                 new String[]{
                         "speed_boost",
+                        "healing",
                         "hp_boost",
                         "wind_slash",
                 },
