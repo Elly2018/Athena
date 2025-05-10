@@ -9,7 +9,11 @@ public enum JobType implements StringRepresentable {
     NEWBIE(0, "newbie"),
     WARRIOR(1, "warrior"),
     MAGICIAN(2, "magician"),
-    ARCHER(3, "archer");
+    ARCHER(3, "archer"),
+
+    KNIGHT(4, "knight"),
+    PRIEST(5, "priest"),
+    PATHFINDER(6, "path finder");
 
     public static class Tree{
         public final JobType base;
@@ -22,9 +26,15 @@ public enum JobType implements StringRepresentable {
     }
 
     private static final Tree[] GlobalTrees = {
-            new Tree(JobType.WARRIOR, new Tree[0]),
-            new Tree(JobType.MAGICIAN, new Tree[0]),
-            new Tree(JobType.ARCHER, new Tree[0]),
+        new Tree(JobType.WARRIOR, new Tree[]{
+            new Tree(JobType.KNIGHT, new Tree[0])
+        }),
+        new Tree(JobType.MAGICIAN, new Tree[]{
+            new Tree(JobType.PRIEST, new Tree[0])
+        }),
+        new Tree(JobType.ARCHER, new Tree[]{
+            new Tree(JobType.PATHFINDER, new Tree[0])
+        }),
     };
     public final int id;
     public final String name;
