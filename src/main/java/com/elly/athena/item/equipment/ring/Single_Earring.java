@@ -1,6 +1,7 @@
 package com.elly.athena.item.equipment.ring;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.equipment.RPGEquip_Base;
 import net.minecraft.resources.ResourceLocation;
@@ -18,12 +19,13 @@ public class Single_Earring implements Item_Register.ItemRegisterData {
     static class Single_Earring_Equip extends RPGEquip_Base {
         public Single_Earring_Equip(Properties properties) {
             super(properties);
+            slot = ModEquipmentSlot.RING0;
         }
     }
 
     @Override
     public String get_key() {
-        return "equip.single_earring";
+        return "single_earring";
     }
 
     @Override

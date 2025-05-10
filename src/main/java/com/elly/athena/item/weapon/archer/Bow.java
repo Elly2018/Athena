@@ -17,7 +17,7 @@ public class Bow implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "bow.json";
+        return "bow";
     }
 
     @Override

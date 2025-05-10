@@ -1,6 +1,7 @@
 package com.elly.athena.item;
 
 import com.elly.athena.item.equipment.belt.LeatherBelt;
+import com.elly.athena.item.equipment.ring.Single_Earring;
 import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
@@ -54,6 +55,8 @@ public class Item_Register {
                 new MP_Potion(),
                 new MP_Potion_Large(),
                 new Elixir(),
+                // ring
+                new Single_Earring(),
                 // belt
                 new LeatherBelt(),
                 // weapon warrior

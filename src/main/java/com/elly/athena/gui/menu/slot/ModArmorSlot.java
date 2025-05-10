@@ -33,9 +33,9 @@ public class ModArmorSlot extends Slot {
         this.equip = owner.getData(Attachment_Register.PLAYER_EQUIPMENT);
     }
 
-    public void setByPlayer(@NotNull ItemStack oldItem, @NotNull ItemStack newItem) {
-        onEquipItem(newItem, oldItem);
-        super.setByPlayer(oldItem, newItem);
+    public void setByPlayer(@NotNull ItemStack newItem, @NotNull ItemStack oldItem) {
+        onEquipItem(oldItem, newItem);
+        super.setByPlayer(newItem, oldItem);
     }
 
     public int getMaxStackSize() {
@@ -74,9 +74,8 @@ public class ModArmorSlot extends Slot {
         if(flag) return;
         if(ItemStack.isSameItemSameComponents(oldItem, newItem)) return;
         boolean canEquip = mayPlace(newItem);
-        if(!canEquip) return;
-
-        owner.level().playSeededSound((Player)null, owner.getX(), owner.getY(), owner.getZ(), SoundEvents.ARMOR_EQUIP_CHAIN, owner.getSoundSource(), 1.0F, 1.0F, owner.getRandom().nextLong());
-        owner.gameEvent(GameEvent.EQUIP);
+        if(!owner.isSilent())
+            owner.level().playSeededSound((Player)null, owner.getX(), owner.getY(), owner.getZ(), SoundEvents.ARMOR_EQUIP_CHAIN, owner.getSoundSource(), 1.0F, 1.0F, owner.getRandom().nextLong());
+        owner.gameEvent(canEquip ? GameEvent.EQUIP : GameEvent.UNEQUIP);
     }
 }

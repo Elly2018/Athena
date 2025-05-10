@@ -28,9 +28,9 @@ public class ArmorSlot extends Slot {
     }
 
     @Override
-    public void setByPlayer(ItemStack p_345031_, ItemStack p_344961_) {
-        this.owner.onEquipItem(this.slot, p_344961_, p_345031_);
-        super.setByPlayer(p_345031_, p_344961_);
+    public void setByPlayer(ItemStack newItem, ItemStack oldItem) {
+        this.owner.onEquipItem(this.slot, oldItem, newItem);
+        super.setByPlayer(newItem, oldItem);
     }
 
     @Override
