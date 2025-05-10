@@ -2,29 +2,22 @@ package com.elly.athena.gui.screen;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.implementation.PlayerSkill;
 import com.elly.athena.data.interfaceType.IPlayerSkill;
 import com.elly.athena.gui.menu.Skill_Menu;
-import com.elly.athena.item.Item_Register;
-import com.elly.athena.network.menu.SkillMenuPayload;
 import com.elly.athena.system.skill.SkillCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
-import static com.elly.athena.gui.Utility.drawFont;
+import static com.elly.athena.gui.RenderUtility.drawFont;
 
 public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
 

@@ -58,6 +58,7 @@ public enum JobType implements StringRepresentable {
     }
 
     public static boolean CheckJobInheritance(JobType base, JobType target){
+        if(base == JobType.NEWBIE) return true;
         Tree baseTree = findBase(base);
         if(baseTree == null) return false;
         return find(baseTree, target) != null;

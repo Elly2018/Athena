@@ -5,9 +5,10 @@ import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
 import com.elly.athena.data.implementation.PlayerSkill;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IDamage_Record;
+import com.elly.athena.data.interfaceType.IDamageRecord;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
+import com.elly.athena.entity.HealEvent;
 import com.elly.athena.gui.menu.Equipment_Menu;
 import com.elly.athena.gui.menu.Skill_Menu;
 import com.elly.athena.item.Item_Register;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
@@ -43,6 +45,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -95,6 +98,14 @@ public class ServerHandler {
             onSkillUse(player, status);
         }
     }
+    @SubscribeEvent
+    public static void onBlockPlace(BlockEvent.EntityPlaceEvent event){
+        if(event.getEntity() instanceof Player){
+            Player player = (Player) event.getEntity();
+            IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+            if(ps.getMode() == 1) event.setCanceled(true);
+        }
+    }
 
     private static void onSkillUse(Player player, IPlayerStatus status){
         ModContainer container = new ModContainer(player);
@@ -111,6 +122,7 @@ public class ServerHandler {
 
     @SubscribeEvent
     public static void update(ServerTickEvent.Pre event){
+        HealEvent.onUpdate(event.getServer().getPlayerList().getPlayers());
         event.getServer().getPlayerList().getPlayers().forEach( player -> {
 
             PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
@@ -184,12 +196,16 @@ public class ServerHandler {
     public static void onLivingDamage(LivingDamageEvent.Pre event){
         if(!Config.damage_cooldown) event.getEntity().invulnerableTime = 0;
         Entity entity = event.getSource().getEntity();
-        if(entity instanceof Player){
-            Player player = (Player) entity;
-            IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        if(entity instanceof Player player){
             var battle = new BattleSystem.BattleSystemProvider(player);
-            event.setNewDamage(battle.DamageCalculat());
+            var damage = battle.DamageCalculat();
+            event.setNewDamage(damage);
         }
+    }
+
+    @SubscribeEvent
+    public static void onTossItem(ItemTossEvent event){
+
     }
 
     @SubscribeEvent
@@ -197,12 +213,12 @@ public class ServerHandler {
         if(event.getSource().getEntity() instanceof Player){
             Player player = (Player)event.getSource().getEntity();
             LivingEntity le = event.getEntity();
-            IDamage_Record record = event.getEntity().getData(Attachment_Register.DAMAGE_SOURCE);
+            IDamageRecord record = event.getEntity().getData(Attachment_Register.DAMAGE_SOURCE);
             if(record != null && player != null){
                 record.addPlayerSource(player, (int)event.getAmount());
                 Athena.LOGGER.debug(String.format("Added player %s to damage table of the %s %d", player.getUUID(), le.getName().getString(), (int)event.getAmount()));
             }else{
-                Athena.LOGGER.warn(String.format("Failed assign to damage table: %b, %b", record != null, player != null));
+                Athena.LOGGER.warn(String.format("Failed assign to damage table: %b", record != null));
             }
         }
     }
@@ -210,7 +226,7 @@ public class ServerHandler {
     @SubscribeEvent
     public static void onLivingKill(LivingDeathEvent event){
         LivingEntity le = event.getEntity();
-        IDamage_Record record = le.getData(Attachment_Register.DAMAGE_SOURCE);
+        IDamageRecord record = le.getData(Attachment_Register.DAMAGE_SOURCE);
         if(record != null && m_Server != null){
             HashMap<UUID, Float> table = record.getPlayerTable();
             var ref = new Object() {
@@ -268,15 +284,19 @@ public class ServerHandler {
         if(!ie.hasPickUpDelay()){
             if(is.getItem() == cointype){
                 count = is.getCount();
+                player.playSound(Sound_Register.Meso.get());
             }
             else if(is.getItem() == goldencointype){
                 count = is.getCount() * 100;
+                player.playSound(Sound_Register.Meso.get());
             }
             else if(is.getItem() == coinbagtype){
                 count = is.getCount() * 1000;
+                player.playSound(Sound_Register.Meso.get());
             }
             else if(is.getItem() == goldencoinbagtype){
                 count = is.getCount() * 10000;
+                player.playSound(Sound_Register.Meso.get());
             }
         }
         if(count > 0){

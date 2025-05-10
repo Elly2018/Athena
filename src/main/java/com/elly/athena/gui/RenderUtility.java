@@ -1,6 +1,5 @@
 package com.elly.athena.gui;
 
-import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -10,9 +9,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Objects;
-
-public class Utility {
+public class RenderUtility {
     public static void drawMediumBar(ResourceLocation icon, GuiGraphics gui, int posX, int posY, int bar, float fill) {
         int barNumber = bar * 10 - 10;
         int barNumberBG = bar * 10 - 4;

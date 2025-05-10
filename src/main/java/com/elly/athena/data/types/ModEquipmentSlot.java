@@ -31,6 +31,11 @@ public enum ModEquipmentSlot implements StringRepresentable {
         this.name = name;
     }
 
+    public static boolean checkEquipable(int menuSlot, int equipState){
+        if(menuSlot >= 2 && menuSlot <= 5 && equipState == 2) return true;
+        else return menuSlot == equipState;
+    }
+
     @Override
     public String getSerializedName() {
         return this.name;

@@ -20,7 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 
-import static com.elly.athena.gui.Utility.drawFont;
+import static com.elly.athena.gui.RenderUtility.drawFont;
 
 public class Status_Screen extends Screen {
 

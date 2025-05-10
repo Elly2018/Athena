@@ -1,11 +1,14 @@
 package com.elly.athena.item;
 
+import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
 import com.elly.athena.item.etc.GoldenCoinBag;
 import com.elly.athena.item.potion.*;
+import com.elly.athena.item.skill.commom.Healing;
 import com.elly.athena.item.skill.commom.SpeedBoost;
+import com.elly.athena.item.skill.magician.MagicBall;
 import com.elly.athena.item.skill.warrior.HPBoost;
 import com.elly.athena.item.skill.warrior.WindSlash;
 import com.elly.athena.item.weapon.archer.Bow;
@@ -51,6 +54,8 @@ public class Item_Register {
                 new MP_Potion(),
                 new MP_Potion_Large(),
                 new Elixir(),
+                // belt
+                new LeatherBelt(),
                 // weapon warrior
                 new Sword(),
                 new Spear(),
@@ -61,9 +66,13 @@ public class Item_Register {
                 new Bow(),
                 // skill common
                 new SpeedBoost(),
+                new Healing(),
                 // skill warrior
                 new HPBoost(),
                 new WindSlash(),
+                // skill magician
+                new MagicBall(),
+                // skill archer
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

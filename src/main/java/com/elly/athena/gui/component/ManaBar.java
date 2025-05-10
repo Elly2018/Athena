@@ -7,8 +7,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.profiling.Profiler;
 
 import static com.elly.athena.gui.Hud.TEX_HUD_BAR;
-import static com.elly.athena.gui.Utility.drawFontWithShadow;
-import static com.elly.athena.gui.Utility.drawMediumBar;
+import static com.elly.athena.gui.RenderUtility.drawFontWithShadow;
+import static com.elly.athena.gui.RenderUtility.drawMediumBar;
 
 public class ManaBar {
     public static void getManaValue(LocalPlayer player, GuiGraphics gui) {

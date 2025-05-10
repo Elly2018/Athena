@@ -30,6 +30,10 @@ public class Config {
             .comment("What you want the introduction message to be for the magic number")
             .define("vanilla_exp_drop", false);
 
+    private static final ModConfigSpec.IntValue HEAL_COUNTDOWN = BUILDER
+            .comment("How long does the nature heal happen")
+            .defineInRange("heal_countdown", 40, -1, 99999);
+
     private static final ModConfigSpec.BooleanValue DAMAGE_COOLDOWN = BUILDER
             .comment("Has damage cooldown")
             .define("damage_cooldown", false);
@@ -44,6 +48,7 @@ public class Config {
     public static boolean hunger_exist;
     public static boolean air_exist;
     public static boolean vanilla_exp_drop;
+    public static int heal_countdown;
     public static boolean damage_cooldown;
     public static Set<Item> items;
 
@@ -56,6 +61,7 @@ public class Config {
         hunger_exist = HUNGER_EXIST.get();
         air_exist = AIR_EXIST.get();
         vanilla_exp_drop = VANILLA_EXP_DROP.get();
+        heal_countdown = HEAL_COUNTDOWN.get();
         damage_cooldown = DAMAGE_COOLDOWN.get();
 
         // convert the list of strings into a set of items

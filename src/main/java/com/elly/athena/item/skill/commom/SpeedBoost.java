@@ -2,6 +2,7 @@ package com.elly.athena.item.skill.commom;
 
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import com.elly.athena.item.skill.RPGSkill_Header;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -10,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.joml.Math;
 
-public class SpeedBoost implements Item_Register.ItemRegisterData {
+public class SpeedBoost extends RPGSkill_Header {
 
     static class SpeedBoost_RPG_Skill extends RPGSkill_Base {
         public SpeedBoost_RPG_Skill(Properties properties) {
@@ -34,12 +35,6 @@ public class SpeedBoost implements Item_Register.ItemRegisterData {
     @Override
     public String get_key() {
         return "speed_boost";
-    }
-
-    @Override
-    public Item.Properties get_behaviour() {
-        return new Item.Properties()
-                .stacksTo(1);
     }
 
     @Override

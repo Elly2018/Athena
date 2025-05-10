@@ -2,6 +2,7 @@ package com.elly.athena.item.skill;
 
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.types.JobType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +29,8 @@ public class RPGSkill_Base extends Item {
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         int mana_req = requireMana(1);
         if(ps.getMana() < mana_req) return InteractionResult.FAIL;
+        JobType job = ps.getJob();
+        if(!JobType.CheckJobInheritance(requireJob(), job)) return InteractionResult.FAIL;
 
         if(!player.isLocalPlayer()) {
             ps.addMana(-mana_req);
@@ -38,4 +41,5 @@ public class RPGSkill_Base extends Item {
 
     public void server_apply(Level world, Player player, int level, InteractionHand hand){ }
     public int requireMana(int level) { return 1; }
+    public JobType requireJob() { return JobType.NEWBIE; }
 }

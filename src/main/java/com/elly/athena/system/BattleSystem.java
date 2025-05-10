@@ -185,7 +185,9 @@ public class BattleSystem {
 
         public int DamageCalculat(){
             BattleSystemStruct fi = GetSourceFinal();
-            return random.nextIntBetweenInclusive(fi.MinDamage, fi.MaxDamage);
+            if(fi.MinDamage == fi.MaxDamage) return fi.MinDamage;
+            Athena.LOGGER.debug(String.format("DamageCalculat: %d - %d", fi.MinDamage, fi.MaxDamage));
+            return Math.abs(random.nextInt(fi.MinDamage, fi.MaxDamage - fi.MinDamage));
         }
 
         public int MagicDamageCalculat(RPGSkill_Base skill, int level){
@@ -283,21 +285,21 @@ public class BattleSystem {
             AttributeModifier modifier = entry.modifier();
             Holder<Attribute> att = entry.attribute();
             AttributeModifier.Operation ops = modifier.operation();
-            if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_VALUE)                                vs[0].Defense += (int) modifier.amount();
-            else if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)                 vs[1].Defense += (int) modifier.amount();
-            else if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)                vs[2].Defense += (int) modifier.amount();
-            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_VALUE)                      vs[0].MaxHP += (int) modifier.amount();
-            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)            vs[1].MaxHP += (int) modifier.amount();
-            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)           vs[2].MaxHP += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_VALUE)                   vs[0].MinDamage += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)         vs[1].MinDamage += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)        vs[2].MinDamage += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_VALUE)                    vs[0].AttackSpeed += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)          vs[1].AttackSpeed += (int) modifier.amount();
-            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)         vs[2].AttackSpeed += (int) modifier.amount();
-            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_VALUE)            vs[0].MinMagicDamage += (int) modifier.amount();
-            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)  vs[1].MinMagicDamage += (int) modifier.amount();
-            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) vs[2].MinMagicDamage += (int) modifier.amount();
+            if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_VALUE)                                {  vs[0].Defense += (int) modifier.amount();  }
+            else if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)                 {  vs[1].Defense += (int) modifier.amount();  }
+            else if(att == Attributes.ARMOR && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)                {  vs[2].Defense += (int) modifier.amount();  }
+            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_VALUE)                      {  vs[0].MaxHP += (int) modifier.amount();  }
+            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)            {  vs[1].MaxHP += (int) modifier.amount();  }
+            else if(att == Attributes.MAX_HEALTH && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)           {  vs[2].MaxHP += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_VALUE)                   {  vs[0].MinDamage += (int) modifier.amount(); vs[0].MaxDamage += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)         {  vs[1].MinDamage += (int) modifier.amount(); vs[1].MaxDamage += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_DAMAGE && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)        {  vs[2].MinDamage += (int) modifier.amount(); vs[2].MaxDamage += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_VALUE)                    {  vs[0].AttackSpeed += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)          {  vs[1].AttackSpeed += (int) modifier.amount();  }
+            else if(att == Attributes.ATTACK_SPEED && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)         {  vs[2].AttackSpeed += (int) modifier.amount();  }
+            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_VALUE)            {  vs[0].MinMagicDamage += (int) modifier.amount();  }
+            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_MULTIPLIED_BASE)  {  vs[1].MinMagicDamage += (int) modifier.amount();  }
+            else if(att == Attribute_Register.MAGIC_ATTACK && ops == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {  vs[2].MinMagicDamage += (int) modifier.amount();  }
         }
         return vs;
     }

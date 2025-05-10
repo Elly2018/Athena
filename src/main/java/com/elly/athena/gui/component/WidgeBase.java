@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 
 import static com.elly.athena.gui.Hud.*;
-import static com.elly.athena.gui.Utility.*;
+import static com.elly.athena.gui.RenderUtility.*;
 
 public class WidgeBase {
     public static void getWidgetBase(LocalPlayer player, GuiGraphics gui) {

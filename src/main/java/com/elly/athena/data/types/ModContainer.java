@@ -198,12 +198,8 @@ public class ModContainer implements Container, Nameable {
         }
         else if (slot == 1){
             return item instanceof ShieldItem;
-        }
-        else if (slot >= 2 && slot <= 5 && record != null){
-            return record.slot() == ModEquipmentSlot.RING0.index;
-        }
-        else if (record != null){
-            return record.slot() == slot;
+        }else if (record != null) {
+            return ModEquipmentSlot.checkEquipable(slot, record.slot());
         }else{
             return false;
         }

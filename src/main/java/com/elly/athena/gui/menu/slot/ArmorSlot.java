@@ -18,32 +18,41 @@ public class ArmorSlot extends Slot {
     @Nullable
     private final ResourceLocation emptyIcon;
 
-    public ArmorSlot(Container container, LivingEntity owner, EquipmentSlot slot, int slotIndex, int x, int y, @Nullable ResourceLocation emptyIcon) {
+    public ArmorSlot(
+            Container container, LivingEntity owner, EquipmentSlot slot, int slotIndex, int x, int y, @Nullable ResourceLocation emptyIcon
+    ) {
         super(container, slotIndex, x, y);
         this.owner = owner;
         this.slot = slot;
         this.emptyIcon = emptyIcon;
     }
 
+    @Override
     public void setByPlayer(ItemStack p_345031_, ItemStack p_344961_) {
         this.owner.onEquipItem(this.slot, p_344961_, p_345031_);
         super.setByPlayer(p_345031_, p_344961_);
     }
 
+    @Override
     public int getMaxStackSize() {
         return 1;
     }
 
+    @Override
     public boolean mayPlace(ItemStack p_345029_) {
-        return p_345029_.canEquip(this.slot, this.owner);
+        return p_345029_.canEquip(slot, owner);
     }
 
+    @Override
     public boolean mayPickup(Player p_345575_) {
         ItemStack itemstack = this.getItem();
-        return !itemstack.isEmpty() && !p_345575_.isCreative() && EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE) ? false : super.mayPickup(p_345575_);
+        return !itemstack.isEmpty() && !p_345575_.isCreative() && EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)
+                ? false
+                : super.mayPickup(p_345575_);
     }
 
     @Nullable
+    @Override
     public ResourceLocation getNoItemIcon() {
         return this.emptyIcon;
     }

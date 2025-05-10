@@ -1,9 +1,11 @@
 package com.elly.athena.gui.menu;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.menu.slot.ArmorSlot;
+import com.elly.athena.gui.menu.slot.ModArmorSlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,9 +26,16 @@ public class Equipment_Menu extends AbstractContainerMenu {
     private static final EquipmentSlot[] SLOT_IDS = new EquipmentSlot[]{
             EquipmentSlot.HEAD, EquipmentSlot.CHEST,
             EquipmentSlot.LEGS, EquipmentSlot.FEET};
-    private static final ModEquipmentSlot[] Mod_SLOT_IDS = new ModEquipmentSlot[]{
-            ModEquipmentSlot.RING0, ModEquipmentSlot.RING1,
-            ModEquipmentSlot.RING2, ModEquipmentSlot.RING3};
+
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_MAIN = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "slot/main");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_SECOND = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/second");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_RING = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/ring");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_CAPE = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/cape");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_BELT = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/belt");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_FACE = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/face");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_NECK = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/neck");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_GLOVE = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/glove");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_ORB = ResourceLocation.fromNamespaceAndPath(Athena.MODID,"slot/orb");
 
     private final ModContainer inventory;
     private final Player player;
@@ -56,21 +65,21 @@ public class Equipment_Menu extends AbstractContainerMenu {
         }
 
         // custom equipment
-        this.addSlot(new Slot(inventory, 0, 117, 62));
-        this.addSlot(new Slot(inventory, 1, 137, 62));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.MAIN,0, 117, 62, EMPTY_ARMOR_SLOT_MAIN));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.SECONDARY, 1, 137, 62, EMPTY_ARMOR_SLOT_SECOND));
 
-        this.addSlot(new Slot(inventory, 2, 77, 8));
-        this.addSlot(new Slot(inventory, 3, 77, 8 + 18));
-        this.addSlot(new Slot(inventory, 4, 77, 8 + 18 * 2));
-        this.addSlot(new Slot(inventory, 5, 77, 8 + 18 * 3));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.RING0, 2, 77, 8, EMPTY_ARMOR_SLOT_RING));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.RING1, 3, 77, 8 + 18, EMPTY_ARMOR_SLOT_RING));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.RING2, 4, 77, 8 + 18 * 2, EMPTY_ARMOR_SLOT_RING));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.RING3, 5, 77, 8 + 18 * 3, EMPTY_ARMOR_SLOT_RING));
 
-        this.addSlot(new Slot(inventory, 8, 97, 8));
-        this.addSlot(new Slot(inventory, 9, 97, 8 + 18));
-        this.addSlot(new Slot(inventory, 7, 97, 8 + 18 * 2));
-        this.addSlot(new Slot(inventory, 6, 97, 8 + 18 * 3));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.FACE, 8, 97, 8, EMPTY_ARMOR_SLOT_FACE));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.NECK, 9, 97, 8 + 18, EMPTY_ARMOR_SLOT_NECK));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.BELT, 7, 97, 8 + 18 * 2, EMPTY_ARMOR_SLOT_BELT));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.CAPE, 6, 97, 8 + 18 * 3, EMPTY_ARMOR_SLOT_CAPE));
 
-        this.addSlot(new Slot(inventory, 11, 117, 8));
-        this.addSlot(new Slot(inventory, 10, 117, 8 + 18));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.ORB, 11, 117, 8, EMPTY_ARMOR_SLOT_ORB));
+        this.addSlot(new ModArmorSlot(inventory, player, ModEquipmentSlot.GLOVE, 10, 117, 8 + 18, EMPTY_ARMOR_SLOT_GLOVE));
 
         addInventoryExtendedSlots(inventory.playerInventory, 8, 84);
     }

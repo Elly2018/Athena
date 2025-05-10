@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IDamage_Record;
+import com.elly.athena.data.interfaceType.IDamageRecord;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,10 +11,10 @@ import org.jetbrains.annotations.UnknownNullability;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Damage_Source implements IDamage_Record, INBTSerializable<CompoundTag> {
+public class DamageSource implements IDamageRecord, INBTSerializable<CompoundTag> {
     private final HashMap<UUID, Float> sourceDict;
 
-    public Damage_Source() {
+    public DamageSource() {
         this.sourceDict = new HashMap<UUID, Float>();
     }
 
