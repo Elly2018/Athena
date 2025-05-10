@@ -2,6 +2,7 @@ package com.elly.athena.data.types;
 
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.DataComponent_Register;
+import com.elly.athena.data.component.ItemEquip;
 import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
 import com.elly.athena.item.potion.RPGPotion_Base;
@@ -15,7 +16,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 
 import java.util.List;
 
@@ -46,15 +47,9 @@ public class ModContainer implements Container, Nameable {
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        if(slot <= 11 && !stack.has(DataComponent_Register.EQUIP)) return false;
-        if(slot <= 11){
-            int iee = stack.get(DataComponent_Register.EQUIP).slot();
-            if(iee == ModEquipmentSlot.RING0.index && slot >= 2 && slot <= 5) return true;
-            return iee == slot;
-        }else{
-            return stack.getItem() instanceof RPGPotion_Base ||
-                    stack.getItem() instanceof RPGSkill_Base;
-        }
+        if(slot <= 11) return equipmentChecker(slot, stack);
+        return stack.getItem() instanceof RPGPotion_Base ||
+                stack.getItem() instanceof RPGSkill_Base;
     }
 
     @Override
@@ -193,6 +188,25 @@ public class ModContainer implements Container, Nameable {
     @Override
     public Component getName() {
         return Component.translatable("athena.container.inventory");
+    }
+
+    private boolean equipmentChecker(int slot, ItemStack stack){
+        Item item = stack.getItem();
+        ItemEquip.ItemEquipRecord record = stack.get(DataComponent_Register.EQUIP);
+        if(slot == 0){
+            return item instanceof SwordItem || item instanceof BowItem;
+        }
+        else if (slot == 1){
+            return item instanceof ShieldItem;
+        }
+        else if (slot >= 2 && slot <= 5 && record != null){
+            return record.slot() == ModEquipmentSlot.RING0.index;
+        }
+        else if (record != null){
+            return record.slot() == slot;
+        }else{
+            return false;
+        }
     }
 
     private void equipEvent(ItemStack target){

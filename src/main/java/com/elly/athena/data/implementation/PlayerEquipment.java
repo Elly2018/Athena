@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<CompoundTag> {
@@ -114,7 +115,7 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
     }
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag nbt = new CompoundTag();
         if(hasMain()) nbt.put("Main", AddTag(provider, Main));
         if(hasSecondary()) nbt.put("Secondary", AddTag(provider, Secondary));
@@ -132,7 +133,7 @@ public class PlayerEquipment implements IPlayerEquipment, INBTSerializable<Compo
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         if(compoundTag.contains("Main")) { Main = ItemStack.parseOptional(provider, compoundTag.getCompound("Main")); }
         if(compoundTag.contains("Secondary")) { Secondary = ItemStack.parseOptional(provider, compoundTag.getCompound("Secondary")); }
         if(compoundTag.contains("Ring0")) { Ring0 = ItemStack.parseOptional(provider, compoundTag.getCompound("Ring0")); }

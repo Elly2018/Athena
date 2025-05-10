@@ -52,8 +52,26 @@ public class Equipment_Menu extends AbstractContainerMenu {
             this.addSlot(new ArmorSlot(inventory.playerInventory, player, equipmentslot, 39 - i, 8, 8 + i * 18, resourcelocation));
         }
         for(int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 84 + 58));
+            this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 142));
         }
+
+        // custom equipment
+        this.addSlot(new Slot(inventory, 0, 117, 62));
+        this.addSlot(new Slot(inventory, 1, 137, 62));
+
+        this.addSlot(new Slot(inventory, 2, 77, 8));
+        this.addSlot(new Slot(inventory, 3, 77, 8 + 18));
+        this.addSlot(new Slot(inventory, 4, 77, 8 + 18 * 2));
+        this.addSlot(new Slot(inventory, 5, 77, 8 + 18 * 3));
+
+        this.addSlot(new Slot(inventory, 8, 97, 8));
+        this.addSlot(new Slot(inventory, 9, 97, 8 + 18));
+        this.addSlot(new Slot(inventory, 7, 97, 8 + 18 * 2));
+        this.addSlot(new Slot(inventory, 6, 97, 8 + 18 * 3));
+
+        this.addSlot(new Slot(inventory, 11, 117, 8));
+        this.addSlot(new Slot(inventory, 10, 117, 8 + 18));
+
         addInventoryExtendedSlots(inventory.playerInventory, 8, 84);
     }
 

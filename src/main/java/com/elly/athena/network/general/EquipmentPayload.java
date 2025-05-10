@@ -37,7 +37,7 @@ public class EquipmentPayload {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if(player == null) return;
                 PlayerEquipment ps = new PlayerEquipment();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 Minecraft.getInstance().player.setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
             });
         }
@@ -49,7 +49,7 @@ public class EquipmentPayload {
             context.enqueueWork(() -> {
                 ServerData sd = Minecraft.getInstance().getCurrentServer();
                 PlayerEquipment ps = new PlayerEquipment();
-                ps.deserializeNBT(null, data.data);
+                ps.deserializeNBT(context.player().registryAccess(), data.data);
                 context.player().setData(Attachment_Register.PLAYER_EQUIPMENT, ps);
             });
         }
