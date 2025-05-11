@@ -47,6 +47,7 @@ public class Hud {
         IPlayerStatus ps = minecraft.player.getData(Attachment_Register.PLAYER_STATUS);
 
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:armor_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:experience_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);

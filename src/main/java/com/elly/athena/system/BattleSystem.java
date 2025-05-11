@@ -214,12 +214,12 @@ public class BattleSystem {
             buffer.MaxHP = _status.getHealthMaximum() + _status.getStr() + ((_status.getLevel() - 1) * 4);
             buffer.MP = _status.getMana();
             buffer.MaxMP = _status.getManaMaximum() + _status.getInt() + ((_status.getLevel() - 1) * 4);
-            buffer.MaxDamage = + (_status.getLevel() * 5) + (_status.getStr() * 3);
-            buffer.MinDamage = + (_status.getLevel() * 5) + (_status.getStr() * 3);
-            buffer.AttackSpeed = (_status.getLevel()) + _status.getDex();
-            buffer.Dodge = (_status.getLevel()) + _status.getLuk();
-            buffer.Accuracy = (_status.getLevel()) + _status.getLuk();
-            buffer.MagicAccuracy = (_status.getLevel()) + _status.getLuk();
+            buffer.MaxDamage = _status.getLevel() + (_status.getStr() * 3);
+            buffer.MinDamage = _status.getLevel() + (_status.getStr() * 3);
+            buffer.AttackSpeed = _status.getLevel() + _status.getDex();
+            buffer.Dodge = _status.getLevel() + _status.getLuk();
+            buffer.Accuracy = _status.getLevel() + _status.getLuk();
+            buffer.MagicAccuracy = _status.getLevel() + _status.getLuk();
             return buffer;
         }
     }
