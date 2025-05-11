@@ -7,10 +7,15 @@ import java.util.ArrayList;
 
 public class NPCControlDialog implements INPCRegister.INPCControlDialog{
     private final ArrayList<NPCControlDialogCondition> Condition = new ArrayList<>();
+    private final NPCControl control;
+
+    public NPCControlDialog(NPCControl control) {
+        this.control = control;
+    }
 
     @Override
     public int AddCondition(INPCRegister.DialogConditionType type) {
-        Condition.add(new NPCControlDialogCondition(type));
+        Condition.add(new NPCControlDialogCondition(type, control));
         return Condition.size() - 1;
     }
 

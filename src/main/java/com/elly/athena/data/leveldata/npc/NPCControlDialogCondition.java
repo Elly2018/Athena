@@ -12,9 +12,11 @@ import java.util.UUID;
 public class NPCControlDialogCondition implements INPCRegister.INPCControlDialogCondition {
     public final INPCRegister.DialogConditionType type;
     public final ArrayList<INPCRegister.INPCControlDialogContent> context;
+    private final NPCControl control;
 
-    public NPCControlDialogCondition(INPCRegister.DialogConditionType type) {
+    public NPCControlDialogCondition(INPCRegister.DialogConditionType type, NPCControl control) {
         this.type = type;
+        this.control = control;
         this.context = new ArrayList<>();
     }
 
@@ -44,8 +46,10 @@ public class NPCControlDialogCondition implements INPCRegister.INPCControlDialog
     }
 
     @Override
-    public void AddContent(INPCRegister.INPCControlDialogContent _context) {
+    public INPCRegister.INPCControlDialogContent AddContent() {
+        NPCControlDialogContext _context = new NPCControlDialogContext(control);
         context.add(_context);
+        return _context;
     }
 
     @Override

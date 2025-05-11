@@ -11,6 +11,11 @@ public class NPCControlDialogContentSelection implements INPCRegister.INPCContro
     private Collection<INPCRegister.INPCControlDialogAction> Confirm;
     private Collection<INPCRegister.INPCControlDialogAction> Cancel;
     private HashMap<String, Collection<INPCRegister.INPCControlDialogAction>> options;
+    private final NPCControl control;
+
+    public NPCControlDialogContentSelection(NPCControl control) {
+        this.control = control;
+    }
 
     @Override
     public void QuestSelection(String QuestId, Collection<INPCRegister.INPCControlDialogAction> Confirm, Collection<INPCRegister.INPCControlDialogAction> Cancel) {
@@ -33,6 +38,6 @@ public class NPCControlDialogContentSelection implements INPCRegister.INPCContro
 
     @Override
     public INPCRegister.INPCControlDialogAction GenerateAction() {
-        return new NPCControlDialogAction(this);
+        return new NPCControlDialogAction(this, control);
     }
 }

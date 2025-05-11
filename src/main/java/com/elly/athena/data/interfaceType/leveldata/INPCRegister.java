@@ -4,6 +4,7 @@ import com.elly.athena.data.types.JobType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import java.util.Collection;
@@ -19,6 +20,7 @@ public interface INPCRegister {
 
     interface INPCControl{
         INPCControlDialog DialogControl();
+        INPCControlShop ShopControl();
     }
 
     interface INPCControlDialog{
@@ -36,7 +38,7 @@ public interface INPCRegister {
         void SetConditionLevel(int level);
         int GetConditionLevel();
 
-        void AddContent(INPCControlDialogContent context);
+        INPCControlDialogContent AddContent();
         INPCControlDialogContent GetContent(int index);
         void RemoveContent(int index);
         int GetSize();
@@ -86,6 +88,25 @@ public interface INPCRegister {
         void JobChange(JobType type);
         Collection<Integer> GetFlags();
         void Execute(Player player);
+    }
+
+    interface INPCControlShop extends INBTSerializable<CompoundTag> {
+        void SetCanSell(boolean value);
+        boolean GetCanSell();
+
+        void AddItem(INPCControlShopContent item);
+        INPCControlShopContent GetItem(int index);
+        boolean Remove(int index);
+        int Size();
+
+        void OpenShop(Player player);
+        void Sell(Player player, ItemStack target);
+    }
+
+    interface INPCControlShopContent {
+        void SetItem(ItemStack item);
+        void SetPrice(int price);
+        void Buy(Player player);
     }
 
     UUID CreateNPC(LivingEntity target);

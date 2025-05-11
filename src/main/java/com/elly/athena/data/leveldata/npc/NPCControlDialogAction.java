@@ -12,9 +12,11 @@ public class NPCControlDialogAction implements INPCRegister.INPCControlDialogAct
     public int meta0;
     public int meta1;
     public final NPCControlDialogContentSelection selection;
+    private final NPCControl control;
 
-    public NPCControlDialogAction(NPCControlDialogContentSelection selection) {
+    public NPCControlDialogAction(NPCControlDialogContentSelection selection, NPCControl control) {
         this.selection = selection;
+        this.control = control;
     }
 
     @Override
