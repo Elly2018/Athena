@@ -9,7 +9,10 @@ import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class NPCRegister extends SavedData implements INPCRegister {
     public static NPCRegister create() {
@@ -21,14 +24,19 @@ public class NPCRegister extends SavedData implements INPCRegister {
         return data;
     }
 
-    private final HashMap<String, NPCControl> NPCs = new HashMap<>();
+    private final HashMap<UUID, NPCControl> NPCs = new HashMap<>();
 
     @Override
-    public boolean CreateNPC(String UUID, LivingEntity target) {
-        if(NPCs.containsKey(UUID)) return false;
+    public UUID CreateNPC(LivingEntity target) {
+        UUID r = UUID.randomUUID();
         NPCControl n = new NPCControl(target);
-        NPCs.put("UUID", n);
-        return true;
+        NPCs.put(r, n);
+        return r;
+    }
+
+    @Override
+    public Collection<UUID> GetNPCList() {
+        return List.of();
     }
 
     @Override

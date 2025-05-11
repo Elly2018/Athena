@@ -3,13 +3,12 @@ package com.elly.athena.data.leveldata.npc;
 import com.elly.athena.data.interfaceType.leveldata.INPCRegister;
 
 public class NPCControlDialogContext implements INPCRegister.INPCControlDialogContent {
-    @Override
-    public void SetText(String text) {
+    private String text = "";
+    private INPCRegister.INPCControlDialogContentSelection selection = null;
 
-    }
+    @Override public void SetText(String text) { this.text = text; }
+    @Override public String GetText() { return text; }
 
-    @Override
-    public void SetSelection(INPCRegister.INPCControlDialogContentSelection data) {
-
-    }
+    @Override public void SetSelection(INPCRegister.INPCControlDialogContentSelection data) { selection = data; }
+    @Override public INPCRegister.INPCControlDialogContentSelection GetSelection() { return selection; }
 }

@@ -1,6 +1,7 @@
 package com.elly.athena.data.leveldata.npc;
 
 import com.elly.athena.data.interfaceType.leveldata.INPCRegister;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 
@@ -19,12 +20,17 @@ public class NPCControlDialog implements INPCRegister.INPCControlDialog{
     }
 
     @Override
-    public void RemoveCondition(int index) {
-        Condition.remove(index);
+    public boolean RemoveCondition(int index) {
+        return Condition.remove(index) != null;
     }
 
     @Override
     public int ConditionSize() {
         return Condition.size();
+    }
+
+    @Override
+    public INPCRegister.INPCControlDialogCondition GetTargetCondition(Player player) {
+        return null;
     }
 }

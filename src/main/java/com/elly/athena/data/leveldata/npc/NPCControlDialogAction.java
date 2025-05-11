@@ -1,23 +1,13 @@
 package com.elly.athena.data.leveldata.npc;
 
 import com.elly.athena.data.interfaceType.leveldata.INPCRegister;
+import com.elly.athena.data.types.JobType;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.Collection;
+import java.util.List;
 
 public class NPCControlDialogAction implements INPCRegister.INPCControlDialogAction {
-
-    enum ActionType{
-        Dialog, Quest, Effect, JobChange
-    }
-
-    enum DialogActionType{
-        Jump,
-        Forward,
-        Backward
-    }
-
-    enum QuestActionType{
-        Receive, Finish, Cancel
-    }
-
     public ActionType type;
     public int meta0;
     public int meta1;
@@ -62,5 +52,25 @@ public class NPCControlDialogAction implements INPCRegister.INPCControlDialogAct
     public void SetCancelQuest() {
         type = ActionType.Quest;
         meta0 = QuestActionType.Cancel.ordinal();
+    }
+
+    @Override
+    public void OpenShop() {
+        type = ActionType.Shop;
+    }
+
+    @Override
+    public void JobChange(JobType type) {
+
+    }
+
+    @Override
+    public Collection<Integer> GetFlags() {
+        return List.of();
+    }
+
+    @Override
+    public void Execute(Player player) {
+
     }
 }

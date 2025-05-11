@@ -6,16 +6,15 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class NPCControlDialogContentSelection implements INPCRegister.INPCControlDialogContentSelection{
-
-    public int meta;
-    public String Quest;
-    public Collection<INPCRegister.INPCControlDialogAction> Confirm;
-    public Collection<INPCRegister.INPCControlDialogAction> Cancel;
-    public HashMap<String, Collection<INPCRegister.INPCControlDialogAction>> options;
+    private SelectionType meta = SelectionType.Choice;
+    private String Quest;
+    private Collection<INPCRegister.INPCControlDialogAction> Confirm;
+    private Collection<INPCRegister.INPCControlDialogAction> Cancel;
+    private HashMap<String, Collection<INPCRegister.INPCControlDialogAction>> options;
 
     @Override
     public void QuestSelection(String QuestId, Collection<INPCRegister.INPCControlDialogAction> Confirm, Collection<INPCRegister.INPCControlDialogAction> Cancel) {
-        meta = 0;
+        meta = SelectionType.Quest;
         Quest = QuestId;
         this.Confirm = Confirm;
         this.Cancel = Cancel;
@@ -23,8 +22,13 @@ public class NPCControlDialogContentSelection implements INPCRegister.INPCContro
 
     @Override
     public void MultipleSelect(HashMap<String, Collection<INPCRegister.INPCControlDialogAction>> options) {
-        meta = 1;
+        meta = SelectionType.Choice;
         this.options = options;
+    }
+
+    @Override
+    public SelectionType GetType() {
+        return meta;
     }
 
     @Override

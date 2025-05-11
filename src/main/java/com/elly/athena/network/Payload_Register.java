@@ -5,11 +5,8 @@ import com.elly.athena.network.general.*;
 import com.elly.athena.network.menu.SkillMenuPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -22,11 +19,6 @@ public class Payload_Register {
             .executesOn(HandlerThread.NETWORK);
         register_general(registrar);
         register_menu(registrar);
-    }
-
-    @SubscribeEvent
-    public static void register_task(final RegisterConfigurationTasksEvent event) {
-
     }
 
     private static void register_general(final PayloadRegistrar registrar) {
