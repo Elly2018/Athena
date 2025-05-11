@@ -24,7 +24,7 @@ public class HealEvent {
 
                 int maxMana = ps.getManaMaximum();
                 heal = (float) (maxMana * 0.05F);
-                ps.addMana((int) heal);
+                ps.addMana((int) Math.ceil(heal));
             });
         }
     }

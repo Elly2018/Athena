@@ -68,6 +68,10 @@ public class ModArmorSlot extends Slot {
         return this.emptyIcon;
     }
 
+    public ModEquipmentSlot getType(){
+        return slot;
+    }
+
     private void onEquipItem(ItemStack oldItem, ItemStack newItem) {
         if (owner.level().isClientSide() || owner.isSpectator()) return;
         boolean flag = newItem.isEmpty() && oldItem.isEmpty();

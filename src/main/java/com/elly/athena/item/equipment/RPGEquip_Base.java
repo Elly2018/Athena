@@ -11,6 +11,6 @@ public class RPGEquip_Base extends Item {
     }
 
     public boolean canEquip(ModEquipmentSlot target){
-        return ModEquipmentSlot.checkEquipable(target.id, slot.id);
+        return ModEquipmentSlot.checkEquipable(target.index, slot.index);
     }
 }

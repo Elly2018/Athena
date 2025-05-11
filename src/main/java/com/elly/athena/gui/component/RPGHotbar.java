@@ -63,18 +63,18 @@ public class RPGHotbar {
         if (!main.isEmpty()) {
             int i2 = gui.guiHeight() - 19;
             if (humanoidarm == HumanoidArm.RIGHT) {
-                renderSlot(gui, half_width + 101, i2, deltaTracker, player, main, seed++);
+                renderSlot(gui, half_width + 91 + 10, i2, deltaTracker, player, main, seed++);
             } else {
-                renderSlot(gui, half_width - 65, i2, deltaTracker, player, main, seed++);
+                renderSlot(gui, half_width - 91 - 26 , i2, deltaTracker, player, main, seed++);
             }
         }
 
         if (!secondary.isEmpty()) {
             int i2 = gui.guiHeight() - 19;
             if (humanoidarm == HumanoidArm.RIGHT) {
-                renderSlot(gui, half_width - 101, i2, deltaTracker, player, secondary, seed++);
+                renderSlot(gui, half_width - 91 - 26, i2, deltaTracker, player, secondary, seed++);
             } else {
-                renderSlot(gui, half_width + 65, i2, deltaTracker, player, secondary, seed++);
+                renderSlot(gui, half_width + 91 + 10, i2, deltaTracker, player, secondary, seed++);
             }
         }
     }

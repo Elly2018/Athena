@@ -21,6 +21,7 @@ public class Equipment_Screen extends AbstractContainerScreen<Equipment_Menu> {
     public Equipment_Screen(Equipment_Menu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         player = playerInventory.player;
+        this.imageHeight = 186;
     }
 
     @Override
