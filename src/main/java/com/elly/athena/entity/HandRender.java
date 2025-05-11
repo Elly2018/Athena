@@ -2,7 +2,7 @@ package com.elly.athena.entity;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

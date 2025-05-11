@@ -5,7 +5,7 @@ import com.elly.athena.command.struct.ActionStruct;
 import com.elly.athena.command.types.ActionType;
 import com.elly.athena.command.types.PlayerDataType;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.system.BattleSystem;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;

@@ -1,7 +1,7 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

@@ -3,7 +3,7 @@ package com.elly.athena.gui.screen;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.network.general.StatusApplyPayload;
 import com.elly.athena.system.BattleSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,8 +32,8 @@ public class Status_Screen extends Screen {
             ResourceLocation.fromNamespaceAndPath(Athena.MODID,"minus_button_darker"));
 
     private final Player player;
-    protected int imageWidth = 227;
-    protected int imageHeight = 176;
+    protected int imageWidth = 253;
+    protected int imageHeight = 190;
     protected int offsetWidth;
     protected int offsetHeight;
     protected int ColorLabel = 6579300;
@@ -147,7 +147,7 @@ public class Status_Screen extends Screen {
         addRenderableWidget(_minus3);
 
         InitX = 4 + offsetWidth;
-        InitY = 152 + offsetHeight;
+        InitY = 155 + offsetHeight;
         _submit = Button.builder(Component.literal("Submit"), (k) -> { submit_point(); })
                 .pos(InitX, InitY).size(45, 17)
                 .build();
@@ -240,9 +240,9 @@ public class Status_Screen extends Screen {
     }
 
     private void render_character(GuiGraphics graphics, int mouseX, int mouseY){
-        int InitX = 44 + offsetWidth;
+        int InitX = 54 + offsetWidth;
         int InitY = 8 + offsetHeight;
-        int InitX_End = 92 + offsetWidth;
+        int InitX_End = 102 + offsetWidth;
         int InitY_End = 77 + offsetHeight;
         InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, InitX, InitY, InitX_End, InitY_End, 30, 0.0625F, mouseX, mouseY, player);
     }

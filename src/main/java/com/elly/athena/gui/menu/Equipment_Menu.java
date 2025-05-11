@@ -6,6 +6,7 @@ import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.gui.menu.slot.ArmorSlot;
 import com.elly.athena.gui.menu.slot.ModArmorSlot;
+import com.elly.athena.gui.menu.slot.RPGSlot;
 import com.elly.athena.item.equipment.RPGEquip_Base;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
@@ -87,7 +88,7 @@ public class Equipment_Menu extends AbstractContainerMenu {
         addInventoryExtendedSlots(inventory.playerInventory, 8, 84); // 27
         addInventoryHotbarSlots(inventory.playerInventory, 8, 163); // 9
         for(int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 144));
+            this.addSlot(new RPGSlot(inventory, player, i + 12, 8 + i * 18, 144));
         }
     }
 

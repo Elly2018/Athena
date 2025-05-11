@@ -1,7 +1,7 @@
 package com.elly.athena.system;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.system.skill.SkillCategory;
 import net.minecraft.world.entity.player.Player;
 

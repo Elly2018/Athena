@@ -1,21 +1,30 @@
 package com.elly.athena.entity;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.entity.mob.WoodElf;
+import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.util.function.Supplier;
 
 import static com.elly.athena.Athena.MODID;
 
+@EventBusSubscriber(modid = Athena.MODID)
 public class Entity_Register {
     public static final Supplier<EntityType<WoodElf>> WOODELF = register("woodelf", Entity_Register::woodelf);
-
 
     private static <E extends Entity> Supplier<EntityType<E>> register(final String name, final Supplier<EntityType.Builder<E>> sup) {
         return Athena.ENTITY.register(name, () -> sup.get().build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(MODID + ":" + name))));
@@ -27,5 +36,24 @@ public class Entity_Register {
                 .setTrackingRange(4)
                 .setUpdateInterval(3)
                 .setShouldReceiveVelocityUpdates(true);
+    }
+
+    @SubscribeEvent
+    public static void entityJoin(EntityJoinLevelEvent event){
+        if (event.getEntity() instanceof Player){
+            Player player = (Player) event.getEntity();
+            if(!player.hasData(Attachment_Register.PLAYER_STATUS))
+                player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
+        }
+    }
+
+    @SubscribeEvent
+    public static void entityTick(EntityTickEvent.Pre event){
+        if (event.getEntity() instanceof ItemEntity){
+            ItemEntity item = (ItemEntity) event.getEntity();
+            if(item.getItem().getItem() instanceof RPGSkill_Base){
+                item.remove(Entity.RemovalReason.KILLED);
+            }
+        }
     }
 }

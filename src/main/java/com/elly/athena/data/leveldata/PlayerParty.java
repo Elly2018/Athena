@@ -110,6 +110,6 @@ public class PlayerParty extends SavedData {
         }
         compoundTag.put("list", list);
         compoundTag.putFloat("size", Party.size());
-        return null;
+        return compoundTag;
     }
 }

@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IBattleHotbar;
+import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

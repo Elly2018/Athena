@@ -1,7 +1,7 @@
 package com.elly.athena.gui.menu.slot;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerEquipment;
+import com.elly.athena.data.interfaceType.attachment.IPlayerEquipment;
 import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.item.equipment.RPGEquip_Base;
 import net.minecraft.resources.ResourceLocation;
@@ -58,9 +58,12 @@ public class ModArmorSlot extends Slot {
         return false;
     }
 
-    public boolean mayPickup(Player stafck) {
+    public boolean mayPickup(Player stack) {
         ItemStack itemstack = this.getItem();
-        return (itemstack.isEmpty() || stafck.isCreative() || !EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)) && super.mayPickup(stafck);
+        return (itemstack.isEmpty() ||
+                stack.isCreative() ||
+                !EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)) &&
+                super.mayPickup(stack);
     }
 
     @Nullable

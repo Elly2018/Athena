@@ -1,32 +1,25 @@
 package com.elly.athena.gui.menu;
 
-import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IBattleHotbar;
-import com.elly.athena.data.interfaceType.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.system.skill.SkillCategory;
 import com.elly.athena.system.skill.SkillData;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.plaf.basic.BasicComboBoxUI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 public class Skill_Menu extends AbstractContainerMenu {
     private final ModContainer inventory;

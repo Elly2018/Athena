@@ -1,7 +1,7 @@
 package com.elly.athena.item.potion;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

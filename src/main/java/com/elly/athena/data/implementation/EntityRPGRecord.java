@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IEntityRPGRecord;
+import com.elly.athena.data.interfaceType.attachment.IEntityRPGRecord;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;

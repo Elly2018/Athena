@@ -1,140 +1,53 @@
 package com.elly.athena;
 
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.LevelData_Register;
 import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
 import com.elly.athena.data.implementation.PlayerSkill;
 import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IDamageRecord;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.data.types.ModContainer;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.entity.HealEvent;
 import com.elly.athena.gui.menu.Equipment_Menu;
 import com.elly.athena.gui.menu.Skill_Menu;
-import com.elly.athena.item.Item_Register;
-import com.elly.athena.item.potion.RPGPotion_Base;
-import com.elly.athena.item.skill.RPGSkill_Base;
-import com.elly.athena.network.general.*;
+import com.elly.athena.network.general.EquipmentPayload;
+import com.elly.athena.network.general.HotbarPayload;
+import com.elly.athena.network.general.SkillPayload;
+import com.elly.athena.network.general.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.system.BattleSystem;
 import com.elly.athena.system.SkillSystem;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Stream;
 
 import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
 
-
 @EventBusSubscriber(modid = Athena.MODID)
 public class ServerHandler {
-    private static MinecraftServer m_Server;
+    public static MinecraftServer m_Server;
 
-    @SubscribeEvent
-    public static void onItemPickup(ItemEntityPickupEvent.Pre event){
-        ItemEntity ie = event.getItemEntity();
-        ItemStack is = ie.getItem();
-        Item item = is.getItem();
-        ServerPlayer player = (ServerPlayer) event.getPlayer();
 
-        PickupGoldenHelper(player, ie, is);
-        if(!ie.hasPickUpDelay()){
-            var tag = LootPayload.Generate(item.getName().getString(), 16777215, is.getCount());
-            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
-        }
-    }
 
-    @SubscribeEvent
-    public static void onEntityInteract(PlayerInteractEvent.RightClickItem event){
-        Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickItem: %s", player.getName().getString()));
-        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
-        if(status.getMode() == 1) {
-            onSkillUse(player);
-            event.setCanceled(true);
-        }
-    }
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public static void onEntityInteract(PlayerInteractEvent.RightClickEmpty event){
-        Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickEmpty: %s", player.getName().getString()));
-        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
-        if(status.getMode() == 1) {
-            PacketDistributor.sendToServer(new RightClickPayload.RightClickPayloadData(0));
-        }
-    }
-    @SubscribeEvent
-    public static void onEntityInteract(PlayerInteractEvent.RightClickBlock event){
-        Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickBlock: %s", player.getName().getString()));
-        IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
-        if(status.getMode() == 1) {
-            onSkillUse(player);
-            event.setCanceled(true);
-        }
-    }
     @SubscribeEvent
     public static void onBlockPlace(BlockEvent.EntityPlaceEvent event){
         if(event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
             IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
             if(ps.getMode() == 1) event.setCanceled(true);
-        }
-    }
-
-    public static void onSkillUse(Player player){
-        ModContainer container = new ModContainer(player);
-        ItemStack iss = container.getSelected();
-        if(iss == ItemStack.EMPTY) {
-            Athena.LOGGER.debug(String.format("onSkillUse but selected is empty: %s", player.getName().getString()));
-            return;
-        }
-        if(iss.getItem() instanceof RPGPotion_Base){
-            Athena.LOGGER.debug(String.format("onSkillUse start use point: %s", player.getName().getString()));
-            iss.use(player.level(), player, InteractionHand.MAIN_HAND);
-        }
-        else if(iss.getItem() instanceof RPGSkill_Base){
-            Athena.LOGGER.debug(String.format("onSkillUse start use skill: %s", player.getName().getString()));
-            iss.use(player.level(), player, InteractionHand.MAIN_HAND);
         }
     }
 
@@ -179,25 +92,6 @@ public class ServerHandler {
     }
 
     @SubscribeEvent
-    public static void entityJoin(EntityJoinLevelEvent event){
-        if (event.getEntity() instanceof Player){
-            Player player = (Player) event.getEntity();
-            if(!player.hasData(Attachment_Register.PLAYER_STATUS))
-                player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
-        }
-    }
-
-    @SubscribeEvent
-    public static void entityTick(EntityTickEvent.Pre event){
-        if (event.getEntity() instanceof ItemEntity){
-            ItemEntity item = (ItemEntity) event.getEntity();
-            if(item.getItem().getItem() instanceof RPGSkill_Base){
-                item.remove(Entity.RemovalReason.KILLED);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void playerLoggin(PlayerEvent.PlayerLoggedInEvent event){
         SkillSystem.initCheck(event.getEntity());
     }
@@ -214,59 +108,6 @@ public class ServerHandler {
     }
 
     @SubscribeEvent
-    public static void onTossItem(ItemTossEvent event){
-
-    }
-
-    @SubscribeEvent
-    public static void onLivingComingDamage(LivingIncomingDamageEvent event){
-        if(event.getSource().getEntity() instanceof Player){
-            Player player = (Player)event.getSource().getEntity();
-            LivingEntity le = event.getEntity();
-            IDamageRecord record = event.getEntity().getData(Attachment_Register.DAMAGE_SOURCE);
-            if(record != null && player != null){
-                record.addPlayerSource(player, (int)event.getAmount());
-                Athena.LOGGER.debug(String.format("Added player %s to damage table of the %s %d", player.getUUID(), le.getName().getString(), (int)event.getAmount()));
-            }else{
-                Athena.LOGGER.warn(String.format("Failed assign to damage table: %b", record != null));
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLivingKill(LivingDeathEvent event){
-        LivingEntity le = event.getEntity();
-        IDamageRecord record = le.getData(Attachment_Register.DAMAGE_SOURCE);
-        if(record != null && m_Server != null){
-            HashMap<UUID, Float> table = record.getPlayerTable();
-            var ref = new Object() {
-                float total = 0F;
-            };
-            table.values().forEach(x -> { ref.total += x; });
-            Athena.LOGGER.debug(String.format("Calcuate total damage: %.2f", ref.total));
-            Athena.LOGGER.debug(String.format("Calcuate amount of key: %d", table.size()));
-            table.keySet().forEach(x -> {
-                float weight = table.get(x) / ref.total;
-                ServerPlayer player = m_Server.getPlayerList().getPlayer(x);
-                PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-                float baseAmmount = (le.getType().getCategory() == MobCategory.MONSTER ? 40 : 20);
-                float a = baseAmmount * weight;
-                ps.addExp((int)a);
-                Athena.LOGGER.debug(String.format("Given %s player %.2f percentage exp killed", x.toString(), weight));
-            });
-        }else{
-            Athena.LOGGER.warn(String.format("Failed given exp: %b, %b", record != null, m_Server != null));
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLivingExpDrop(LivingExperienceDropEvent event){
-        if(!Config.vanilla_exp_drop){
-            event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
     public static void playerClone(PlayerEvent.Clone event){
         event.getEntity().setData(Attachment_Register.PLAYER_STATUS, event.getOriginal().getData(Attachment_Register.PLAYER_STATUS));
     }
@@ -276,46 +117,13 @@ public class ServerHandler {
         // Do something when the server starts
         Athena.LOGGER.info("HELLO from Athena server handler");
         m_Server = event.getServer();
+        LevelData_Register.LoadEvent();
     }
 
     @SubscribeEvent
     public static void onServerStopped(ServerStoppedEvent event){
         Athena.LOGGER.info("BYE from Athena server handler");
         m_Server = null;
-    }
-
-    private static void PickupGoldenHelper(ServerPlayer player, ItemEntity ie, ItemStack is){
-        Item cointype = Item_Register.RegisterDict.get("coin").get();
-        Item goldencointype = Item_Register.RegisterDict.get("coin_golden").get();
-        Item coinbagtype = Item_Register.RegisterDict.get("coin_bag").get();
-        Item goldencoinbagtype = Item_Register.RegisterDict.get("coin_golden_bag").get();
-
-        int count = 0;
-        if(!ie.hasPickUpDelay()){
-            if(is.getItem() == cointype){
-                count = is.getCount();
-                player.playSound(Sound_Register.Meso.get());
-            }
-            else if(is.getItem() == goldencointype){
-                count = is.getCount() * 100;
-                player.playSound(Sound_Register.Meso.get());
-            }
-            else if(is.getItem() == coinbagtype){
-                count = is.getCount() * 1000;
-                player.playSound(Sound_Register.Meso.get());
-            }
-            else if(is.getItem() == goldencoinbagtype){
-                count = is.getCount() * 10000;
-                player.playSound(Sound_Register.Meso.get());
-            }
-        }
-        if(count > 0){
-            ie.setDefaultPickUpDelay();
-            IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-            ps.addCoin(count);
-            ie.remove(Entity.RemovalReason.KILLED);
-            var tag = LootPayload.Generate(cointype.getName().getString(), 16777215, is.getCount());
-            PacketDistributor.sendToPlayer(player, new LootPayload.LootData(tag));
-        }
+        LevelData_Register.CleanEvent();
     }
 }

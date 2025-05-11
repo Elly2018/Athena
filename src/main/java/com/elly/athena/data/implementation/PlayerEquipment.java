@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IPlayerEquipment;
+import com.elly.athena.data.interfaceType.attachment.IPlayerEquipment;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

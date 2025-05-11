@@ -1,10 +1,9 @@
 package com.elly.athena.item.skill.magician;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IEntityRPGRecord;
+import com.elly.athena.data.interfaceType.attachment.IEntityRPGRecord;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.item.skill.RPGSkill_Header;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySpawnReason;

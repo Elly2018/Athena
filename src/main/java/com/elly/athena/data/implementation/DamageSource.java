@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IDamageRecord;
+import com.elly.athena.data.interfaceType.attachment.IDamageRecord;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

@@ -1,6 +1,6 @@
 package com.elly.athena.command.struct;
 
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

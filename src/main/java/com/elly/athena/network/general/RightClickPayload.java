@@ -2,6 +2,7 @@ package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
 import com.elly.athena.ServerHandler;
+import com.elly.athena.item.Item_Interaction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -28,7 +29,7 @@ public class RightClickPayload {
     public static class ClientPayloadHandler {
         public static void handleDataOnMain(final RightClickPayload.RightClickPayloadData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
-                ServerHandler.onSkillUse(context.player());
+                Item_Interaction.onSkillUse(context.player());
             });
         }
     }
@@ -36,7 +37,7 @@ public class RightClickPayload {
     public static class ServerPayloadHandler {
         public static void handleDataOnMain(final RightClickPayload.RightClickPayloadData data, final IPayloadContext context) {
             context.enqueueWork(() -> {
-                ServerHandler.onSkillUse(context.player());
+                Item_Interaction.onSkillUse(context.player());
             });
         }
     }

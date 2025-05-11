@@ -1,22 +1,22 @@
 package com.elly.athena.data.leveldata;
 
+import com.elly.athena.data.interfaceType.leveldata.ITeleportPoint;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class TeleportPoint extends SavedData {
+public class TeleportPoint extends SavedData implements ITeleportPoint {
 
     public static class PointData {
-        public final String Name;
         public final Vec3 Position;
 
-        public PointData(String name, Vec3 position) {
-            Name = name;
+        public PointData(Vec3 position) {
             Position = position;
         }
     }
@@ -32,29 +32,39 @@ public class TeleportPoint extends SavedData {
         ListTag list = tag.getList("list", 10);
         for(int i = 0; i < size; i++){
             CompoundTag buffer = list.getCompound(i);
-            int id = buffer.getInt("id");
             String name = buffer.getString("name");
             double x = buffer.getDouble("x");
             double y = buffer.getDouble("y");
             double z = buffer.getDouble("z");
-            data.Points.put(id, new PointData(name, new Vec3(x, y, z)));
+            data.Points.put(name, new PointData(new Vec3(x, y, z)));
         }
         return data;
     }
 
-    public final HashMap<Integer, PointData> Points = new HashMap<Integer, PointData>();
+    private final HashMap<String, PointData> Points = new HashMap<String, PointData>();
 
-    public void AddPoint(String name, Vec3 pos){
-        int size = Points.size();
-        int id = size;
-        for(int i = 0; i < size; i++){
-            if(!Points.containsKey(i)){
-                id = i;
-                break;
-            }
-        }
+    public boolean AddPoint(String name, Vec3 pos){
+        if(Exist(name)) return false;
+        Points.put(name, new PointData(pos));
+        return true;
+    }
 
-        Points.put(id, new PointData(name, pos));
+    @Override
+    public void RemovePoint(String name) {
+        if(!Exist(name)) return;
+        Points.remove(name);
+    }
+
+    @Override
+    public boolean Exist(String name) {
+        return Points.containsKey(name);
+    }
+
+    @Override
+    @Nullable
+    public Vec3 GetPoint(String name) {
+        if(!Exist(name)) return null;
+        return Points.get(name).Position;
     }
 
     @Override
@@ -65,8 +75,7 @@ public class TeleportPoint extends SavedData {
             PointData pd = Points.get(key);
 
             CompoundTag buffer = new CompoundTag();
-            buffer.putInt("id", key);
-            buffer.putString("name", pd.Name);
+            buffer.putString("name", key);
             buffer.putDouble("x", pd.Position.x);
             buffer.putDouble("y", pd.Position.x);
             buffer.putDouble("z", pd.Position.x);
@@ -75,6 +84,6 @@ public class TeleportPoint extends SavedData {
 
         compoundTag.put("list", list);
         compoundTag.putFloat("size", Points.size());
-        return null;
+        return compoundTag;
     }
 }

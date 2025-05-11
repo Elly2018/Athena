@@ -1,17 +1,12 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.JobType;
-import com.elly.athena.system.BattleSystem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
-
-import java.util.Optional;
 
 public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag> {
     private int Coin = 0;

@@ -2,8 +2,8 @@ package com.elly.athena.item.skill;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerSkill;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.JobType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

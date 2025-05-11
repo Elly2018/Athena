@@ -1,4 +1,4 @@
-package com.elly.athena.data.interfaceType;
+package com.elly.athena.data.interfaceType.attachment;
 
 import com.elly.athena.data.types.JobType;
 

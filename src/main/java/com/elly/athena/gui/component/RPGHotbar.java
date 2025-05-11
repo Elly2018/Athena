@@ -1,10 +1,9 @@
 package com.elly.athena.gui.component;
 
-import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IBattleHotbar;
-import com.elly.athena.data.interfaceType.IPlayerEquipment;
-import com.elly.athena.data.interfaceType.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
+import com.elly.athena.data.interfaceType.attachment.IPlayerEquipment;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.system.skill.SkillData;
 import net.minecraft.client.DeltaTracker;

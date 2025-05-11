@@ -12,6 +12,10 @@ import com.elly.athena.item.skill.commom.SpeedBoost;
 import com.elly.athena.item.skill.magician.MagicBall;
 import com.elly.athena.item.skill.warrior.HPBoost;
 import com.elly.athena.item.skill.warrior.WindSlash;
+import com.elly.athena.item.special.quest.QuestStaff;
+import com.elly.athena.item.special.setting.NPCStaff;
+import com.elly.athena.item.special.setting.TeleportStaff;
+import com.elly.athena.item.special.setting.ZoneStaff;
 import com.elly.athena.item.weapon.archer.Bow;
 import com.elly.athena.item.weapon.magician.Staff;
 import com.elly.athena.item.weapon.magician.Wand;
@@ -76,6 +80,11 @@ public class Item_Register {
                 // skill magician
                 new MagicBall(),
                 // skill archer
+                // special
+                new QuestStaff(),
+                new NPCStaff(),
+                new TeleportStaff(),
+                new ZoneStaff()
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

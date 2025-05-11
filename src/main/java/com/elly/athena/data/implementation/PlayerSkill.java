@@ -1,6 +1,6 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.system.skill.SkillCategory;
 import com.elly.athena.system.skill.SkillData;
 import net.minecraft.core.HolderLookup;
