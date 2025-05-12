@@ -5,6 +5,7 @@ import com.elly.athena.data.DataComponent_Register;
 import com.elly.athena.data.component.ItemEquip;
 import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
+import com.elly.athena.item.equipment.RPGEquip_Base;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.system.BattleSystem;
@@ -196,14 +197,13 @@ public class ModContainer implements Container, Nameable {
 
     private boolean equipmentChecker(int slot, ItemStack stack){
         Item item = stack.getItem();
-        ItemEquip.ItemEquipRecord record = stack.get(DataComponent_Register.EQUIP);
         if(slot == 0){
             return item instanceof SwordItem || item instanceof BowItem;
         }
         else if (slot == 1){
             return item instanceof ShieldItem;
-        }else if (record != null) {
-            return ModEquipmentSlot.checkEquipable(slot, record.slot());
+        }else if (slot < 12 && item instanceof RPGEquip_Base record) {
+            return ModEquipmentSlot.checkEquipable(slot, record.slot.index);
         }else{
             return false;
         }
