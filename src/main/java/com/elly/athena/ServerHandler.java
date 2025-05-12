@@ -1,6 +1,7 @@
 package com.elly.athena;
 
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.LevelData_Register;
 import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
@@ -19,13 +20,16 @@ import com.elly.athena.system.BattleSystem;
 import com.elly.athena.system.SkillSystem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -40,8 +44,6 @@ import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
 public class ServerHandler {
     public static MinecraftServer m_Server;
 
-
-
     @SubscribeEvent
     public static void onBlockPlace(BlockEvent.EntityPlaceEvent event){
         if(event.getEntity() instanceof Player){
@@ -55,40 +57,52 @@ public class ServerHandler {
     public static void update(ServerTickEvent.Pre event){
         HealEvent.onUpdate(event.getServer().getPlayerList().getPlayers());
         event.getServer().getPlayerList().getPlayers().forEach( player -> {
-
-            PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-            PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
-            PlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
-            BattleHotbar bh = player.getData(Attachment_Register.BATTLE_HOTBAR);
-
-            if(ps.isLevelUp(ps.getLevel())){
-                ps.setExp(0);
-                ps.addLevel(1);
-                ps.addPoint(Config.level_point);
-                ps.addSkillPoint(Config.level_skill);
-                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            }
-
-            while (EQUIPMENT_MAPPING.get().consumeClick()){
-                player.openMenu(new SimpleMenuProvider(
-                        Equipment_Menu::new,
-                        Component.empty()
-                ));
-            }
-            while (SKILL_MAPPING.get().consumeClick()) {
-                com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
-                player.openMenu(new SimpleMenuProvider(
-                        Skill_Menu::new,
-                        Component.empty()
-                ));
-            }
-            pss.UpdateCooldown();
-
-            PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
-            PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(player.registryAccess())));
-            PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(pe.serializeNBT(player.registryAccess())));
-            PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(bh.serializeNBT(player.registryAccess())));
+            PlayerStateUpdate(player);
+            PlayerMenuUpdate(player);
+            PlayerNetworkUpdate(player);
         });
+    }
+
+    private static void PlayerNetworkUpdate(ServerPlayer player){
+        PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
+        PlayerEquipment pe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);
+        BattleHotbar bh = player.getData(Attachment_Register.BATTLE_HOTBAR);
+        PacketDistributor.sendToPlayer(player, new StatusPayload.StatusData(ps.serializeNBT(player.registryAccess())));
+        PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(player.registryAccess())));
+        PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(pe.serializeNBT(player.registryAccess())));
+        PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(bh.serializeNBT(player.registryAccess())));
+    }
+
+    private static void PlayerMenuUpdate(ServerPlayer player){
+        while (EQUIPMENT_MAPPING.get().consumeClick()){
+            player.openMenu(new SimpleMenuProvider(
+                    Equipment_Menu::new,
+                    Component.empty()
+            ));
+        }
+        while (SKILL_MAPPING.get().consumeClick()) {
+            com.elly.athena.Athena.LOGGER.debug(String.format("%s is trying to check skill", player.getName().getString()));
+            player.openMenu(new SimpleMenuProvider(
+                    Skill_Menu::new,
+                    Component.empty()
+            ));
+        }
+    }
+
+    private static void PlayerStateUpdate(ServerPlayer player){
+        PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        PlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
+
+        if(ps.isLevelUp(ps.getLevel())){
+            ps.setExp(0);
+            ps.addLevel(1);
+            ps.addPoint(Config.level_point);
+            ps.addSkillPoint(Config.level_skill);
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.LEVELUP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            Attribute_Register.ApplyChange(player);
+        }
+        pss.UpdateCooldown();
     }
 
     @SubscribeEvent
@@ -101,9 +115,14 @@ public class ServerHandler {
         if(!Config.damage_cooldown) event.getEntity().invulnerableTime = 0;
         Entity entity = event.getSource().getEntity();
         if(entity instanceof Player player){
-            var battle = new BattleSystem.BattleSystemProvider(player);
-            var damage = battle.DamageCalculat();
-            event.setNewDamage(damage);
+
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEquipment(LivingEquipmentChangeEvent event){
+        if(event.getEntity() instanceof Player player){
+            BattleSystem.ApplyModAttribute(event, player);;
         }
     }
 

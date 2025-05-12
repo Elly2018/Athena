@@ -2,7 +2,9 @@ package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.system.BattleSystem;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -50,8 +52,8 @@ public class StatusApplyPayload {
                 ps.addInt(buffer.getInt());
                 ps.addLuk(buffer.getLuk());
                 ps.addPoint(buffer.getPoint());
-
                 player.setData(Attachment_Register.PLAYER_STATUS, ps);
+                Attribute_Register.ApplyChange(player);
             });
         }
     }

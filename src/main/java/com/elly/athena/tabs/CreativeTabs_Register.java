@@ -86,8 +86,15 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
-                        "leather_belt",
-                        "single_earring"
+                        "belt_leather",
+                        "cape_old",
+                        "face_mask",
+                        "ring_single_earring",
+                        "ring_chaos",
+                        "necklace_cheap",
+                        "necklace_evil",
+                        "necklace_lava",
+                        "orb_evil",
                 },
                 "athena_equipment", "Athena Equipment"
         ));
@@ -96,11 +103,11 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
-                        "sword",
-                        "spear",
-                        "wand",
-                        "staff",
-                        "bow",
+                        "weapon_sword",
+                        "weapon_spear",
+                        "weapon_wand",
+                        "weapon_staff",
+                        "weapon_bow",
                 },
                 "athena_weapon", "Athena Weapon"
         ));
@@ -109,10 +116,10 @@ public class CreativeTabs_Register {
 
                 },
                 new String[]{
-                        "speed_boost",
-                        "healing",
-                        "hp_boost",
-                        "wind_slash",
+                        "skill_speed_boost",
+                        "skill_healing",
+                        "skill_hp_boost",
+                        "skill_wind_slash",
                 },
                 "athena_skill", "Athena Skill"
         ));

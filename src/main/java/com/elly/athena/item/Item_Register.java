@@ -1,6 +1,12 @@
 package com.elly.athena.item;
 
 import com.elly.athena.item.equipment.belt.LeatherBelt;
+import com.elly.athena.item.equipment.cape.OldCape;
+import com.elly.athena.item.equipment.face.Mask;
+import com.elly.athena.item.equipment.neck.CheapNecklace;
+import com.elly.athena.item.equipment.neck.EvilNecklace;
+import com.elly.athena.item.equipment.neck.LavaNecklace;
+import com.elly.athena.item.equipment.ring.ChaosRing;
 import com.elly.athena.item.equipment.ring.Single_Earring;
 import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.etc.CoinBag;
@@ -59,8 +65,17 @@ public class Item_Register {
                 new MP_Potion(),
                 new MP_Potion_Large(),
                 new Elixir(),
+                // cape
+                new OldCape(),
+                // mask
+                new Mask(),
+                // necklace
+                new EvilNecklace(),
+                new CheapNecklace(),
+                new LavaNecklace(),
                 // ring
                 new Single_Earring(),
+                new ChaosRing(),
                 // belt
                 new LeatherBelt(),
                 // weapon warrior

@@ -13,11 +13,10 @@ public class Bow implements Item_Register.ItemRegisterData {
             super(p_40660_);
         }
     }
-
-
+    
     @Override
     public String get_key() {
-        return "bow";
+        return "weapon_bow";
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.elly.athena.gui.screen;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.network.general.StatusApplyPayload;
@@ -15,10 +16,13 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.elly.athena.gui.RenderUtility.drawFont;
 
@@ -146,13 +150,13 @@ public class Status_Screen extends Screen {
         addRenderableWidget(_minus2);
         addRenderableWidget(_minus3);
 
-        InitX = 4 + offsetWidth;
-        InitY = 155 + offsetHeight;
+        InitX = 10 + offsetWidth;
+        InitY = 160 + offsetHeight;
         _submit = Button.builder(Component.literal("Submit"), (k) -> { submit_point(); })
                 .pos(InitX, InitY).size(45, 17)
                 .build();
 
-        InitX = 50 + offsetWidth;
+        InitX = 56 + offsetWidth;
         _clean = Button.builder(Component.literal("Clean"), (k) -> { clean_point(); })
                 .pos(InitX, InitY).size(45, 17)
                 .build();
@@ -217,22 +221,22 @@ public class Status_Screen extends Screen {
     }
 
     private void render_statue_list(GuiGraphics graphics){
-        int InitX = 100 + offsetWidth;
+        int InitX = 110 + offsetWidth;
         int InitY = 8 + offsetHeight;
         int Gap = font.lineHeight + 5;
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetSourceBasic();
+        AttributeMap map = player.getAttributes();
         String[] texts = new String[]{
-                String.format("MaxHP: %d", bss.MaxHP),
-                String.format("MaxMP: %d", bss.MaxMP),
-                String.format("Attack Speed: %d", bss.AttackSpeed),
-                String.format("Physical Damage: %d - %d", bss.MinDamage, bss.MaxDamage),
-                String.format("Magic Damage: %d - %d", bss.MinMagicDamage, bss.MaxMagicDamage),
-                String.format("Physical Defense: %d", bss.Defense),
-                String.format("Magic Defense: %d", bss.MagicDefense),
-                String.format("Physical Accuracy: %d", bss.Accuracy),
-                String.format("Magic Accuracy: %d", bss.MagicAccuracy),
-                String.format("Physical Dodge: %d", bss.Dodge),
-                String.format("Magic Dodge: %d", bss.MagicDodge),
+                String.format("MaxHP: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.MAX_HEALTH)).getValue()),
+                String.format("MaxMP: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA_MAX)).getValue()),
+                String.format("Attack Speed: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ATTACK_SPEED)).getValue()),
+                String.format("Physical Damage: %d - %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ATTACK_DAMAGE)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.DAMAGE_MAX)).getValue()),
+                String.format("Magic Damage: %d - %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ATTACK)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ATTACK_MAX)).getValue()),
+                String.format("Physical Defense: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ARMOR)).getValue()),
+                String.format("Magic Defense: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ARMOR)).getValue()),
+                String.format("Physical Accuracy: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.ACCURACY)).getValue()),
+                String.format("Magic Accuracy: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ACCURACY)).getValue()),
+                String.format("Physical Dodge: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.DODGE)).getValue()),
+                String.format("Magic Dodge: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_DODGE)).getValue()),
         };
         for(int i = 0; i < texts.length; i++){
             drawFont(graphics, texts[i], InitX, InitY + (Gap * i), ColorLabel);

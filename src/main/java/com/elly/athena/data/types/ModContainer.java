@@ -14,9 +14,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -139,7 +141,7 @@ public class ModContainer implements Container, Nameable {
     @Override
     public void setItem(int i, @NotNull ItemStack itemStack) {
         if(i >= getContainerSize()) return;
-        if (i == 0) playerEquipment.setMain(itemStack);
+        if (i == 0) {playerEquipment.setMain(itemStack);}
         else if (i == 1) playerEquipment.setSecondary(itemStack);
         else if (i == 2) playerEquipment.setRing0(itemStack);
         else if (i == 3) playerEquipment.setRing1(itemStack);
@@ -205,10 +207,5 @@ public class ModContainer implements Container, Nameable {
         }else{
             return false;
         }
-    }
-
-    private void equipEvent(ItemStack target){
-        BattleSystem.BattleSystemStruct bss = BattleSystem.ApplyCalculateAttribute(player);
-        BattleSystem.ApplyModAttribute(player, bss, true);
     }
 }

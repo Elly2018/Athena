@@ -43,7 +43,7 @@ public class MagicBall extends RPGSkill_Header {
 
     @Override
     public String get_key() {
-        return "magic_ball";
+        return "skill_magic_ball";
     }
 
     @Override

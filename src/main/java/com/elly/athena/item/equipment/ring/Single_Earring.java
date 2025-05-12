@@ -25,7 +25,7 @@ public class Single_Earring implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "single_earring";
+        return "ring_single_earring";
     }
 
     @Override

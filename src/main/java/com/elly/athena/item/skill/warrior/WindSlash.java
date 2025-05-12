@@ -21,7 +21,7 @@ public class WindSlash implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "wind_slash";
+        return "skill_wind_slash";
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Phalanx implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "phalanx";
+        return "skill_phalanx";
     }
 
     @Override

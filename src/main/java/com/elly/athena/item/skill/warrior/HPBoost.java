@@ -14,7 +14,7 @@ public class HPBoost implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "hp_boost";
+        return "skill_hp_boost";
     }
 
     @Override

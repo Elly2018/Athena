@@ -9,18 +9,30 @@
 
   "player.interact.menu.trade": "Trade",
 
+  "attribute.name.magic_attack": "Magic Attack",
+
   "menu.title.athena.equipment": "Equipment",
   "menu.title.athena.skill": "Skill",
-  "item.athena.speed_boost": "Speed Boost",
-  "item.athena.healing": "Healing",
 
-  "item.athena.single_earring": "Single Earring",
+  "item.athena.skill_speed_boost": "Speed Boost",
+  "item.athena.skill_healing": "Healing",
+  "item.athena.skill_hp_boost": "HP Boost",
+  "item.athena.skill_wind_slash": "Wind Slash",
 
-  "item.athena.sword": "Sword",
-  "item.athena.spear": "Spear",
-  "item.athena.wand": "Wand",
-  "item.athena.staff": "Staff",
-  "item.athena.bow": "Bow",
+  "item.athena.belt_leather": "Leather Belt",
+  "item.athena.ring_single_earring": "Single Earring",
+  "item.athena.ring_chaos": "Chaos Ring",
+  "item.athena.cape_old": "Old Cape",
+  "item.athena.face_mask": "Mask",
+  "item.athena.necklace_cheap": "Single Earring",
+  "item.athena.necklace_evil": "Evil Core",
+  "item.athena.necklace_lava": "Lava Necklace",
+
+  "item.athena.weapon_sword": "Sword",
+  "item.athena.weapon_spear": "Spear",
+  "item.athena.weapon_wand": "Wand",
+  "item.athena.weapon_staff": "Staff",
+  "item.athena.weapon_bow": "Bow",
 
   "item.athena.hp_potion": "HP Potion",
   "item.athena.mp_potion": "MP Potion",

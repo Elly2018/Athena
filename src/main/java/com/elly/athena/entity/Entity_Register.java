@@ -25,6 +25,7 @@ import static com.elly.athena.Athena.MODID;
 @EventBusSubscriber(modid = Athena.MODID)
 public class Entity_Register {
     public static final Supplier<EntityType<WoodElf>> WOODELF = register("woodelf", Entity_Register::woodelf);
+    public static final Supplier<EntityType<RPGNPC>> NPC = register("npc", Entity_Register::npc);
 
     private static <E extends Entity> Supplier<EntityType<E>> register(final String name, final Supplier<EntityType.Builder<E>> sup) {
         return Athena.ENTITY.register(name, () -> sup.get().build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(MODID + ":" + name))));
@@ -32,6 +33,13 @@ public class Entity_Register {
 
     private static EntityType.Builder<WoodElf> woodelf(){
         return EntityType.Builder.<WoodElf>of(WoodElf::new, MobCategory.MONSTER)
+                .sized(0.5f, 0.5f)
+                .setTrackingRange(4)
+                .setUpdateInterval(3)
+                .setShouldReceiveVelocityUpdates(true);
+    }
+    private static EntityType.Builder<RPGNPC> npc(){
+        return EntityType.Builder.<RPGNPC>of(RPGNPC::new, MobCategory.CREATURE)
                 .sized(0.5f, 0.5f)
                 .setTrackingRange(4)
                 .setUpdateInterval(3)

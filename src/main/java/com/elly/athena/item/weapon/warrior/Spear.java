@@ -17,7 +17,7 @@ public class Spear implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "spear";
+        return "weapon_spear";
     }
 
     @Override
@@ -29,6 +29,6 @@ public class Spear implements Item_Register.ItemRegisterData {
 
     @Override
     public SwordItem get_binding(Item.Properties props) {
-        return new Spear_Item(ToolMaterial.IRON, 8, 1.2F, props);
+        return new Spear_Item(ToolMaterial.IRON, 8, -3.5F, props);
     }
 }

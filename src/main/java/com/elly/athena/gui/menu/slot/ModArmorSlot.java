@@ -7,6 +7,7 @@ import com.elly.athena.item.equipment.RPGEquip_Base;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -36,6 +38,7 @@ public class ModArmorSlot extends Slot {
     public void setByPlayer(@NotNull ItemStack newItem, @NotNull ItemStack oldItem) {
         onEquipItem(oldItem, newItem);
         super.setByPlayer(newItem, oldItem);
+        NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent(owner, EquipmentSlot.MAINHAND, oldItem, newItem));
     }
 
     public int getMaxStackSize() {

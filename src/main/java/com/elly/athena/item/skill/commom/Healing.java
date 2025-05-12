@@ -33,7 +33,7 @@ public class Healing extends RPGSkill_Header {
 
     @Override
     public String get_key() {
-        return "healing";
+        return "skill_healing";
     }
 
     @Override

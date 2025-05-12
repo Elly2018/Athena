@@ -16,7 +16,7 @@ public class LeatherBelt extends RPGEquip_Header {
 
     @Override
     public String get_key() {
-        return "leather_belt";
+        return "belt_leather";
     }
 
     @Override

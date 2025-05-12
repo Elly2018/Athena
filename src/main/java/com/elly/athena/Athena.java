@@ -93,7 +93,6 @@ public class Athena {
             if(!Config.air_exist){
                 x.setAirSupply(20);
             }
-            BattleSystem.UpdateHealth(x);;
         });
     }
 }

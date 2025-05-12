@@ -34,7 +34,7 @@ public class SpeedBoost extends RPGSkill_Header {
 
     @Override
     public String get_key() {
-        return "speed_boost";
+        return "skill_speed_boost";
     }
 
     @Override
