@@ -36,12 +36,16 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
 
 @EventBusSubscriber(modid = Athena.MODID)
 public class ServerHandler {
     public static MinecraftServer m_Server;
+    public static BlockingQueue<Runnable> event_worker = new ArrayBlockingQueue<>(5);
 
     @SubscribeEvent
     public static void onBlockPlace(BlockEvent.EntityPlaceEvent event){
@@ -60,6 +64,13 @@ public class ServerHandler {
             PlayerMenuUpdate(player);
             PlayerNetworkUpdate(player);
         });
+        while (!event_worker.isEmpty()){
+            try {
+                event_worker.take().run();
+            } catch (InterruptedException e) {
+                Athena.LOGGER.error(e.getLocalizedMessage());
+            }
+        }
     }
 
     private static void PlayerNetworkUpdate(ServerPlayer player){
@@ -121,8 +132,14 @@ public class ServerHandler {
     @SubscribeEvent
     public static void onEquipment(LivingEquipmentChangeEvent event){
         if(event.getEntity() instanceof Player player){
-            BattleSystem.ApplyModAttribute(event, player);;
+            BattleSystem.ApplyEquipmentChange(event, player);;
         }
+    }
+
+    @SubscribeEvent
+    public static void respawn(PlayerEvent.PlayerRespawnEvent event){
+        BattleSystem.ApplyChange(event.getEntity());
+
     }
 
     @SubscribeEvent

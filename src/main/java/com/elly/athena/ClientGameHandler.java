@@ -7,7 +7,10 @@ import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.PlayerInteract_Screen;
 import com.elly.athena.gui.screen.Status_Screen;
 import com.elly.athena.network.general.StatusPayload;
+import com.elly.athena.network.input.SelectionPayload;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -16,6 +19,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.settings.KeyMappingLookup;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -33,6 +37,7 @@ public class ClientGameHandler {
     static BlockingQueue<Runnable> gui_worker = new ArrayBlockingQueue<>(5);
     static boolean status_mapping = false;
     static boolean switch_mapping = false;
+    static Minecraft minecraft = null;
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -50,11 +55,15 @@ public class ClientGameHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void renderGUI(RenderGuiLayerEvent.Pre event) throws Exception {
+    public static void renderGUI(RenderGuiLayerEvent.Pre event) {
         if(hub == null) hub = new Hud();
         hub.renderGUI(event);
         while (!gui_worker.isEmpty()){
-            gui_worker.take().run();
+            try {
+                gui_worker.take().run();
+            } catch (InterruptedException e) {
+                Athena.LOGGER.error(e.getLocalizedMessage());
+            }
         }
     }
 
@@ -71,7 +80,19 @@ public class ClientGameHandler {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onClientTickPre(ClientTickEvent.Pre event){
+        KeyMapping[] maps = minecraft.options.keyHotbarSlots;
+        for(KeyMapping key: maps){
+            if(key.isDown()){
+                PacketDistributor.sendToServer(new SelectionPayload.SelectionData(0));
+                break;
+            }
+        }
+    }
 
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void onClientsScroll(InputEvent.MouseScrollingEvent event){
+        PacketDistributor.sendToServer(new SelectionPayload.SelectionData(0));
     }
 
     @SubscribeEvent

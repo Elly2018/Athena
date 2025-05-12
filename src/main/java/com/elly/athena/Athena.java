@@ -8,6 +8,7 @@ import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -80,6 +81,7 @@ public class Athena {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        ClientGameHandler.minecraft = Minecraft.getInstance();
     }
 
     @SubscribeEvent

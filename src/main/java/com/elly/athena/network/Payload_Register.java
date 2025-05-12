@@ -2,6 +2,7 @@ package com.elly.athena.network;
 
 import com.elly.athena.Athena;
 import com.elly.athena.network.general.*;
+import com.elly.athena.network.input.SelectionPayload;
 import com.elly.athena.network.menu.SkillMenuPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -19,6 +20,7 @@ public class Payload_Register {
             .executesOn(HandlerThread.NETWORK);
         register_general(registrar);
         register_menu(registrar);
+        register_input(registrar);
     }
 
     private static void register_general(final PayloadRegistrar registrar) {
@@ -95,6 +97,17 @@ public class Payload_Register {
                 new DirectionalPayloadHandler<>(
                         SkillMenuPayload.ClientPayloadHandler::handleDataOnMain,
                         SkillMenuPayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
+    }
+
+    private static void register_input(final PayloadRegistrar registrar){
+        registrar.playBidirectional(
+                SelectionPayload.SelectionData.TYPE,
+                SelectionPayload.SelectionData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SelectionPayload.ClientPayloadHandler::handleDataOnMain,
+                        SelectionPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
     }
