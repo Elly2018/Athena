@@ -2,11 +2,14 @@ package com.elly.athena.item.skill;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.JobType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -32,11 +35,15 @@ public class RPGSkill_Base extends Item {
             Athena.LOGGER.debug(String.format("Cannot use passive skill: %s %s", player.getName().getString(), descriptionId));
             return InteractionResult.FAIL;
         }
+        AttributeMap map = player.getAttributes();
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         IPlayerSkill pss = player.getData(Attachment_Register.PLAYER_SKILL);
+        AttributeInstance instance = map.getInstance(Attribute_Register.MANA);
         int mana_req = requireMana(1);
-        if(ps.getMana() < mana_req) {
-            Athena.LOGGER.debug(String.format("Player does not have enough mana: player:%d  require:%d", ps.getMana(), mana_req));
+        assert instance != null;
+        int p_mana = (int) instance.getValue();
+        if(p_mana < mana_req) {
+            Athena.LOGGER.debug(String.format("Player does not have enough mana: player:%d  require:%d", p_mana, mana_req));
             return InteractionResult.FAIL;
         }
         JobType job = ps.getJob();
@@ -53,11 +60,11 @@ public class RPGSkill_Base extends Item {
 
         if(!player.isLocalPlayer()) {
             if(!player.isCreative()){
-                ps.addMana(-mana_req);
+                instance.setBaseValue(-mana_req);
             }
             pss.SetCooldown(Category, skillName, cooldown(level));
-            server_apply(world, player, level, hand);
         }
+        server_apply(world, player, level, hand);
         return InteractionResult.SUCCESS;
     }
 

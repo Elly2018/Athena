@@ -17,6 +17,7 @@ import com.elly.athena.item.skill.commom.Healing;
 import com.elly.athena.item.skill.commom.SpeedBoost;
 import com.elly.athena.item.skill.magician.MagicBall;
 import com.elly.athena.item.skill.warrior.HPBoost;
+import com.elly.athena.item.skill.warrior.Phalanx;
 import com.elly.athena.item.skill.warrior.WindSlash;
 import com.elly.athena.item.special.quest.QuestStaff;
 import com.elly.athena.item.special.setting.NPCStaff;
@@ -92,6 +93,7 @@ public class Item_Register {
                 // skill warrior
                 new HPBoost(),
                 new WindSlash(),
+                new Phalanx(),
                 // skill magician
                 new MagicBall(),
                 // skill archer

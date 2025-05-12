@@ -1,15 +1,13 @@
 package com.elly.athena.data;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -18,6 +16,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 import static com.elly.athena.Athena.ATTRIBUTES;
 
@@ -76,9 +75,32 @@ public class Attribute_Register {
         if(!event.has(EntityType.PLAYER, MAGIC_ACCURACY)) event.add(EntityType.PLAYER, MAGIC_ACCURACY);
     }
 
+    private static final ResourceLocation GLOBAL_Health_MAX = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.max_hp");
+    private static final ResourceLocation GLOBAL_DAMAGE = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.damage");
+    private static final ResourceLocation GLOBAL_ATTACK_SPEED = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.attack_speed");
+    private static final ResourceLocation GLOBAL_MANA_MAX = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.max_mp");
 
     public static void ApplyChange(Player player){
+        IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         AttributeMap map = player.getAttributes();
-        int level = (int) map.getValue(LEVEL);
+        int level = ps.getLevel();
+        int _str = ps.getStr();
+        int _dex = ps.getDex();
+        int _int = ps.getInt();
+        int _luk = ps.getLuk();
+        Objects.requireNonNull(map.getInstance(LEVEL)).setBaseValue(level);
+
+        AttributeModifier globalHealth = new AttributeModifier(GLOBAL_Health_MAX, _str + level, AttributeModifier.Operation.ADD_VALUE);
+        AttributeModifier globalManaMax = new AttributeModifier(GLOBAL_MANA_MAX, _int + level, AttributeModifier.Operation.ADD_VALUE);
+        ApplyModifier(Attributes.MAX_HEALTH, globalHealth, map);
+        ApplyModifier(MANA_MAX, globalManaMax, map);
+    }
+
+    private static void ApplyModifier(Holder<Attribute> attri, AttributeModifier target, AttributeMap map){
+        AttributeInstance attributeinstance = map.getInstance(attri);
+        if (attributeinstance != null) {
+            attributeinstance.removeModifier(target.id());
+            attributeinstance.addTransientModifier(target);
+        }
     }
 }

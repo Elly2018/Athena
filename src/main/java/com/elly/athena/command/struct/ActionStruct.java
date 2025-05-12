@@ -29,10 +29,6 @@ public class ActionStruct <T> {
         return (ps) -> new ActionStruct<Integer>(ps::setManaMaximum, ps::addManaMaximum, ps::getManaMaximum);
     }
 
-    public static Function<IPlayerStatus, ActionStruct<Integer>> MANA() {
-        return (ps) -> new ActionStruct<Integer>(ps::setMana, ps::addMana, ps::getMana);
-    }
-
     public static Function<IPlayerStatus, ActionStruct<Integer>> EXP() {
         return (ps) -> new ActionStruct<Integer>(ps::setExp, ps::addExp, ps::getExp);
     }

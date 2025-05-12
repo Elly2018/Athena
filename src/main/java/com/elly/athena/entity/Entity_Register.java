@@ -2,6 +2,7 @@ package com.elly.athena.entity;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.item.skill.RPGSkill_Base;
@@ -52,6 +53,7 @@ public class Entity_Register {
             Player player = (Player) event.getEntity();
             if(!player.hasData(Attachment_Register.PLAYER_STATUS))
                 player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
+            Attribute_Register.ApplyChange(player);
         }
     }
 

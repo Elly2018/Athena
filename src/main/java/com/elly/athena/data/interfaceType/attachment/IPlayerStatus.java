@@ -43,10 +43,6 @@ public interface IPlayerStatus{
     void setManaMaximum(int value);
     void addManaMaximum(int value);
 
-    int getMana();
-    void setMana(int value);
-    void addMana(int value);
-
     int getPoint();
     void setPoint(int value);
     void addPoint(int value);

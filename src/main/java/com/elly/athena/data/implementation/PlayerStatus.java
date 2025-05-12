@@ -14,7 +14,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Level = 1;
     private int Exp = 0;
     private int MaxHealth = 20;
-    private int Mana = 10;
     private int MaxMana = 10;
     private int Str = 1;
     private int Dex = 1;
@@ -48,9 +47,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public int getManaMaximum() { return MaxMana; }
     @Override public void setManaMaximum(int value) { MaxMana = value; }
     @Override public void addManaMaximum(int value) { MaxMana += value; }
-    @Override public int getMana() { return Mana; }
-    @Override public void setMana(int value) { this.Mana = value; }
-    @Override public void addMana(int value) { this.Mana += value; }
 
     @Override public int getDex() { return this.Dex; }
     @Override public void setDex(int value) { this.Dex = value; }
@@ -94,7 +90,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         elementTag.putInt("level", this.Level);
         elementTag.putInt("exp", this.Exp);
         elementTag.putInt("max_health", this.MaxHealth);
-        elementTag.putInt("mana", this.Mana);
         elementTag.putInt("max_mana", this.MaxMana);
         elementTag.putInt("str", this.Str);
         elementTag.putInt("dex", this.Dex);
@@ -118,7 +113,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         this.Level = elementTag.getInt("level");
         this.Exp = elementTag.getInt("exp");
         this.MaxHealth = elementTag.getInt("max_health");
-        this.Mana = elementTag.getInt("mana");
         this.MaxMana = elementTag.getInt("max_mana");
         this.Str = elementTag.getInt("str");
         this.Dex = elementTag.getInt("dex");

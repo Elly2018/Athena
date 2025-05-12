@@ -120,6 +120,7 @@ public class CreativeTabs_Register {
                         "skill_healing",
                         "skill_hp_boost",
                         "skill_wind_slash",
+                        "skill_phalanx",
                 },
                 "athena_skill", "Athena Skill"
         ));

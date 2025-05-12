@@ -79,7 +79,7 @@ public class PlayerStatusCommand {
         switch(PlayerDataType){
             case level -> { player.displayClientMessage(Component.literal("Your level is: %d".formatted(status.getLevel())), true); }
             case coin -> { player.displayClientMessage(Component.literal("Your coin is: %d".formatted(status.getCoin())), true); }
-            case mana, max_mana -> { player.displayClientMessage(Component.literal("Your mana is: %d / %d".formatted((int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA_MAX)).getValue())), true); }
+            case max_mana -> { player.displayClientMessage(Component.literal("Your mana is: %d / %d".formatted((int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA_MAX)).getValue())), true); }
             case exp -> { player.displayClientMessage(Component.literal("Your exp is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true); }
             case max_hp -> { player.displayClientMessage(Component.literal("Your max hp is: %d".formatted((int) Objects.requireNonNull(map.getInstance(Attributes.MAX_HEALTH)).getValue())), true); }
             case str -> { player.displayClientMessage(Component.literal("Your str is: %d".formatted(status.getStr())), true); }

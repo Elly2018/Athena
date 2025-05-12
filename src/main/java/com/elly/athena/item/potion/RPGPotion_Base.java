@@ -45,7 +45,9 @@ public class RPGPotion_Base extends Item {
         }
         if (m > 0 && MP < MaxMP && hand == InteractionHand.MAIN_HAND) {
             pass = true;
-            target.setMana(Math.min(MP + m, MaxMP));
+            var instance = map.getInstance(Attribute_Register.MANA);
+            assert instance != null;
+            instance.setBaseValue(Math.min(MP + m, MaxMP));
         }
 
         if(!pass) return InteractionResult.FAIL;

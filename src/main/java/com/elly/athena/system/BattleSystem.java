@@ -13,9 +13,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 
 public class BattleSystem {
-
-    private static final ResourceLocation GLOBAL_MANA_MAX = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.max_mana");
-
     public static void ApplyModAttribute(LivingEquipmentChangeEvent event, Player player){
         AttributeMap map = player.getAttributes();
         RemoveModAttribute(event.getFrom(), map);

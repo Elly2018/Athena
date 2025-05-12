@@ -59,7 +59,6 @@ public class Command_Register {
         ActionMap = new HashMap<>();
         ActionMap.put(PlayerDataType.level, ActionStruct.LEVEL());
         ActionMap.put(PlayerDataType.coin, ActionStruct.COIN());
-        ActionMap.put(PlayerDataType.mana, ActionStruct.MANA());
         ActionMap.put(PlayerDataType.max_mana, ActionStruct.MAXMANA());
         ActionMap.put(PlayerDataType.exp, ActionStruct.EXP());
         ActionMap.put(PlayerDataType.max_hp, ActionStruct.MAXHP());
