@@ -8,15 +8,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class BattleSystem {
-    public static void ApplyEquipmentChange(LivingEquipmentChangeEvent event, Player player){
+    public static void ApplyEquipmentChange(@NotNull LivingEquipmentChangeEvent event, @NotNull Player player){
         AttributeMap map = player.getAttributes();
         RemoveModAttribute(event.getFrom(), map);
         ssApplyModAttribute(map, player);
     }
 
-    public static void ApplyChange(Player player){
+    public static void ApplyChange(@NotNull Player player){
         AttributeMap map = player.getAttributes();
         ssApplyModAttribute(map, player);
     }
@@ -41,12 +42,12 @@ public class BattleSystem {
         }
     }
 
-    private static void RemoveHandModAttribute(Player player, AttributeMap map){
+    private static void RemoveHandModAttribute(@NotNull Player player, AttributeMap map){
         ItemStack iss = player.getInventory().getSelected();
         RemoveModAttribute(iss, map);
     }
 
-    private static void RemoveModAttribute(ItemStack target, AttributeMap map){
+    private static void RemoveModAttribute(@NotNull ItemStack target, AttributeMap map){
         if(target.isEmpty()) return;
         target.getAttributeModifiers().modifiers().forEach(entry -> {
             AttributeInstance attributeinstance = map.getInstance(entry.attribute());
