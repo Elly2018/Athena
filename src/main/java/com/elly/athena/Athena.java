@@ -2,6 +2,8 @@ package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
 import com.elly.athena.blockitem.BlockItems_Register;
+import com.elly.athena.effect.Effect_Register;
+import com.elly.athena.effect.Phalanx;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.tabs.CreativeTabs_Register;
@@ -66,6 +68,7 @@ public class Athena {
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
+        Effect_Register.RegisterAllEffect();
         Blocks_Register.RegisterAllBlocks();
         BlockItems_Register.RegisterAllItems();
         Item_Register.RegisterAllItems();

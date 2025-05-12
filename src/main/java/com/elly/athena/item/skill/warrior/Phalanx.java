@@ -22,7 +22,7 @@ public class Phalanx extends RPGSkill_Header {
         @Override
         public void server_apply(Level world, Player player, int level, InteractionHand hand) {
             player.addEffect(new MobEffectInstance(
-                    Effect_Register.PHALANX, 40 + (level * 4), (int) Math.ceil(level / 3F) - 1)
+                    Effect_Register.PHALANX, 40 + (level * 4) * 20, (int) Math.ceil(level / 3F) - 1)
             );
         }
 

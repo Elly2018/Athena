@@ -1,6 +1,5 @@
 package com.elly.athena.item.skill.commom;
 
-import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.item.skill.RPGSkill_Header;
 import net.minecraft.world.InteractionHand;

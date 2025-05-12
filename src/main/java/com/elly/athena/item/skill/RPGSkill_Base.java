@@ -54,7 +54,10 @@ public class RPGSkill_Base extends Item {
 
         String skillName = descriptionId.replace("item.athena.", "");
         int level = pss.getPoint(Category, skillName);
-        if(level < 0) return InteractionResult.FAIL;
+        if(player.isCreative() && level < 0){
+            level = 1;
+        }
+        if(level <= 0) return InteractionResult.FAIL;
         boolean CanUse = pss.CheckCooldown(Category, skillName);
         if(!CanUse) return InteractionResult.FAIL;
 
@@ -63,8 +66,8 @@ public class RPGSkill_Base extends Item {
                 instance.setBaseValue(-mana_req);
             }
             pss.SetCooldown(Category, skillName, cooldown(level));
+            server_apply(world, player, level, hand);
         }
-        server_apply(world, player, level, hand);
         return InteractionResult.SUCCESS;
     }
 
