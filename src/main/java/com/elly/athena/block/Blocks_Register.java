@@ -1,6 +1,7 @@
 package com.elly.athena.block;
 
 import com.elly.athena.Athena;
+import com.elly.athena.block.block.MarketBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

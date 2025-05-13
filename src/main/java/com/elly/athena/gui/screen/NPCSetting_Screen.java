@@ -49,11 +49,16 @@ public class NPCSetting_Screen extends AbstractContainerScreen {
         Button to_dialog = Button.builder(Component.translatable("menu.npc_setting.to_dialog"), (b) -> {
             manager.Active(dialog_setting);
         }).pos(30, 23).size(74, 15).build();
+        Button to_delete = Button.builder(Component.translatable("menu.npc_setting.delete"), (b) -> {
+            manager.Active(dialog_setting);
+        }).pos(49, 23).size(74, 15).build();
 
         this.addRenderableWidget(to_shop);
         this.addRenderableWidget(to_dialog);
+        this.addRenderableWidget(to_delete);
         main_menu.Add(to_shop);
         main_menu.Add(to_dialog);
+        main_menu.Add(to_delete);
     }
 
     @Override

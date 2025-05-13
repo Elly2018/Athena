@@ -1,5 +1,6 @@
-package com.elly.athena.block;
+package com.elly.athena.block.block;
 
+import com.elly.athena.block.Blocks_Register;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;

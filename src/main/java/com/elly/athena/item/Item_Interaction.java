@@ -4,14 +4,17 @@ import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
+import com.elly.athena.entity.RPGNPC;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import com.elly.athena.item.special.setting.NPCStaff;
 import com.elly.athena.network.general.LootPayload;
 import com.elly.athena.network.general.RightClickPayload;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -31,18 +34,28 @@ public class Item_Interaction {
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.RightClickItem event){
         Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickItem: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
             onSkillUse(player);
             event.setCanceled(true);
         }
     }
+
+    public static void onEntityInteract(PlayerInteractEvent.EntityInteractSpecific event){
+        ItemStack iss = event.getItemStack();
+        Entity target = event.getTarget();
+        Player source = event.getEntity();
+        if(iss.getItem() instanceof NPCStaff.NPCStaff_Item npc_staff &&
+                target instanceof RPGNPC npc_target &&
+                source.isCreative()){
+            npc_staff.useStaff(source, npc_target);
+        }
+    }
+
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onEntityInteract(PlayerInteractEvent.RightClickEmpty event){
         Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickEmpty: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
             PacketDistributor.sendToServer(new RightClickPayload.RightClickPayloadData(0));
@@ -51,7 +64,6 @@ public class Item_Interaction {
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.RightClickBlock event){
         Player player = event.getEntity();
-        Athena.LOGGER.debug(String.format("PlayerInteractEvent.RightClickBlock: %s", player.getName().getString()));
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
             onSkillUse(player);

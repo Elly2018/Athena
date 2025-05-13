@@ -1,5 +1,6 @@
-package com.elly.athena.blockitem;
+package com.elly.athena.block.item;
 
+import com.elly.athena.block.BlockItems_Register;
 import net.minecraft.world.item.Item;
 
 public class MarketBlock implements BlockItems_Register.BlockItemRegisterData {

@@ -1,9 +1,6 @@
 package com.elly.athena.gui;
 
-import com.elly.athena.gui.menu.Equipment_Menu;
-import com.elly.athena.gui.menu.Market_Menu;
-import com.elly.athena.gui.menu.Skill_Menu;
-import com.elly.athena.gui.menu.Trade_Menu;
+import com.elly.athena.gui.menu.*;
 import com.elly.athena.gui.screen.Equipment_Screen;
 import com.elly.athena.gui.screen.Skill_Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,6 +22,7 @@ public class GUI_Register {
     public static final Supplier<MenuType<Skill_Menu>> SKILL_MENU = MENU_TYPES.register("skill_menu", () -> new MenuType<>(Skill_Menu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final Supplier<MenuType<Trade_Menu>> TRADE_MENU = MENU_TYPES.register("trade_menu", () -> new MenuType<>(Trade_Menu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final Supplier<MenuType<Market_Menu>> MARKET_MENU = MENU_TYPES.register("market_menu", () -> new MenuType<>(Market_Menu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final Supplier<MenuType<NPC_Menu>> NPC_MENU = MENU_TYPES.register("npc_menu", () -> new MenuType<>(NPC_Menu::new, FeatureFlags.DEFAULT_FLAGS));
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {

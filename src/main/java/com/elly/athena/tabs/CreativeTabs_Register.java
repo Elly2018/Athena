@@ -1,6 +1,6 @@
 package com.elly.athena.tabs;
 
-import com.elly.athena.blockitem.BlockItems_Register;
+import com.elly.athena.block.BlockItems_Register;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
