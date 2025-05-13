@@ -6,8 +6,8 @@ import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.PlayerInteract_Screen;
 import com.elly.athena.gui.screen.Status_Screen;
+import com.elly.athena.network.general.EventGeneralPayload;
 import com.elly.athena.network.general.StatusPayload;
-import com.elly.athena.network.input.SelectionPayload;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -83,7 +83,7 @@ public class ClientGameHandler {
         KeyMapping[] maps = minecraft.options.keyHotbarSlots;
         for(KeyMapping key: maps){
             if(key.isDown()){
-                PacketDistributor.sendToServer(new SelectionPayload.SelectionData(0));
+                PacketDistributor.sendToServer(EventGeneralPayload.GenerateData_Input(EventGeneralPayload.InputMeta.SELECTION));
                 break;
             }
         }
@@ -92,7 +92,7 @@ public class ClientGameHandler {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onClientsScroll(InputEvent.MouseScrollingEvent event){
-        PacketDistributor.sendToServer(new SelectionPayload.SelectionData(0));
+        PacketDistributor.sendToServer(EventGeneralPayload.GenerateData_Input(EventGeneralPayload.InputMeta.SELECTION));
     }
 
     @SubscribeEvent

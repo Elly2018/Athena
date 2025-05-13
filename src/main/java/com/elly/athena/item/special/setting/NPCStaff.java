@@ -1,21 +1,24 @@
 package com.elly.athena.item.special.setting;
 
-import com.elly.athena.entity.RPGNPC;
+import com.elly.athena.entity.npc.RPGNPC;
+import com.elly.athena.gui.menu.NPC_Menu;
 import com.elly.athena.item.Item_Register;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 public class NPCStaff implements Item_Register.ItemRegisterData {
-
     public static class NPCStaff_Item extends Item {
         public NPCStaff_Item(Properties properties) {
             super(properties);
         }
 
         public void useStaff(Player player, RPGNPC entity){
-            if(!player.isLocalPlayer()){
-                
-            }
+            player.openMenu(new SimpleMenuProvider(
+                    NPC_Menu::new,
+                    Component.empty()
+            ));
         }
     }
 

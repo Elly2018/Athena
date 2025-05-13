@@ -4,7 +4,10 @@ import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.entity.mob.TestUseZombie;
 import com.elly.athena.entity.mob.WoodElf;
+import com.elly.athena.entity.npc.RPGNPC;
+import com.elly.athena.entity.npc.RPGNPC_Renderer;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
@@ -26,6 +30,7 @@ import static com.elly.athena.Athena.MODID;
 @EventBusSubscriber(modid = Athena.MODID)
 public class Entity_Register {
     public static final Supplier<EntityType<WoodElf>> WOODELF = register("woodelf", Entity_Register::woodelf);
+    public static final Supplier<EntityType<TestUseZombie>> TESTZOMBIE = register("testzombie", Entity_Register::testzombie);
     public static final Supplier<EntityType<RPGNPC>> NPC = register("npc", Entity_Register::npc);
 
     private static <E extends Entity> Supplier<EntityType<E>> register(final String name, final Supplier<EntityType.Builder<E>> sup) {
@@ -39,12 +44,24 @@ public class Entity_Register {
                 .setUpdateInterval(3)
                 .setShouldReceiveVelocityUpdates(true);
     }
+    private static EntityType.Builder<TestUseZombie> testzombie(){
+        return EntityType.Builder.<TestUseZombie>of(TestUseZombie::new, MobCategory.MONSTER)
+                .sized(0.5f, 0.5f)
+                .setTrackingRange(4)
+                .setUpdateInterval(3)
+                .setShouldReceiveVelocityUpdates(true);
+    }
     private static EntityType.Builder<RPGNPC> npc(){
         return EntityType.Builder.<RPGNPC>of(RPGNPC::new, MobCategory.CREATURE)
                 .sized(0.5f, 0.5f)
                 .setTrackingRange(4)
                 .setUpdateInterval(3)
                 .setShouldReceiveVelocityUpdates(true);
+    }
+
+    @SubscribeEvent
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(NPC, RPGNPC_Renderer::new);
     }
 
     @SubscribeEvent

@@ -4,17 +4,16 @@ import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
-import com.elly.athena.entity.RPGNPC;
+import com.elly.athena.entity.npc.RPGNPC;
 import com.elly.athena.item.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.item.special.setting.NPCStaff;
+import com.elly.athena.network.general.EventGeneralPayload;
 import com.elly.athena.network.general.LootPayload;
-import com.elly.athena.network.general.RightClickPayload;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -58,9 +57,10 @@ public class Item_Interaction {
         Player player = event.getEntity();
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
         if(status.getMode() == 1) {
-            PacketDistributor.sendToServer(new RightClickPayload.RightClickPayloadData(0));
+            PacketDistributor.sendToServer(EventGeneralPayload.GenerateData_Input(EventGeneralPayload.InputMeta.RIGHT_CLICK));
         }
     }
+
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.RightClickBlock event){
         Player player = event.getEntity();
