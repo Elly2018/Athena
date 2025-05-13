@@ -139,7 +139,6 @@ public class ServerHandler {
     @SubscribeEvent
     public static void respawn(PlayerEvent.PlayerRespawnEvent event){
         BattleSystem.ApplyChange(event.getEntity());
-
     }
 
     @SubscribeEvent
