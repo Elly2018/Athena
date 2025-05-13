@@ -9,6 +9,7 @@ import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.entity.npc.RPGNPC;
 import com.elly.athena.entity.npc.RPGNPC_Renderer;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -61,7 +62,7 @@ public class Entity_Register {
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(NPC, RPGNPC_Renderer::new);
+        event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
     }
 
     @SubscribeEvent
