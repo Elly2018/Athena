@@ -61,11 +61,6 @@ public class Entity_Register {
     }
 
     @SubscribeEvent
-    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
-    }
-
-    @SubscribeEvent
     public static void entityJoin(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();

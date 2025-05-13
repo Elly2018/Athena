@@ -3,6 +3,7 @@ package com.elly.athena;
 import com.elly.athena.command.Command_Register;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.entity.npc.RPGNPC_Renderer;
 import com.elly.athena.gui.Hud;
 import com.elly.athena.gui.screen.PlayerInteract_Screen;
 import com.elly.athena.gui.screen.Status_Screen;
@@ -28,6 +29,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import static com.elly.athena.entity.Entity_Register.NPC;
 import static com.elly.athena.keymap.KeyMap_Register.STATUS_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SWITCH_MAPPING;
 
@@ -38,6 +40,10 @@ public class ClientGameHandler {
     static boolean status_mapping = false;
     static boolean switch_mapping = false;
     static Minecraft minecraft = null;
+
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
+    }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
