@@ -3,6 +3,7 @@ package com.elly.athena.item.weapon.magician;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.item.Item_Register;
+import com.elly.athena.item.weapon.RPGMagic_Base;
 import com.elly.athena.item.weapon.RPGMelee_Base;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -16,7 +17,7 @@ public class Wand implements Item_Register.ItemRegisterData {
 
     private static final ResourceLocation modifier = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.weapon_wand.magic_attack");
 
-    public static class Wand_Item extends RPGMelee_Base {
+    public static class Wand_Item extends RPGMagic_Base {
         public Wand_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
             super(material, attackDamage, attackSpeed, properties);
         }

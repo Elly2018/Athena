@@ -37,7 +37,7 @@ public class MagicBall extends RPGSkill_Header {
 
         @Override
         public int requireMana(int level) {
-            return super.requireMana(level);
+            return 1;
         }
     }
 
