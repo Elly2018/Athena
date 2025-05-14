@@ -14,7 +14,7 @@ public interface IPlayerQuest {
         ProgressType GetState();
     }
 
-    void AddRecord(UUID target);
+    IQuestRecord AddRecord(UUID target);
     IQuestRecord GetRecord(UUID target);
     void RemoveRecord(UUID target);
     int Size();

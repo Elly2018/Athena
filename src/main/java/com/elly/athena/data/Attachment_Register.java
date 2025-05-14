@@ -14,6 +14,7 @@ public class Attachment_Register {
     // Player
     public static final Supplier<AttachmentType<PlayerStatus>> PLAYER_STATUS = ATTACHMENT.register("player_status", () -> AttachmentType.serializable(PlayerStatus::new).build());
     public static final Supplier<AttachmentType<PlayerSkill>> PLAYER_SKILL = ATTACHMENT.register("player_skill", () -> AttachmentType.serializable(PlayerSkill::new).build());
+    public static final Supplier<AttachmentType<PlayerQuest>> PLAYER_QUEST = ATTACHMENT.register("player_quest", () -> AttachmentType.serializable(PlayerQuest::new).build());
     public static final Supplier<AttachmentType<PlayerEquipment>> PLAYER_EQUIPMENT = ATTACHMENT.register("equipment", () -> AttachmentType.serializable(PlayerEquipment::new).build());
     public static final Supplier<AttachmentType<DamageSource>> DAMAGE_SOURCE = ATTACHMENT.register("damage_source", () -> AttachmentType.serializable(DamageSource::new).build());
     public static final Supplier<AttachmentType<BattleHotbar>> BATTLE_HOTBAR = ATTACHMENT.register("battle", () -> AttachmentType.serializable(BattleHotbar::new).build());

@@ -30,7 +30,12 @@ public interface IQuestRegister {
 
     UUID CreateQuest();
     Collection<UUID> GetQuestList();
-    IQuestContext GetQuest(String UUID);
+    IQuestContext GetQuest(UUID uuid);
+    // To get the main quest, search 0
+    // Other index are side quest
+    IQuestContext GetQuest(int index);
+    UUID GetQuestUUID(int index);
+    void RemoveQuest(UUID uuid);
     int GetQuestSize();
 
 }

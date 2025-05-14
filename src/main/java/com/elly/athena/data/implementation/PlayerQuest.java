@@ -12,8 +12,8 @@ import java.util.UUID;
 public class PlayerQuest implements IPlayerQuest, INBTSerializable<CompoundTag> {
 
     @Override
-    public void AddRecord(UUID target) {
-
+    public IQuestRecord AddRecord(UUID target) {
+        return null;
     }
 
     @Override
