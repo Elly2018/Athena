@@ -40,5 +40,10 @@
   "item.athena.hp_potion_large": "Large HP Potion",
   "item.athena.mp_potion_large": "Large MP Potion",
   "item.athena.elixir": "Elixir",
-  "item.athena.power_elixir": "Power Elixir"
+  "item.athena.power_elixir": "Power Elixir",
+
+  "item.athena.npc_setting_staff": "NPC Setting Staff",
+  "item.athena.teleport_setting_staff": "Teleport Setting Staff",
+  "item.athena.zone_setting_staff": "Zone Setting Staff",
+  "item.athena.quest_setting_staff": "Quest Setting Staff"
 }

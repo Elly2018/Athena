@@ -124,5 +124,17 @@ public class CreativeTabs_Register {
                 },
                 "athena_skill", "Athena Skill"
         ));
+        categories.add(new TabsCategory(
+                new String[]{
+
+                },
+                new String[]{
+                        "npc_setting_staff",
+                        "teleport_setting_staff",
+                        "zone_setting_staff",
+                        "quest_setting_staff",
+                },
+                "athena_op", "Athena OP"
+        ));
     }
 }
