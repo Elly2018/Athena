@@ -1,15 +1,49 @@
 {
   "key.categories.athena": "Athena",
+  "key.athena.equipment": "Equipment",
   "key.athena.skill": "Skill",
   "key.athena.status": "Status",
   "key.athena.switch": "Switch",
   "key.athena.voice": "Voice Input",
   "key.athena.voice_setting": "Voice Setting",
 
+  "player.interact.menu.trade": "Trade",
+
+  "attribute.name.magic_attack": "Magic Attack",
+
+  "menu.title.athena.equipment": "Equipment",
+  "menu.title.athena.skill": "Skill",
+
+  "item.athena.skill_speed_boost": "Speed Boost",
+  "item.athena.skill_healing": "Healing",
+  "item.athena.skill_hp_boost": "HP Boost",
+  "item.athena.skill_wind_slash": "Wind Slash",
+  "item.athena.skill_phalanx": "Phalanx",
+
+  "item.athena.belt_leather": "Leather Belt",
+  "item.athena.ring_single_earring": "Single Earring",
+  "item.athena.ring_chaos": "Chaos Ring",
+  "item.athena.cape_old": "Old Cape",
+  "item.athena.face_mask": "Mask",
+  "item.athena.necklace_cheap": "Single Earring",
+  "item.athena.necklace_evil": "Evil Core",
+  "item.athena.necklace_lava": "Lava Necklace",
+
+  "item.athena.weapon_sword": "Sword",
+  "item.athena.weapon_spear": "Spear",
+  "item.athena.weapon_wand": "Wand",
+  "item.athena.weapon_staff": "Staff",
+  "item.athena.weapon_bow": "Bow",
+
   "item.athena.hp_potion": "HP Potion",
   "item.athena.mp_potion": "MP Potion",
   "item.athena.hp_potion_large": "Large HP Potion",
   "item.athena.mp_potion_large": "Large MP Potion",
   "item.athena.elixir": "Elixir",
-  "item.athena.power_elixir": "Power Elixir"
+  "item.athena.power_elixir": "Power Elixir",
+
+  "item.athena.npc_setting_staff": "NPC Setting Staff",
+  "item.athena.teleport_setting_staff": "Teleport Setting Staff",
+  "item.athena.zone_setting_staff": "Zone Setting Staff",
+  "item.athena.quest_setting_staff": "Quest Setting Staff"
 }

@@ -12,9 +12,23 @@ Version info
 
 ## ScreenShot
 
+||||
+|-|-|-|
+
+
 ## Mechanism
 
-### 
+### More Equipment Slot
+
+### RPG Status System
+
+### Skill System
+
+### Magic !
+
+### Flexible Quest System
+
+### Flexible NPC System
 
 ## TODO && Features list
 
@@ -22,6 +36,9 @@ Version info
   - [x] Basic Potion (HP / MP Change)
   - [ ] Effect Potion (RPG Status Change)
 - [ ] Magic System
+- [x] Custom Equipment Slot
+  - [x] Equipment Event
+  - [x] Custom Equipment Slot, Menu, Container
 - [ ] Custom Attribute
   - [x] Mana
   - [x] Player Status
@@ -29,7 +46,7 @@ Version info
   - [ ] NPC
 - [ ] Party
 - [ ] Voice Chat
-- [ ] Custom GUI Overlay
+- [x] Custom GUI Overlay
 - [ ] Job System
   - [ ] Warrior
   - [ ] Magician
@@ -42,7 +59,7 @@ Version info
   - [ ] Market Block Entity
   - [ ] Global Trade Block Entity
 - [ ] Battle System
-  - [ ] Mode Switch
+  - [x] Mode Switch
   - [ ] Skill Tree
   - [ ] Spell System
 - [ ] Quest System

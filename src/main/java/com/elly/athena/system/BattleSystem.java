@@ -1,75 +1,60 @@
 package com.elly.athena.system;
 
-import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
+import com.elly.athena.data.types.ModContainer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class BattleSystem {
-
-    public static class BattleSystemStruct {
-        public int Level;
-        public int HP;
-        public int MaxHP;
-        public int MP;
-        public int MaxMP;
-        public int MinDamage;
-        public int MaxDamage;
-        public int AttackSpeed;
-        public int MinMagicDamage;
-        public int MaxMagicDamage;
-        public int Defense;
-        public int MagicDefense;
-        public int Dodge;
-        public int MagicDodge;
-        public int Accuracy;
-        public int MagicAccuracy;
+    public static void ApplyEquipmentChange(@NotNull LivingEquipmentChangeEvent event, @NotNull Player player){
+        AttributeMap map = player.getAttributes();
+        RemoveModAttribute(event.getFrom(), map);
+        ssApplyModAttribute(map, player);
     }
 
-    public static class BattleSystemProvider {
-        public final Player player;
+    public static void ApplyChange(@NotNull Player player){
+        AttributeMap map = player.getAttributes();
+        ssApplyModAttribute(map, player);
+    }
 
-        public final IPlayerStatus status;
-
-        public BattleSystemProvider(Player _player){
-            this.player =_player;
-            this.status = this.player.getData(Attachment_Register.PLAYER_STATUS);
+    private static void ssApplyModAttribute(AttributeMap map, Player player){
+        ModContainer container = new ModContainer(player);
+        IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        if(ps.getMode() == 1){
+            RemoveHandModAttribute(player, map);
         }
-
-        public BattleSystemStruct GetStruct(){
-            BattleSystemStruct buffer = new BattleSystemStruct();
-            buffer.Level = status.getLevel();
-            buffer.HP = (int)player.getHealth();
-            buffer.MaxHP = this.status.getHealthMaximum() + status.getStr();
-            buffer.MP = status.getMana();
-            buffer.MaxMP = status.getManaMaximum() + status.getInt();
-            return buffer;
+        for(int i = 0; i < 12; i++){
+            if(ps.getMode() == 0 && i < 2) continue;
+            ItemStack iss = container.getItem(i);
+            if(iss.isEmpty() || iss.isBroken()) continue;
+            iss.getAttributeModifiers().modifiers().forEach(entry -> {
+                AttributeInstance attributeinstance = map.getInstance(entry.attribute());
+                if (attributeinstance != null) {
+                    attributeinstance.removeModifier(entry.modifier().id());
+                    attributeinstance.addTransientModifier(entry.modifier());
+                }
+            });
         }
     }
 
-    ResourceLocation max_health_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "max_health_modifier");
-    ResourceLocation damage_id = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "damage_modifier");
+    private static void RemoveHandModAttribute(@NotNull Player player, AttributeMap map){
+        ItemStack iss = player.getInventory().getSelected();
+        RemoveModAttribute(iss, map);
+    }
 
-    public void updateHealth(ServerPlayer player){
-        BattleSystemStruct bs = new BattleSystemProvider(player).GetStruct();
-        AttributeInstance maxH = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-        AttributeInstance damage = player.getAttributes().getInstance(Attributes.ATTACK_DAMAGE);
-        AttributeModifier maxh_modify = new AttributeModifier(
-                max_health_id, bs.MaxHP - 20, AttributeModifier.Operation.ADD_VALUE
-        );
-
-        AttributeModifier damage_modify = new AttributeModifier(
-                damage_id, bs.MinDamage, AttributeModifier.Operation.ADD_VALUE
-        );
-
-        assert maxH != null;
-        assert damage != null;
-        maxH.addOrReplacePermanentModifier(maxh_modify);
-        damage.addOrReplacePermanentModifier(damage_modify);
+    private static void RemoveModAttribute(@NotNull ItemStack target, AttributeMap map){
+        if(target.isEmpty()) return;
+        target.getAttributeModifiers().modifiers().forEach(entry -> {
+            AttributeInstance attributeinstance = map.getInstance(entry.attribute());
+            if (attributeinstance != null) {
+                attributeinstance.removeModifier(entry.modifier().id());
+            }
+        });
     }
 }
+

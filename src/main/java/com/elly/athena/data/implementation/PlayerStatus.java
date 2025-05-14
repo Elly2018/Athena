@@ -1,29 +1,27 @@
 package com.elly.athena.data.implementation;
 
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.system.BattleSystem;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
+import com.elly.athena.data.types.JobType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
-
-import java.util.Optional;
 
 public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag> {
     private int Coin = 0;
-    private String Job = "none";
+    private JobType Job = JobType.NEWBIE;
     private int Level = 1;
     private int Exp = 0;
     private int MaxHealth = 20;
-    private int Mana = 10;
     private int MaxMana = 10;
     private int Str = 1;
     private int Dex = 1;
     private int Int = 1;
     private int Luk = 1;
     private int Point = 0;
+    private int Skill = 0;
+    private int Mode = 0;
     public boolean Dirty = true;
 
     @Override public int getCoin() { return this.Coin; }
@@ -34,13 +32,13 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
 
     @Override public float getExpProgress(int level) { return (float)this.Exp / (float)getExpMaximum(level); }
     @Override public int getExp() { return this.Exp; }
-    @Override public int getExpMaximum(int level) { return (int)(Math.pow((double)(level * 100), (double)1.27F)); }
+    @Override public int getExpMaximum(int level) { return (int)(Math.pow((Math.pow(2, level) * 100) + 10, (double)1.1F)); }
     @Override public void addExp(int value) { this.Exp += value; }
     @Override public void setExp(int value) { this.Exp = value; }
     @Override public boolean isLevelUp(int level) { return this.Exp >= this.getExpMaximum(level); }
 
-    @Override public String getJob() { return this.Job; }
-    @Override public void setJob(String value) { this.Job = value; }
+    @Override public JobType getJob() { return this.Job; }
+    @Override public void setJob(JobType value) { this.Job = value; }
 
     @Override public int getHealthMaximum() { return this.MaxHealth; }
     @Override public void setMaxHealth(int value) { this.MaxHealth = value; }
@@ -49,9 +47,6 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public int getManaMaximum() { return MaxMana; }
     @Override public void setManaMaximum(int value) { MaxMana = value; }
     @Override public void addManaMaximum(int value) { MaxMana += value; }
-    @Override public int getMana() { return Mana; }
-    @Override public void setMana(int value) { this.Mana = value; }
-    @Override public void addMana(int value) { this.Mana += value; }
 
     @Override public int getDex() { return this.Dex; }
     @Override public void setDex(int value) { this.Dex = value; }
@@ -74,51 +69,35 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public void addPoint(int value) { this.Point += value; }
     @Override public void consumer(int value) { this.Point -= value; }
 
+    @Override public int getSkillPoint() { return this.Skill; }
+    @Override public void setSkillPoint(int value) { this.Skill = value; }
+    @Override public void addSkillPoint(int value) { this.Skill += value; }
+    @Override public void consumerSkill(int value) { this.Skill -= value; }
+
     @Override public int getStr() { return this.Str; }
     @Override public void setStr(int value) { this.Str = value; }
     @Override public void addStr(int value) { this.Str += value; }
 
+    @Override public int getMode() { return Mode; }
+    @Override public void setMode(int value) { Mode = value; }
+
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag elementTag = new CompoundTag();
 
         elementTag.putInt("coin", this.Coin);
-        elementTag.putString("job", this.Job);
+        elementTag.putInt("job", this.Job.id);
         elementTag.putInt("level", this.Level);
         elementTag.putInt("exp", this.Exp);
         elementTag.putInt("max_health", this.MaxHealth);
-        elementTag.putInt("mana", this.Mana);
         elementTag.putInt("max_mana", this.MaxMana);
         elementTag.putInt("str", this.Str);
         elementTag.putInt("dex", this.Dex);
         elementTag.putInt("int", this.Int);
         elementTag.putInt("luk", this.Luk);
         elementTag.putInt("point", this.Point);
-
-        CompoundTag nbt = new CompoundTag();
-        nbt.put("status", elementTag);
-        return nbt;
-    }
-
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider, Player player) {
-        BattleSystem.BattleSystemProvider ps = new BattleSystem.BattleSystemProvider(player);
-        BattleSystem.BattleSystemStruct bss =  ps.GetStruct();
-
-        CompoundTag elementTag = new CompoundTag();
-        elementTag.putInt("coin", this.Coin);
-        elementTag.putString("job", this.Job);
-        elementTag.putInt("level", this.Level);
-        elementTag.putInt("exp", this.Exp);
-        elementTag.putInt("max_health", bss.MaxHP);
-        elementTag.putInt("mana", bss.MP);
-        elementTag.putInt("max_mana", bss.MaxMP);
-        elementTag.putInt("str", this.Str);
-        elementTag.putInt("dex", this.Dex);
-        elementTag.putInt("int", this.Int);
-
-        elementTag.putInt("luk", this.Luk);
-
-        elementTag.putInt("point", this.Point);
+        elementTag.putInt("skill", this.Skill);
+        elementTag.putInt("mode", this.Mode);
 
         CompoundTag nbt = new CompoundTag();
         nbt.put("status", elementTag);
@@ -126,20 +105,21 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compoundTag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag compoundTag) {
         CompoundTag elementTag = compoundTag.getCompound("status");
 
         this.Coin = elementTag.getInt("coin");
-        this.Job = elementTag.getString("job");
+        this.Job = JobType.getEnumFromId(elementTag.getInt("job"));
         this.Level = elementTag.getInt("level");
         this.Exp = elementTag.getInt("exp");
         this.MaxHealth = elementTag.getInt("max_health");
-        this.Mana = elementTag.getInt("mana");
         this.MaxMana = elementTag.getInt("max_mana");
         this.Str = elementTag.getInt("str");
         this.Dex = elementTag.getInt("dex");
         this.Int = elementTag.getInt("int");
         this.Luk = elementTag.getInt("luk");
         this.Point = elementTag.getInt("point");
+        this.Skill = elementTag.getInt("skill");
+        this.Mode = elementTag.getInt("mode");
     }
 }

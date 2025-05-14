@@ -1,45 +1,27 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 
 import static com.elly.athena.gui.Hud.*;
-import static com.elly.athena.gui.Utility.*;
+import static com.elly.athena.gui.RenderUtility.*;
 
 public class WidgeBase {
     public static void getWidgetBase(LocalPlayer player, GuiGraphics gui) {
-        // Get the player's game profile
         GameProfile profile = player.getGameProfile();
-
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
+        PlayerSkin map = Minecraft.getInstance().getSkinManager().getInsecureSkin(profile);
+        ResourceLocation playerSkin = map.texture();
 
-        // Initialize the player's skin with the default skin
-        ResourceLocation playerSkin = DefaultPlayerSkin.getDefaultTexture();
-
-        // Check if the player's profile is not null
-        if (!profile.equals((Object)null)) {
-            // Get the player's skin information
-            PlayerSkin map = player.getSkin();
-
-            // Check if the skin map contains the player's skin
-            if (map.texture() != null) {
-                // Update the player's skin with the retrieved skin
-                playerSkin = map.texture();
-            }
-        }
-
-        // Render HUD elements
-
-        // Render HUD bar
         //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BAR);
         gui.blit(RenderType::guiTextured, TEX_HUD_BAR, 13, 13, 227, 0, 5, 25, 256, 256);
         //gui.blit(TEX_HUD_BAR, 13, 13, 227, 0, 5, 25);

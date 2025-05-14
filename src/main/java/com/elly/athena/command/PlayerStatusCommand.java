@@ -5,7 +5,8 @@ import com.elly.athena.command.struct.ActionStruct;
 import com.elly.athena.command.types.ActionType;
 import com.elly.athena.command.types.PlayerDataType;
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.Attribute_Register;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.system.BattleSystem;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -13,11 +14,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.status.ServerStatus;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Collection;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.elly.athena.command.Command_Register.ActionMap;
@@ -68,20 +69,19 @@ public class PlayerStatusCommand {
     }
 
     private static int _player_status(CommandContext<CommandSourceStack> command, Player player, IPlayerStatus status, ActionType action, PlayerDataType PlayerDataType, int value){
-        BattleSystem.BattleSystemStruct bss = new BattleSystem.BattleSystemProvider(player).GetStruct();
         if (action == ActionType.add){
             addStatus(PlayerDataType, status, value);
         }
         else if (action == ActionType.set){
             setStatus(PlayerDataType, status, value);
         }
-
+        AttributeMap map = player.getAttributes();
         switch(PlayerDataType){
             case level -> { player.displayClientMessage(Component.literal("Your level is: %d".formatted(status.getLevel())), true); }
             case coin -> { player.displayClientMessage(Component.literal("Your coin is: %d".formatted(status.getCoin())), true); }
-            case mana, max_mana -> { player.displayClientMessage(Component.literal("Your mana is: %d / %d".formatted(bss.MP, bss.MaxMP)), true); }
+            case max_mana -> { player.displayClientMessage(Component.literal("Your mana is: %d / %d".formatted((int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA_MAX)).getValue())), true); }
             case exp -> { player.displayClientMessage(Component.literal("Your exp is: %d / %d".formatted(status.getExp(), status.getExpMaximum(status.getLevel()))), true); }
-            case max_hp -> { player.displayClientMessage(Component.literal("Your max hp is: %d".formatted(bss.MaxHP)), true); }
+            case max_hp -> { player.displayClientMessage(Component.literal("Your max hp is: %d".formatted((int) Objects.requireNonNull(map.getInstance(Attributes.MAX_HEALTH)).getValue())), true); }
             case str -> { player.displayClientMessage(Component.literal("Your str is: %d".formatted(status.getStr())), true); }
             case dex -> { player.displayClientMessage(Component.literal("Your dex is: %d".formatted(status.getDex())), true); }
             case _int -> { player.displayClientMessage(Component.literal("Your int is: %d".formatted(status.getInt())), true); }

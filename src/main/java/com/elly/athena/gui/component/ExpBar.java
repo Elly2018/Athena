@@ -1,7 +1,7 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.Profiler;
 
-import static com.elly.athena.gui.Utility.drawFont;
+import static com.elly.athena.gui.RenderUtility.drawFont;
 
 public class ExpBar {
 

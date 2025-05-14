@@ -14,6 +14,7 @@ import static com.elly.athena.Athena.MODID;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
 public class KeyMap_Register {
+    public static Lazy<KeyMapping> EQUIPMENT_MAPPING = Lazy.of(() -> new KeyMapping("key.athena.equipment", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_O, "key.categories.athena"));
     public static Lazy<KeyMapping> SKILL_MAPPING = Lazy.of(() -> new KeyMapping("key.athena.skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.athena"));
     public static Lazy<KeyMapping> STATUS_MAPPING = Lazy.of(() -> new KeyMapping("key.athena.status", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.categories.athena"));
     public static Lazy<KeyMapping> SWITCH_MAPPING = Lazy.of(() -> new KeyMapping("key.athena.switch", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, "key.categories.athena"));
@@ -22,6 +23,7 @@ public class KeyMap_Register {
 
     @SubscribeEvent
     public static void registerBindings(RegisterKeyMappingsEvent event) {
+        event.register(EQUIPMENT_MAPPING.get());
         event.register(SKILL_MAPPING.get());
         event.register(STATUS_MAPPING.get());
         event.register(SWITCH_MAPPING.get());

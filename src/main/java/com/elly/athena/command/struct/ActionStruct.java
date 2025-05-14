@@ -1,6 +1,6 @@
 package com.elly.athena.command.struct;
 
-import com.elly.athena.data.interfaceType.IPlayerStatus;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -27,10 +27,6 @@ public class ActionStruct <T> {
 
     public static Function<IPlayerStatus, ActionStruct<Integer>> MAXMANA() {
         return (ps) -> new ActionStruct<Integer>(ps::setManaMaximum, ps::addManaMaximum, ps::getManaMaximum);
-    }
-
-    public static Function<IPlayerStatus, ActionStruct<Integer>> MANA() {
-        return (ps) -> new ActionStruct<Integer>(ps::setMana, ps::addMana, ps::getMana);
     }
 
     public static Function<IPlayerStatus, ActionStruct<Integer>> EXP() {

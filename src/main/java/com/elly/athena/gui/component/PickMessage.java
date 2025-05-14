@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import static com.elly.athena.gui.Hud.LOOTDATA_SIZE;
 import static com.elly.athena.gui.Hud.LootDatas;
-import static com.elly.athena.gui.Utility.drawFont;
+import static com.elly.athena.gui.RenderUtility.drawFont;
 
 public class PickMessage {
     public static void getPickupMessage(LocalPlayer player, GuiGraphics gui, float tick){

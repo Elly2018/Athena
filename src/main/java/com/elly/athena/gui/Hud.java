@@ -1,34 +1,21 @@
 package com.elly.athena.gui;
 
-import com.elly.athena.data.implementation.PlayerStatus;
-import com.elly.athena.data.interfaceType.IPlayerStatus;
-import com.elly.athena.data.interfaceType.status.IMana;
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.gui.data.LootData;
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.profiling.Profiler;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import static com.elly.athena.gui.component.Effects.getEffects;
 import static com.elly.athena.gui.component.ExpBar.getExperienceBar;
 import static com.elly.athena.gui.component.HealthBar.getPlayerHealthBar;
 import static com.elly.athena.gui.component.ManaBar.getManaValue;
 import static com.elly.athena.gui.component.PickMessage.getPickupMessage;
+import static com.elly.athena.gui.component.RPGHotbar.getRPGHotBar;
 import static com.elly.athena.gui.component.WidgeBase.getWidgetBase;
 
 /**
@@ -54,12 +41,20 @@ public class Hud {
     }
 
     public void renderGUI(RenderGuiLayerEvent.Pre event){
+        IPlayerStatus ps = minecraft.player.getData(Attachment_Register.PLAYER_STATUS);
+
         if(event.getName().toString().equals("minecraft:experience_bar")) event.setCanceled(true);
+        if(event.getName().toString().equals("minecraft:armor_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:experience_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:food_level")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:player_health")) event.setCanceled(true);
         if(event.getName().toString().equals("minecraft:air_level")) event.setCanceled(true);
-        if(event.getName().toString().equals("minecraft:hotbar")){
+        if(event.getName().toString().equals("minecraft:hotbar")) {
+            event.setCanceled(ps.getMode() == 1);
+            if(ps.getMode() == 1)
+                getRPGHotBar(minecraft.player, event.getGuiGraphics(), event.getPartialTick());
+        }
+        if(event.getName().toString().equals("minecraft:camera_overlays")){
             renderOverlay(event);
         }
     }
