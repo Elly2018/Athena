@@ -1,4 +1,4 @@
-package com.elly.athena.entity;
+package com.elly.athena.event.client;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @EventBusSubscriber(modid = Athena.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
-public class HandRender {
+public class RPG_RenderHandEvent {
     private static Field heightField;
     private static Method renderArmWithItemMethod;
 

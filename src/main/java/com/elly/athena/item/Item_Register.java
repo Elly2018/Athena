@@ -1,5 +1,6 @@
 package com.elly.athena.item;
 
+import com.elly.athena.item.entity.Entity_MagicBall;
 import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.equipment.cape.OldCape;
 import com.elly.athena.item.equipment.face.Mask;
@@ -101,7 +102,9 @@ public class Item_Register {
                 new QuestStaff(),
                 new NPCStaff(),
                 new TeleportStaff(),
-                new ZoneStaff()
+                new ZoneStaff(),
+                // Entity
+                new Entity_MagicBall()
         };
 
         for (ItemRegisterData itemRegisterData : AllItems){

@@ -10,7 +10,9 @@ import com.elly.athena.entity.npc.RPGNPC;
 import com.elly.athena.entity.npc.RPGNPC_Renderer;
 import com.elly.athena.entity.spell.MagicBall;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.SmallFireball;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -30,7 +33,6 @@ import java.util.function.Supplier;
 
 import static com.elly.athena.Athena.MODID;
 
-@EventBusSubscriber(modid = Athena.MODID)
 public class Entity_Register {
     // BOSS
     public static final Supplier<EntityType<WoodElf>> WOODELF = register("woodelf", Entity_Register::woodelf);
@@ -74,23 +76,8 @@ public class Entity_Register {
                 .setShouldReceiveVelocityUpdates(true);
     }
 
-    @SubscribeEvent
-    public static void entityJoin(EntityJoinLevelEvent event){
-        if (event.getEntity() instanceof Player){
-            Player player = (Player) event.getEntity();
-            if(!player.hasData(Attachment_Register.PLAYER_STATUS))
-                player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
-            Attribute_Register.ApplyChange(player);
-        }
-    }
-
-    @SubscribeEvent
-    public static void entityTick(EntityTickEvent.Pre event){
-        if (event.getEntity() instanceof ItemEntity){
-            ItemEntity item = (ItemEntity) event.getEntity();
-            if(item.getItem().getItem() instanceof RPGSkill_Base){
-                item.remove(Entity.RemovalReason.KILLED);
-            }
-        }
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
+        event.registerEntityRenderer(MAGICBALL.get(), e -> new ThrownItemRenderer<MagicBall>(e, 1.75F, true));
     }
 }
