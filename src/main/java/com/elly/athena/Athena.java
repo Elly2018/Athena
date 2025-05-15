@@ -47,7 +47,7 @@ public class Athena {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(BuiltInRegistries.ATTRIBUTE, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
-    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
+    public static final DeferredRegister.Entities ENTITY = DeferredRegister.createEntities(MODID);
     public static final DeferredRegister<GameEvent> EVENT = DeferredRegister.create(BuiltInRegistries.GAME_EVENT, MODID);
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {

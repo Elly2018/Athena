@@ -13,6 +13,8 @@ import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -69,7 +72,7 @@ public class Entity_Register {
                 .setShouldReceiveVelocityUpdates(true);
     }
     private static EntityType.Builder<MagicBall> magicball(){
-        return EntityType.Builder.<MagicBall>of(MagicBall::new, MobCategory.CREATURE)
+        return EntityType.Builder.<MagicBall>of(MagicBall::new, MobCategory.MISC)
                 .sized(0.5f, 0.5f)
                 .setTrackingRange(4)
                 .setUpdateInterval(3)
@@ -77,7 +80,7 @@ public class Entity_Register {
     }
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
+        //event.registerEntityRenderer(NPC.get(), RPGNPC_Renderer::new);
         event.registerEntityRenderer(MAGICBALL.get(), e -> new ThrownItemRenderer<MagicBall>(e, 1.75F, true));
     }
 }

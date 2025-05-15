@@ -106,7 +106,6 @@ public class Item_Register {
                 // Entity
                 new Entity_MagicBall()
         };
-
         for (ItemRegisterData itemRegisterData : AllItems){
             String key = itemRegisterData.get_key();
             Item.Properties behaviour = itemRegisterData.get_behaviour();

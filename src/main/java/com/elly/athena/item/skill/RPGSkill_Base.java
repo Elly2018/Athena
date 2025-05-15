@@ -52,7 +52,7 @@ public class RPGSkill_Base extends Item {
         int mana_req = requireMana(1);
         assert instance != null;
         int p_mana = (int) instance.getValue();
-        if(p_mana < mana_req) {
+        if(p_mana < mana_req && !player.isCreative()) {
             Athena.LOGGER.debug(String.format("Player does not have enough mana: player:%d  require:%d", p_mana, mana_req));
             return InteractionResult.FAIL;
         }

@@ -20,7 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class RPG_ItemEntityPickupEvent {
 
     @SubscribeEvent
-    public static void onItemPickup(ItemEntityPickupEvent event){
+    public static void onItemPickup(ItemEntityPickupEvent.Pre event){
         ItemEntity ie = event.getItemEntity();
         ItemStack is = ie.getItem();
         Item item = is.getItem();

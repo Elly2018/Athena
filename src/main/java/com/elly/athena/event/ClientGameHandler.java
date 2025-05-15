@@ -31,7 +31,6 @@ import static com.elly.athena.entity.Entity_Register.NPC;
 import static com.elly.athena.keymap.KeyMap_Register.STATUS_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SWITCH_MAPPING;
 
-@EventBusSubscriber(modid = Athena.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ClientGameHandler {
     public static Hud hub;
     public static BlockingQueue<Runnable> gui_worker = new ArrayBlockingQueue<>(5);

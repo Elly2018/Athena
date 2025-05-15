@@ -180,7 +180,7 @@ public class ModContainer implements Container, Nameable {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.canInteractWithEntity(this.player, (double)4.0F);
+        return true;
     }
 
     @Override
