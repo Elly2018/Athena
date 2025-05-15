@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "athena:item/entity/magicball"
+    "layer0": "athena:item/entity/magic_ball"
   }
 }

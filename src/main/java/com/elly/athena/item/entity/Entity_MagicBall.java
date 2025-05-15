@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 
 public class Entity_MagicBall implements Item_Register.ItemRegisterData {
 
-    static class Entity_MagicBall_Item extends Item implements ProjectileItem {
+    public static class Entity_MagicBall_Item extends Item implements ProjectileItem {
         public Entity_MagicBall_Item(Properties properties) {
             super(properties);
         }
@@ -25,7 +25,7 @@ public class Entity_MagicBall implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "entity_magicball";
+        return "entity_magic_ball";
     }
 
     @Override

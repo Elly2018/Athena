@@ -14,6 +14,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -31,8 +32,8 @@ public class MagicBall extends RPGSkill_Header {
             super.server_apply(world, player, level, hand);
 
             if(world instanceof ServerLevel serverlevel){
-                ItemStack iss = new ItemStack(Item_Register.RegisterDict.get("entity_magicball").get());
-                Projectile.spawnProjectileFromRotation(
+                ItemStack iss = new ItemStack(Item_Register.RegisterDict.get("entity_magic_ball").get());
+                com.elly.athena.entity.spell.MagicBall bs = Projectile.spawnProjectileFromRotation(
                         com.elly.athena.entity.spell.MagicBall::new,
                         serverlevel,
                         iss,
@@ -41,12 +42,18 @@ public class MagicBall extends RPGSkill_Header {
                         1.0F,
                         0.8F
                 );
+                bs.setNoGravity(false);
             }
         }
 
         @Override
         public int requireMana(int level) {
             return 1;
+        }
+
+        @Override
+        public int cooldown(int level) {
+            return 30;
         }
     }
 

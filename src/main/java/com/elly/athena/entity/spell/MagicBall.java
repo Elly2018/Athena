@@ -26,12 +26,12 @@ public class MagicBall extends ThrowableItemProjectile {
     }
 
     public MagicBall(Level level, LivingEntity owner, ItemStack item) {
-        super(Entity_Register.MAGICBALL.get(), owner, level, item);
+        super(Entity_Register.MAGICBALL, owner, level, item);
         init();
     }
 
     public MagicBall(Level level, double x, double y, double z, ItemStack item) {
-        super(Entity_Register.MAGICBALL.get(), x, y, z, level, item);
+        super(Entity_Register.MAGICBALL, x, y, z, level, item);
         init();
     }
 
@@ -41,7 +41,7 @@ public class MagicBall extends ThrowableItemProjectile {
 
     @Override
     protected @NotNull Item getDefaultItem() {
-        return Item_Register.RegisterDict.get("entity_magicball").get();
+        return Item_Register.RegisterDict.get("entity_magic_ball").get();
     }
 
     @Override

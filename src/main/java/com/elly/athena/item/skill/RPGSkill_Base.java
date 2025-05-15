@@ -10,6 +10,7 @@ import com.elly.athena.data.types.JobType;
 import com.elly.athena.item.weapon.RPGBow_Base;
 import com.elly.athena.item.weapon.RPGMagic_Base;
 import com.elly.athena.item.weapon.RPGMelee_Base;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -71,9 +72,15 @@ public class RPGSkill_Base extends Item {
         if(player.isCreative() && level < 0){
             level = 1;
         }
-        if(level <= 0) return InteractionResult.FAIL;
+        if(level <= 1) {
+            player.displayClientMessage(Component.literal("The skill point must at least 1 to use the skill"), true);
+            return InteractionResult.FAIL;
+        }
         boolean CanUse = pss.CheckCooldown(Category, skillName);
-        if(!CanUse) return InteractionResult.FAIL;
+        if(!CanUse) {
+            player.displayClientMessage(Component.literal("Skill still in cooldown"), true);
+            return InteractionResult.FAIL;
+        }
 
         if(!player.isLocalPlayer()) {
             if(!player.isCreative()){

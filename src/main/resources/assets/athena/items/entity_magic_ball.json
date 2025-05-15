@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "athena:item/entity/magicball"
+    "model": "athena:item/entity/magic_ball"
   }
 }
