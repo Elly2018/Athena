@@ -44,7 +44,7 @@ public class MP_Potion implements Item_Register.ItemRegisterData {
     @Override
     public Item.Properties get_behaviour() {
         return new Item.Properties()
-                .useCooldown(0);
+                .stacksTo(200);
     }
 
     @Override

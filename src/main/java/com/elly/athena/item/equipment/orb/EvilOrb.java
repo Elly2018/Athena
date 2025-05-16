@@ -4,6 +4,7 @@ import com.elly.athena.data.types.ModEquipmentSlot;
 import com.elly.athena.item.equipment.RPGEquip_Base;
 import com.elly.athena.item.equipment.RPGEquip_Header;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 
 public class EvilOrb extends RPGEquip_Header {
 
@@ -17,6 +18,12 @@ public class EvilOrb extends RPGEquip_Header {
     @Override
     public String get_key() {
         return "orb_evil";
+    }
+
+    @Override
+    public Item.Properties get_behaviour() {
+        return super.get_behaviour()
+                .rarity(Rarity.RARE);
     }
 
     @Override

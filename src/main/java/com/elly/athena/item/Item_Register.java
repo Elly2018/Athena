@@ -3,10 +3,14 @@ package com.elly.athena.item;
 import com.elly.athena.item.entity.Entity_MagicBall;
 import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.equipment.cape.OldCape;
+import com.elly.athena.item.equipment.face.Headband;
 import com.elly.athena.item.equipment.face.Mask;
 import com.elly.athena.item.equipment.neck.CheapNecklace;
 import com.elly.athena.item.equipment.neck.EvilNecklace;
 import com.elly.athena.item.equipment.neck.LavaNecklace;
+import com.elly.athena.item.equipment.orb.EvilOrb;
+import com.elly.athena.item.equipment.orb.NatureOrb;
+import com.elly.athena.item.equipment.orb.SkyOrb;
 import com.elly.athena.item.equipment.ring.ChaosRing;
 import com.elly.athena.item.equipment.ring.Single_Earring;
 import com.elly.athena.item.etc.Coin;
@@ -23,6 +27,10 @@ import com.elly.athena.item.special.quest.QuestStaff;
 import com.elly.athena.item.special.setting.NPCStaff;
 import com.elly.athena.item.special.setting.TeleportStaff;
 import com.elly.athena.item.special.setting.ZoneStaff;
+import com.elly.athena.item.use.book.ArcherSkillBook;
+import com.elly.athena.item.use.book.CommonSkillBook;
+import com.elly.athena.item.use.book.MagicianSkillBook;
+import com.elly.athena.item.use.book.WarriorSkillBook;
 import com.elly.athena.item.use.potion.*;
 import com.elly.athena.item.weapon.archer.Bow;
 import com.elly.athena.item.weapon.magician.Staff;
@@ -61,6 +69,11 @@ public class Item_Register {
                 new GoldenCoin(),
                 new CoinBag(),
                 new GoldenCoinBag(),
+                // skill book
+                new CommonSkillBook(),
+                new WarriorSkillBook(),
+                new MagicianSkillBook(),
+                new ArcherSkillBook(),
                 // potion
                 new HP_Potion(),
                 new HP_Potion_Large(),
@@ -71,6 +84,7 @@ public class Item_Register {
                 new OldCape(),
                 // mask
                 new Mask(),
+                new Headband(),
                 // necklace
                 new EvilNecklace(),
                 new CheapNecklace(),
@@ -80,6 +94,10 @@ public class Item_Register {
                 new ChaosRing(),
                 // belt
                 new LeatherBelt(),
+                // orb
+                new EvilOrb(),
+                new SkyOrb(),
+                new NatureOrb(),
                 // weapon warrior
                 new Sword(),
                 new Spear(),

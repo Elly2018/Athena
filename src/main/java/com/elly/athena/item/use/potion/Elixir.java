@@ -55,9 +55,8 @@ public class Elixir implements Item_Register.ItemRegisterData {
 
     @Override
     public Item.Properties get_behaviour() {
-        List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
         return new Item.Properties()
-                .useCooldown(0);
+                .stacksTo(200);
     }
 
     @Override

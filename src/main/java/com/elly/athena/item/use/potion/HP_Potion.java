@@ -46,8 +46,7 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
     public Item.Properties get_behaviour() {
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
         return new Item.Properties()
-                .overrideDescription("HP Potion")
-                .useCooldown(0);
+                .stacksTo(200);
     }
 
     @Override

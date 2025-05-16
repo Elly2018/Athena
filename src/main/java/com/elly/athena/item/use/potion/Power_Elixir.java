@@ -55,8 +55,8 @@ public class Power_Elixir implements Item_Register.ItemRegisterData {
 
     @Override
     public Item.Properties get_behaviour() {
-        List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
-        return new Item.Properties();
+        return new Item.Properties()
+                .stacksTo(200);
     }
 
     @Override

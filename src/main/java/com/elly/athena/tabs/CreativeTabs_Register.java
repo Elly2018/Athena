@@ -72,6 +72,10 @@ public class CreativeTabs_Register {
                         "market_block"
                 },
                 new String[]{
+                        "book_common",
+                        "book_warrior",
+                        "book_magician",
+                        "book_archer",
                         "hp_potion",
                         "hp_potion_large",
                         "mp_potion",
@@ -95,6 +99,8 @@ public class CreativeTabs_Register {
                         "necklace_evil",
                         "necklace_lava",
                         "orb_evil",
+                        "orb_sky",
+                        "orb_nature",
                 },
                 "athena_equipment", "Athena Equipment"
         ));
