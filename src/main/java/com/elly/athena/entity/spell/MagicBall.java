@@ -3,6 +3,8 @@ package com.elly.athena.entity.spell;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.entity.Entity_Register;
 import com.elly.athena.item.Item_Register;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +21,8 @@ import org.joml.Math;
 import java.util.Objects;
 
 public class MagicBall extends ThrowableItemProjectile {
+
+    int tick;
 
     public MagicBall(EntityType<? extends MagicBall> entityType, Level level) {
         super(entityType, level);
@@ -37,6 +41,16 @@ public class MagicBall extends ThrowableItemProjectile {
 
     private void init(){
         this.setNoGravity(true);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        tick += 1;
+        if(tick > 10){
+            tick = 0;
+            this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+        }
     }
 
     @Override
@@ -60,7 +74,7 @@ public class MagicBall extends ThrowableItemProjectile {
             Entity target = result.getEntity();
             int magic_attack = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK)).getValue();
             int magic_attack_max = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK_MAX)).getValue();
-            int d = this.getRandom().nextIntBetweenInclusive(magic_attack, Math.min(magic_attack_max, magic_attack - 1));
+            int d = this.getRandom().nextIntBetweenInclusive(magic_attack, Math.max(magic_attack_max, magic_attack + 1));
 
             target.hurt(this.damageSources().thrown(this, this.getOwner()), (float)d);
         }

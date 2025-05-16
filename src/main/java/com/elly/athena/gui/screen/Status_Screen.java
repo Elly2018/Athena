@@ -5,8 +5,10 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
+import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.network.general.StatusApplyPayload;
 import com.elly.athena.system.BattleSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -87,7 +90,7 @@ public class Status_Screen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderBackground(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderType::guiTextured, CONTAINER_BACKGROUND, offsetWidth, offsetHeight, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
         render_character(guiGraphics, mouseX, mouseY);
@@ -98,7 +101,7 @@ public class Status_Screen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int x, int y, float partialTick) {
+    public void render(@NotNull GuiGraphics graphics, int x, int y, float partialTick) {
         super.render(graphics, x, y, partialTick);
         render_header(graphics);
         render_statue_point(graphics, x, y, partialTick);
@@ -225,18 +228,19 @@ public class Status_Screen extends Screen {
         int InitY = 8 + offsetHeight;
         int Gap = font.lineHeight + 5;
         AttributeMap map = player.getAttributes();
+        map.load(ClientGameHandler.self_status);
         String[] texts = new String[]{
-                String.format("MaxHP: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.MAX_HEALTH)).getValue()),
-                String.format("MaxMP: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MANA_MAX)).getValue()),
-                String.format("Attack Speed: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ATTACK_SPEED)).getValue()),
-                String.format("Physical Damage: %d - %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ATTACK_DAMAGE)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.DAMAGE_MAX)).getValue()),
-                String.format("Magic Damage: %d - %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ATTACK)).getValue(), (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ATTACK_MAX)).getValue()),
-                String.format("Physical Defense: %d", (int) Objects.requireNonNull(map.getInstance(Attributes.ARMOR)).getValue()),
-                String.format("Magic Defense: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ARMOR)).getValue()),
-                String.format("Physical Accuracy: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.ACCURACY)).getValue()),
-                String.format("Magic Accuracy: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_ACCURACY)).getValue()),
-                String.format("Physical Dodge: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.DODGE)).getValue()),
-                String.format("Magic Dodge: %d", (int) Objects.requireNonNull(map.getInstance(Attribute_Register.MAGIC_DODGE)).getValue()),
+                String.format("MaxHP: %.1f", map.getValue(Attributes.MAX_HEALTH)),
+                String.format("MaxMP: %.1f", map.getValue(Attribute_Register.MANA_MAX)),
+                String.format("Attack Speed: %.1f", map.getValue(Attributes.ATTACK_SPEED)),
+                String.format("Physical Damage: %.1f - %.1f", map.getValue(Attributes.ATTACK_DAMAGE), map.getValue(Attribute_Register.DAMAGE_MAX)),
+                String.format("Magic Damage: %s - %.1f", map.getValue(Attribute_Register.MAGIC_ATTACK), map.getValue(Attribute_Register.MAGIC_ATTACK_MAX)),
+                String.format("Physical Defense: %.1f", map.getValue(Attributes.ARMOR)),
+                String.format("Magic Defense: %.1f", map.getValue(Attribute_Register.MAGIC_ARMOR)),
+                String.format("Physical Accuracy: %.1f", map.getValue(Attribute_Register.ACCURACY)),
+                String.format("Magic Accuracy: %.1f", map.getValue(Attribute_Register.MAGIC_ACCURACY)),
+                String.format("Physical Dodge: %.1f", map.getValue(Attribute_Register.DODGE)),
+                String.format("Magic Dodge: %.1f", map.getValue(Attribute_Register.MAGIC_DODGE))
         };
         for(int i = 0; i < texts.length; i++){
             drawFont(graphics, texts[i], InitX, InitY + (Gap * i), ColorLabel);

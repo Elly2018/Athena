@@ -39,10 +39,9 @@ public class MagicBall extends RPGSkill_Header {
                         iss,
                         player,
                         0.0F,
-                        1.0F,
+                        2.0F,
                         0.8F
                 );
-                bs.setNoGravity(false);
             }
         }
 

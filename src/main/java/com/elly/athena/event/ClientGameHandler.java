@@ -12,6 +12,7 @@ import com.elly.athena.network.general.EventGeneralPayload;
 import com.elly.athena.network.general.StatusPayload;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -37,4 +38,5 @@ public class ClientGameHandler {
     public static boolean status_mapping = false;
     public static boolean switch_mapping = false;
     public static Minecraft minecraft = null;
+    public static ListTag self_status = null;
 }

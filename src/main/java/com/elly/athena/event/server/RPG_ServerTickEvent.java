@@ -12,10 +12,7 @@ import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.event.ServerHandler;
 import com.elly.athena.gui.menu.Equipment_Menu;
 import com.elly.athena.gui.menu.Skill_Menu;
-import com.elly.athena.network.general.EquipmentPayload;
-import com.elly.athena.network.general.HotbarPayload;
-import com.elly.athena.network.general.SkillPayload;
-import com.elly.athena.network.general.StatusPayload;
+import com.elly.athena.network.general.*;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,6 +60,7 @@ public class RPG_ServerTickEvent {
         PacketDistributor.sendToPlayer(player, new SkillPayload.SkillData(pss.serializeNBT(player.registryAccess())));
         PacketDistributor.sendToPlayer(player, new EquipmentPayload.EquipmentData(pe.serializeNBT(player.registryAccess())));
         PacketDistributor.sendToPlayer(player, new HotbarPayload.HotbarData(bh.serializeNBT(player.registryAccess())));
+        PacketDistributor.sendToPlayer(player, AttributePayload.SelfTag(player.getAttributes()));
     }
 
     private static void PlayerMenuUpdate(ServerPlayer player){
@@ -111,7 +109,8 @@ public class RPG_ServerTickEvent {
                 heal = (float) (maxMana * 0.05F);
                 AttributeMap map = player.getAttributes();
                 var instance = map.getInstance(Attribute_Register.MANA);
-                instance.setBaseValue(instance.getValue() + (int) Math.ceil(heal));
+                assert instance != null;
+                instance.setBaseValue(Math.min(instance.getValue() + (int) Math.ceil(heal), ps.getManaMaximum()));
             });
         }
     }

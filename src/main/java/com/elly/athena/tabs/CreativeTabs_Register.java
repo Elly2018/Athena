@@ -121,6 +121,7 @@ public class CreativeTabs_Register {
                         "skill_hp_boost",
                         "skill_wind_slash",
                         "skill_phalanx",
+                        "skill_magic_ball",
                 },
                 "athena_skill", "Athena Skill"
         ));

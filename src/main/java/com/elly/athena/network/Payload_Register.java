@@ -86,6 +86,14 @@ public class Payload_Register {
                         EventGeneralPayload.ServerPayloadHandler::handleDataOnMain
                 )
         );
+        registrar.playBidirectional(
+                AttributePayload.AttributeData.TYPE,
+                AttributePayload.AttributeData.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        AttributePayload.ClientPayloadHandler::handleDataOnMain,
+                        AttributePayload.ServerPayloadHandler::handleDataOnMain
+                )
+        );
     }
 
     private static void register_menu(final PayloadRegistrar registrar){

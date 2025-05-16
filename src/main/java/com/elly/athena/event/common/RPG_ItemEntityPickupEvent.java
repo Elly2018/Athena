@@ -7,6 +7,7 @@ import com.elly.athena.item.Item_Register;
 import com.elly.athena.network.general.LootPayload;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -57,6 +58,7 @@ public class RPG_ItemEntityPickupEvent {
                 count = is.getCount() * 10000;
                 player.playSound(Sound_Register.Meso.get());
             }
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.Meso.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         }
         if(count > 0){
             ie.setDefaultPickUpDelay();

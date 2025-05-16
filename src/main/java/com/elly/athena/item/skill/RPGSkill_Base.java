@@ -73,8 +73,12 @@ public class RPGSkill_Base extends Item {
             level = 1;
         }
         if(level <= 1) {
-            player.displayClientMessage(Component.literal("The skill point must at least 1 to use the skill"), true);
-            return InteractionResult.FAIL;
+            if(player.isCreative()){
+                level = 1;
+            }else{
+                player.displayClientMessage(Component.literal("The skill point must at least 1 to use the skill"), true);
+                return InteractionResult.FAIL;
+            }
         }
         boolean CanUse = pss.CheckCooldown(Category, skillName);
         if(!CanUse) {

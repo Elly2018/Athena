@@ -33,6 +33,7 @@ public class Staff implements Item_Register.ItemRegisterData {
     public SwordItem.Properties get_behaviour() {
         ItemAttributeModifiers iam = ItemAttributeModifiers.builder()
                 .add(Attribute_Register.MAGIC_ATTACK, new AttributeModifier(modifier, 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.ANY)
+                .add(Attribute_Register.MAGIC_ATTACK_MAX, new AttributeModifier(modifier, 10, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.ANY)
                 .build();
         return new SwordItem.Properties()
                 .stacksTo(1)

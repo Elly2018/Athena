@@ -62,6 +62,7 @@ public class Attribute_Register {
 
     @SubscribeEvent
     public static void existingEntityAttributes(EntityAttributeModificationEvent event) {
+        Athena.LOGGER.debug("Attribute checker: EntityAttributeModificationEvent");
         if(!event.has(EntityType.PLAYER, LEVEL)) event.add(EntityType.PLAYER, LEVEL);
         if(!event.has(EntityType.PLAYER, MANA)) event.add(EntityType.PLAYER, MANA);
         if(!event.has(EntityType.PLAYER, MANA_MAX)) event.add(EntityType.PLAYER, MANA_MAX);

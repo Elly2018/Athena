@@ -38,15 +38,14 @@ public class RPG_ClientTickEvent {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onClientTickPost(ClientTickEvent.Post event) {
-        Minecraft instance = Minecraft.getInstance();
-        Player player = instance.player;
+        Player player = ClientGameHandler.minecraft.player;
         assert player != null;
 
         boolean status_mapping_buffer = STATUS_MAPPING.get().isDown();
         boolean switch_mapping_buffer = SWITCH_MAPPING.get().isDown();
 
         if (!ClientGameHandler.status_mapping && status_mapping_buffer) {
-            instance.setScreen(new Status_Screen(player));
+            ClientGameHandler.minecraft.setScreen(new Status_Screen(player));
             ClientGameHandler.status_mapping = true;
         }
         else if (ClientGameHandler.status_mapping && !status_mapping_buffer){
