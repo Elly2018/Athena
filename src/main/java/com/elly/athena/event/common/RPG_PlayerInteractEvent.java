@@ -5,7 +5,7 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.entity.npc.RPGNPC;
-import com.elly.athena.item.potion.RPGPotion_Base;
+import com.elly.athena.item.use.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.item.special.setting.NPCStaff;
 import com.elly.athena.network.general.EventGeneralPayload;

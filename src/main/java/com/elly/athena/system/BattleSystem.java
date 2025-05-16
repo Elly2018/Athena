@@ -30,7 +30,6 @@ public class BattleSystem {
         if(ps.getMode() == 1){
             RemoveHandModAttribute(player, map);
             RemoveOffHandModAttribute(player, map);
-
         }
         for(int i = 0; i < 12; i++){
             if(ps.getMode() == 0 && i < 2) continue;

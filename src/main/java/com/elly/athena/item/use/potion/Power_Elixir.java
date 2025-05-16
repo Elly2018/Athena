@@ -1,5 +1,7 @@
-package com.elly.athena.item.potion;
+package com.elly.athena.item.use.potion;
 
+import com.elly.athena.data.Attachment_Register;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -13,22 +15,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class HP_Potion_Large implements Item_Register.ItemRegisterData {
+public class Power_Elixir implements Item_Register.ItemRegisterData {
 
-    static class HP_Potion_Large_Item extends RPGPotion_Base {
-        public HP_Potion_Large_Item(Properties p_41383_) {
+    static class Power_Elixir_Item extends RPGPotion_Base {
+        public Power_Elixir_Item(Properties p_41383_) {
             super(p_41383_);
         }
 
         @Override
         public float AddHealth(Player player) {
-            return 50.0F;
+            return player.getMaxHealth();
+        }
+
+        @Override
+        public int AddMana(Player player) {
+            IPlayerStatus o_target = player.getData(Attachment_Register.PLAYER_STATUS);
+            if(o_target != null) return 0;
+            return o_target.getManaMaximum();
         }
 
         @Override
         public void appendHoverText(ItemStack p_41421_, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(p_41421_, ctx, tooltip, flag);
-            tooltip.add(Component.literal("This will heal you with 50 health point"));
+            tooltip.add(Component.literal("This will give you"));
+            tooltip.add(Component.literal("100% health point"));
+            tooltip.add(Component.literal("100% mana point"));
         }
 
         @Override
@@ -39,18 +50,17 @@ public class HP_Potion_Large implements Item_Register.ItemRegisterData {
 
     @Override
     public String get_key() {
-        return "hp_potion_large";
+        return "power_elixir";
     }
 
     @Override
     public Item.Properties get_behaviour() {
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
-        return new Item.Properties()
-                .useCooldown(0);
+        return new Item.Properties();
     }
 
     @Override
     public Item get_binding(Item.Properties props) {
-        return new HP_Potion_Large_Item(props);
+        return new Power_Elixir_Item(props);
     }
 }

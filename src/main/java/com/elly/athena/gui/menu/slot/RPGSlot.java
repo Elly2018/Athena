@@ -1,6 +1,6 @@
 package com.elly.athena.gui.menu.slot;
 
-import com.elly.athena.item.potion.RPGPotion_Base;
+import com.elly.athena.item.use.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;

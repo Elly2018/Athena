@@ -1,25 +1,20 @@
 package com.elly.athena.data.types;
 
 import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.DataComponent_Register;
-import com.elly.athena.data.component.ItemEquip;
 import com.elly.athena.data.implementation.BattleHotbar;
 import com.elly.athena.data.implementation.PlayerEquipment;
 import com.elly.athena.item.equipment.RPGEquip_Base;
-import com.elly.athena.item.potion.RPGPotion_Base;
+import com.elly.athena.item.use.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
-import com.elly.athena.system.BattleSystem;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

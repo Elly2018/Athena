@@ -1,11 +1,10 @@
-package com.elly.athena.item.potion;
+package com.elly.athena.item.use.potion;
 
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.network.general.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
-import com.elly.athena.system.BattleSystem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;

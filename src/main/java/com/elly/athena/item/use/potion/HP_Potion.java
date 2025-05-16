@@ -1,4 +1,4 @@
-package com.elly.athena.item.potion;
+package com.elly.athena.item.use.potion;
 
 import com.elly.athena.item.Item_Register;
 import net.minecraft.network.chat.Component;
