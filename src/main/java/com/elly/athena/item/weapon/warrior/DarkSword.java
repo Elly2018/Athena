@@ -1,4 +1,33 @@
 package com.elly.athena.item.weapon.warrior;
 
-public class DarkSword {
+import com.elly.athena.item.Item_Register;
+import com.elly.athena.item.weapon.RPGMelee_Base;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.ToolMaterial;
+
+public class DarkSword implements Item_Register.ItemRegisterData {
+
+    static class DarkSword_Item extends RPGMelee_Base {
+        public DarkSword_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
+            super(material, attackDamage, attackSpeed, properties);
+        }
+    }
+
+    @Override
+    public String get_key() {
+        return "weapon_sword_dark";
+    }
+
+    @Override
+    public SwordItem.Properties get_behaviour() {
+        return new SwordItem.Properties()
+                .stacksTo(1)
+                .durability(300);
+    }
+
+    @Override
+    public SwordItem get_binding(Item.Properties props) {
+        return new DarkSword_Item(ToolMaterial.IRON, 6, -2.0F, props);
+    }
 }
