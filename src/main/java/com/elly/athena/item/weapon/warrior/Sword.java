@@ -28,6 +28,6 @@ public class Sword implements Item_Register.ItemRegisterData {
 
     @Override
     public SwordItem get_binding(Item.Properties props) {
-        return new Sword_Item(ToolMaterial.IRON, 6, -3.4F, props);
+        return new Sword_Item(ToolMaterial.IRON, 6, -3.0F, props);
     }
 }

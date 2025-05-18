@@ -5,14 +5,13 @@ import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.equipment.cape.OldCape;
 import com.elly.athena.item.equipment.face.Headband;
 import com.elly.athena.item.equipment.face.Mask;
-import com.elly.athena.item.equipment.neck.CheapNecklace;
-import com.elly.athena.item.equipment.neck.EvilNecklace;
-import com.elly.athena.item.equipment.neck.LavaNecklace;
+import com.elly.athena.item.equipment.glove.KnightGlove;
+import com.elly.athena.item.equipment.glove.ShinyGlove;
+import com.elly.athena.item.equipment.neck.*;
 import com.elly.athena.item.equipment.orb.EvilOrb;
 import com.elly.athena.item.equipment.orb.NatureOrb;
 import com.elly.athena.item.equipment.orb.SkyOrb;
-import com.elly.athena.item.equipment.ring.ChaosRing;
-import com.elly.athena.item.equipment.ring.Single_Earring;
+import com.elly.athena.item.equipment.ring.*;
 import com.elly.athena.item.etc.Coin;
 import com.elly.athena.item.etc.CoinBag;
 import com.elly.athena.item.etc.GoldenCoin;
@@ -65,61 +64,52 @@ public class Item_Register {
     public static void RegisterAllItems() {
         AllItems = new ItemRegisterData[]{
                 // system
-                new Coin(),
-                new GoldenCoin(),
-                new CoinBag(),
+                new Coin(), new GoldenCoin(), new CoinBag(),
                 new GoldenCoinBag(),
                 // skill book
-                new CommonSkillBook(),
-                new WarriorSkillBook(),
-                new MagicianSkillBook(),
+                new CommonSkillBook(), new WarriorSkillBook(), new MagicianSkillBook(),
                 new ArcherSkillBook(),
                 // potion
-                new HP_Potion(),
-                new HP_Potion_Large(),
-                new MP_Potion(),
-                new MP_Potion_Large(),
-                new Elixir(),
+                new HP_Potion(), new HP_Potion_Large(), new MP_Potion(),
+                new MP_Potion_Large(), new Elixir(),
+                // belt
+                new LeatherBelt(),
                 // cape
                 new OldCape(),
                 // mask
-                new Mask(),
-                new Headband(),
+                new Mask(), new Headband(),
+                // glove
+                new KnightGlove(), new ShinyGlove(),
                 // necklace
-                new EvilNecklace(),
-                new CheapNecklace(),
-                new LavaNecklace(),
+                new CheapNecklace(), new EvilNecklace(), new GhostNecklace(),
+                new LavaNecklace(), new NatureNecklace(), new NewbieLuck(),
+                new OrcsNecklace(), new ShellNecklace(), new TribeNecklace(),
+                new WoodelfNecklace(), new YggdrasillNecklace(),
                 // ring
-                new Single_Earring(),
-                new ChaosRing(),
-                // belt
-                new LeatherBelt(),
+                new ChaosRing(), new CopperRing(), new DragonRing(),
+                new GemRingBlue(), new GemRingGreen(), new GemRingGrey(),
+                new GemRingLime(), new GemRingPink(), new GemRingPurple(),
+                new GemRingRed(), new GemRingSky(), new GoldenRing(),
+                new HolyRing(), new MagicRing(), new SecretRing(),
+                new SilverRing(), new Single_Earring(), new UndeadRing(),
+                new YggdrasillRing(),
                 // orb
-                new EvilOrb(),
-                new SkyOrb(),
-                new NatureOrb(),
+                new EvilOrb(), new SkyOrb(), new NatureOrb(),
                 // weapon warrior
-                new Sword(),
-                new Spear(),
+                new Sword(), new Spear(),
                 // weapon magician
-                new Staff(),
-                new Wand(),
+                new Staff(), new Wand(),
                 // weapon archer
                 new Bow(),
                 // skill common
-                new SpeedBoost(),
-                new Healing(),
+                new SpeedBoost(), new Healing(),
                 // skill warrior
-                new HPBoost(),
-                new WindSlash(),
-                new Phalanx(),
+                new HPBoost(), new WindSlash(), new Phalanx(),
                 // skill magician
                 new MagicBall(),
                 // skill archer
                 // special
-                new QuestStaff(),
-                new NPCStaff(),
-                new TeleportStaff(),
+                new QuestStaff(), new NPCStaff(), new TeleportStaff(),
                 new ZoneStaff(),
                 // Entity
                 new Entity_MagicBall()
