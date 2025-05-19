@@ -28,7 +28,7 @@ public class HP_Potion_Large implements Item_Register.ItemRegisterData {
         @Override
         public void appendHoverText(ItemStack p_41421_, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(p_41421_, ctx, tooltip, flag);
-            tooltip.add(Component.literal("This will heal you with 50 health point"));
+            tooltip.add(Component.translatable("item.athena.hp_potion_large.text"));
         }
 
         @Override

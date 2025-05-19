@@ -1,7 +1,6 @@
 package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
-import com.elly.athena.block.BlockItems_Register;
 import com.elly.athena.effect.Effect_Register;
 import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.item.Item_Register;
@@ -12,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.Item;
@@ -71,7 +69,6 @@ public class Athena {
 
         Effect_Register.RegisterAllEffect();
         Blocks_Register.RegisterAllBlocks();
-        BlockItems_Register.RegisterAllItems();
         Item_Register.RegisterAllItems();
         Sound_Register.registerSounds();
         CreativeTabs_Register.RegisterAllTabs();

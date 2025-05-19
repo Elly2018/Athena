@@ -31,8 +31,8 @@ public class Attribute_Register {
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ARMOR = ATTRIBUTES.register("magic_armor", () -> new RangedAttribute("attribute.name.magic_armor", (double)10.0F, (double)0.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> DODGE = ATTRIBUTES.register("dodge", () -> new RangedAttribute("attribute.name.dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_DODGE = ATTRIBUTES.register("magic_dodge", () -> new RangedAttribute("attribute.name.magic_dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> ACCURACY = ATTRIBUTES.register("accuracy", () -> new RangedAttribute("attribute.name.magic_dodge", (double)1.0F, (double)1.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ACCURACY = ATTRIBUTES.register("magic_accuracy", () -> new RangedAttribute("attribute.name.magic_dodge", (double)1.0F, (double)1.0F, (double)65536.0F));
+    public static final DeferredHolder<Attribute, RangedAttribute> ACCURACY = ATTRIBUTES.register("accuracy", () -> new RangedAttribute("attribute.name.accuracy", (double)1.0F, (double)1.0F, (double)65536.0F));
+    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ACCURACY = ATTRIBUTES.register("magic_accuracy", () -> new RangedAttribute("attribute.name.magic_accuracy", (double)1.0F, (double)1.0F, (double)65536.0F));
 
     private static Holder<Attribute> register(String name, Attribute attribute) {
         return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, ResourceLocation.withDefaultNamespace(name), attribute);

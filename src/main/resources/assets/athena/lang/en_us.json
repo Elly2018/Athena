@@ -9,7 +9,17 @@
 
   "player.interact.menu.trade": "Trade",
 
+  "attribute.name.level": "Level",
+  "attribute.name.mana": "Mana",
+  "attribute.name.mana_max": "Max Mana",
+  "attribute.name.damage_max": "Max Damage",
   "attribute.name.magic_attack": "Magic Attack",
+  "attribute.name.magic_attack_max": "Max Magic Attack",
+  "attribute.name.magic_armor": "Magic Armor",
+  "attribute.name.dodge": "Dodge",
+  "attribute.name.magic_dodge": "Magic Dodge",
+  "attribute.name.accuracy": "Accuracy",
+  "attribute.name.magic_accuracy": "Magic Accuracy",
 
   "menu.title.athena.equipment": "Equipment",
   "menu.title.athena.skill": "Skill",
@@ -36,9 +46,13 @@
   "item.athena.weapon_bow": "Bow",
 
   "item.athena.hp_potion": "HP Potion",
+  "item.athena.hp_potion.text": "This will heal you with 10 health point",
   "item.athena.mp_potion": "MP Potion",
+  "item.athena.mp_potion.text": "This will heal you with 10 mana point",
   "item.athena.hp_potion_large": "Large HP Potion",
+  "item.athena.hp_potion_large.text": "This will heal you with 50 health point",
   "item.athena.mp_potion_large": "Large MP Potion",
+  "item.athena.mp_potion_large.text": "This will heal you with 50 mana point",
   "item.athena.elixir": "Elixir",
   "item.athena.power_elixir": "Power Elixir",
 

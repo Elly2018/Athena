@@ -36,7 +36,7 @@ public class Entity_Register {
 
     private static void registerEntity(RegisterEvent.RegisterHelper<EntityType<?>> registry){
         EntityType.Builder<MagicBall> t = EntityType.Builder.<MagicBall>of(MagicBall::new, MobCategory.MISC)
-                .noLootTable().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10);
+                .noLootTable().sized(0.8F, 0.8F).clientTrackingRange(4).updateInterval(10);
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "magic_ball"));
         MAGICBALL = t.build(key);
         registry.register(key, MAGICBALL);

@@ -13,7 +13,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class ChaosRing extends RPGEquip_Header {
 
-    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.ring.chaos.armor");
+    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.chaos.armor");
 
     static class ChaosRing_RPG_Equip extends RPGEquip_Base{
         public ChaosRing_RPG_Equip(Properties properties) {
@@ -31,9 +31,9 @@ public class ChaosRing extends RPGEquip_Header {
     public Item.Properties get_behaviour() {
         ItemAttributeModifiers modifier = ItemAttributeModifiers.builder().add(
                 Attributes.ARMOR,
-                new AttributeModifier(ITEM_MODIFIER, 1, AttributeModifier.Operation.ADD_VALUE),
+                new AttributeModifier(ITEM_MODIFIER, 2, AttributeModifier.Operation.ADD_VALUE),
                 EquipmentSlotGroup.ANY
-        ).build();
+        ).build().withTooltip(true);
         return super.get_behaviour()
                 .attributes(modifier);
     }

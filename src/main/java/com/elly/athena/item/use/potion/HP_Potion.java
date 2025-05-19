@@ -28,7 +28,7 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
         @Override
         public void appendHoverText(ItemStack p_41421_, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(p_41421_, ctx, tooltip, flag);
-            tooltip.add(Component.literal("This will heal you with 10 health point"));
+            tooltip.add(Component.translatable("item.athena.hp_potion.text"));
         }
 
         @Override
@@ -44,7 +44,6 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
 
     @Override
     public Item.Properties get_behaviour() {
-        List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>();
         return new Item.Properties()
                 .stacksTo(200);
     }

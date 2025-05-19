@@ -27,7 +27,7 @@ public class MP_Potion_Large implements Item_Register.ItemRegisterData {
         @Override
         public void appendHoverText(ItemStack p_41421_, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
             super.appendHoverText(p_41421_, ctx, tooltip, flag);
-            tooltip.add(Component.literal("This will heal you with 50 mana point"));
+            tooltip.add(Component.translatable("item.athena.mp_potion_large.text"));
         }
 
         @Override
