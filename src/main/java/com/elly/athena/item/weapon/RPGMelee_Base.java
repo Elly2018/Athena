@@ -1,6 +1,5 @@
 package com.elly.athena.item.weapon;
 
-import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.DataComponent_Register;
 import com.elly.athena.data.datacomponent.Upgrade;
 import com.elly.athena.item.Item_Register;

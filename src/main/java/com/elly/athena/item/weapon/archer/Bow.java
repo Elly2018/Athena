@@ -4,9 +4,7 @@ import com.elly.athena.data.DataComponent_Register;
 import com.elly.athena.data.datacomponent.BowData;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.weapon.RPGBow_Base;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class Bow implements Item_Register.ItemRegisterData_Upgrade_Bow {
@@ -57,9 +55,8 @@ public class Bow implements Item_Register.ItemRegisterData_Upgrade_Bow {
     }
 
     @Override
-    public BowItem.Properties get_behaviour() {
-        return new SwordItem.Properties().stacksTo(1).durability(get_durability(0))
-                .component(DataComponent_Register.BOWDATA, new BowData(20));
+    public Item.Properties get_behaviour() {
+        return new Item.Properties().stacksTo(1).durability(get_durability(0));
     }
 
     @Override

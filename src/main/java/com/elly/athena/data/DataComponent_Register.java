@@ -20,7 +20,7 @@ public class DataComponent_Register {
                     .persistent(Upgrade.BASIC_CODEC)
                     .networkSynchronized(Upgrade.BASIC_STREAM_CODEC));
     public static DeferredHolder<DataComponentType<?>, DataComponentType<BowData>> BOWDATA = DATA.registerComponentType(
-            "upgrade",
+            "bowdata",
             builder -> builder
                     .persistent(BowData.BASIC_CODEC)
                     .networkSynchronized(BowData.BASIC_STREAM_CODEC));
@@ -37,5 +37,6 @@ public class DataComponent_Register {
         event.modify(Item_Register.WEAPON_WAND.get(), builder -> builder.set(UPGRADE.get(), new Upgrade(0)));
 
         event.modify(Item_Register.WEAPON_BOW.get(), builder -> builder.set(UPGRADE.get(), new Upgrade(0)));
+        event.modify(Item_Register.WEAPON_BOW.get(), builder -> builder.set(BOWDATA.get(), new BowData(20)));
     }
 }
