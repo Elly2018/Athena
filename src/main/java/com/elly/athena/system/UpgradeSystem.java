@@ -5,7 +5,6 @@ import com.elly.athena.data.datacomponent.Upgrade;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.equipment.RPGEquip_Base;
 import com.elly.athena.item.weapon.RPGBow_Base;
-import com.elly.athena.item.weapon.RPGMagic_Base;
 import com.elly.athena.item.weapon.RPGMelee_Base;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
