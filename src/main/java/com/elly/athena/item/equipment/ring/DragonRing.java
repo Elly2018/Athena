@@ -15,9 +15,9 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class DragonRing extends RPGEquip_Header {
 
-    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.chaos.armor");
-    private static final ResourceLocation ITEM_MODIFIER2 = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.chaos.magic_attack");
-    private static final ResourceLocation ITEM_MODIFIER3 = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.chaos.magic_attack_max");
+    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.dragon.armor");
+    private static final ResourceLocation ITEM_MODIFIER2 = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.dragon.magic_attack");
+    private static final ResourceLocation ITEM_MODIFIER3 = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "item.modifier.ring.dragon.magic_attack_max");
 
     static class DragonRing_RPG_Equip extends RPGEquip_Base {
         public DragonRing_RPG_Equip(Properties properties) {

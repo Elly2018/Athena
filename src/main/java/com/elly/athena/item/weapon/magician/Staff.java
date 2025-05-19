@@ -14,13 +14,13 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
-public class Staff implements Item_Register.ItemRegisterData {
+public class Staff implements Item_Register.ItemRegisterData_Upgrade {
 
     private static final ResourceLocation modifier = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.weapon_staff.magic_attack");
 
     public static class Staff_Item extends RPGMagic_Base {
-        public Staff_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
-            super(material, attackDamage, attackSpeed, properties);
+        public Staff_Item(float attackDamage, float attackSpeed, Properties properties) {
+            super(attackDamage, attackSpeed, properties);
         }
     }
 
@@ -30,19 +30,24 @@ public class Staff implements Item_Register.ItemRegisterData {
     }
 
     @Override
-    public SwordItem.Properties get_behaviour() {
+    public SwordItem.Properties[] get_behaviours() {
         ItemAttributeModifiers iam = ItemAttributeModifiers.builder()
                 .add(Attribute_Register.MAGIC_ATTACK, new AttributeModifier(modifier, 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.ANY)
                 .add(Attribute_Register.MAGIC_ATTACK_MAX, new AttributeModifier(modifier, 10, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.ANY)
                 .build();
-        return new SwordItem.Properties()
-                .stacksTo(1)
-                .attributes(iam)
-                .durability(300);
+        SwordItem.Properties[] r = {
+                new SwordItem.Properties().stacksTo(1).attributes(iam).durability(300)
+        };
+        return r;
     }
 
     @Override
-    public SwordItem get_binding(Item.Properties props) {
-        return new Staff_Item(ToolMaterial.WOOD, 2, -3.0F, props);
+    public SwordItem get_binding(int index, Item.Properties props) {
+        return switch (index) {
+            case 1 -> new Staff_Item(2, -3.0F, props);
+            default -> new Staff_Item(2, -3.0F, props);
+        };
+
     }
 }
+

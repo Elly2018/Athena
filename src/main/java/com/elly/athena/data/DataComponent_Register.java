@@ -1,6 +1,7 @@
 package com.elly.athena.data;
 
 import com.elly.athena.data.component.*;
+import com.elly.athena.data.datacomponent.Upgrade;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.Registry;
@@ -23,8 +24,10 @@ import static net.minecraft.core.component.DataComponentType.CODEC;
 
 public class DataComponent_Register {
     public static final DeferredRegister.DataComponents REGISTRAR = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
-
-    public static void registerDataComponent(DataPackRegistryEvent event){
-
-    }
+    public static final Supplier<DataComponentType<Upgrade>> UPGRADE = REGISTRAR.registerComponentType(
+            "upgrade",
+            builder -> builder
+                    .persistent(Upgrade.BASIC_CODEC)
+                    .networkSynchronized(Upgrade.BASIC_STREAM_CODEC)
+    );
 }

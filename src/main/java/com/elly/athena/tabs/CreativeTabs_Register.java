@@ -113,7 +113,7 @@ public class CreativeTabs_Register {
                         Item_Register.WEAPON_SWORD,
                         Item_Register.WEAPON_SPEAR,
                         Item_Register.WEAPON_WAND,
-                        Item_Register.WEAPON_STAFF,
+                        Item_Register.WEAPON_STAFF.get(0),
                 },
                 "athena_weapon", "Athena Weapon"
         ));
@@ -145,8 +145,8 @@ public class CreativeTabs_Register {
     {
         CreativeTabs_Register();
         for(TabsCategory i: categories){
-            Supplier<BlockItem>[] blockitems = new Supplier[i.BlockItem_ids.length];
-            Supplier<Item>[] items = new Supplier[i.Item_ids.length];
+            Supplier<BlockItem>[] blockitems = i.BlockItem_ids;
+            Supplier<Item>[] items = i.Item_ids;
             Supplier<CreativeModeTab> buffer = CREATIVE_MODE_TABS.register(i.Tab_id, () -> CreativeModeTab.builder()
                     .title(Component.translatable(i.Tab_Display))
                     .icon(Items.CAKE::getDefaultInstance)

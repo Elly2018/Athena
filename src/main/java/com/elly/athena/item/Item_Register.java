@@ -46,6 +46,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
@@ -60,7 +61,13 @@ public class Item_Register {
         Item get_binding(Item.Properties props);
     }
 
-    public static HashMap<String, Supplier<Item>> RegisterDict = new HashMap<String, Supplier<Item>>();
+    public interface ItemRegisterData_Upgrade {
+        String get_key();
+        Item.Properties[] get_behaviours();
+        Item get_binding(int index, Item.Properties props);
+    }
+
+    public static final int MAX_UPGRADE = 10;
 
     // System
     public static Supplier<Item> COIN;
@@ -131,7 +138,7 @@ public class Item_Register {
     public static Supplier<Item> WEAPON_SWORD;
     public static Supplier<Item> WEAPON_SPEAR;
     // Weapon magician
-    public static Supplier<Item> WEAPON_STAFF;
+    public static ArrayList<Supplier<Item>> WEAPON_STAFF;
     public static Supplier<Item> WEAPON_WAND;
     // Weapon archer
     public static Supplier<Item> WEAPON_BOW;
@@ -226,7 +233,7 @@ public class Item_Register {
         WEAPON_SWORD = RegisterItem(new Sword());
         WEAPON_SPEAR = RegisterItem(new Spear());
         // Weapon magician
-        WEAPON_STAFF = RegisterItem(new Staff());
+        WEAPON_STAFF = RegisterItems(new Staff());
         WEAPON_WAND = RegisterItem(new Wand());
         // Weapon archer
         WEAPON_BOW = RegisterItem(new Bow());
@@ -258,7 +265,20 @@ public class Item_Register {
         // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
         behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(MODID + ":" + key)));
         Supplier<Item> buffer = ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
-        RegisterDict.put(key, buffer);
         return buffer;
+    }
+
+    private static ArrayList<Supplier<Item>> RegisterItems(ItemRegisterData_Upgrade itemRegisterData){
+        String key = itemRegisterData.get_key();
+        Item.Properties[] behaviours = itemRegisterData.get_behaviours();
+        ArrayList<Supplier<Item>> p = new ArrayList<>();
+        for(int i = 0; i < MAX_UPGRADE && i < behaviours.length; i++){
+            Item.Properties behaviour = behaviours[i];
+            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(MODID + ":" + key)));
+            Item item = itemRegisterData.get_binding(i, behaviour);
+            Supplier<Item> buffer = ITEMS.register(key, () -> item);
+            p.add(buffer);
+        }
+        return p;
     }
 }
