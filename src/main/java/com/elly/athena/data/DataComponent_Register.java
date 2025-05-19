@@ -5,6 +5,7 @@ import com.elly.athena.data.datacomponent.BowData;
 import com.elly.athena.data.datacomponent.Upgrade;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;

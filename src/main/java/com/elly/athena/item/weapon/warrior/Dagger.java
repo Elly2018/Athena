@@ -21,8 +21,7 @@ public class Dagger implements Item_Register.ItemRegisterData {
 
     @Override
     public Item.Properties get_behaviour() {
-        return new SwordItem.Properties()
-                .stacksTo(1)
+        return new SwordItem.Properties().stacksTo(1)
                 .durability(300);
     }
 

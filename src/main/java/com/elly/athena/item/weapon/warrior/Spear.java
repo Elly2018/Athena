@@ -33,17 +33,17 @@ public class Spear implements Item_Register.ItemRegisterData_Upgrade {
     @Override
     public ItemAttributeModifiers get_attribute(int index) {
         return switch(index){
-                case 1 ->  RPGMelee_Base.GetModify(7.2F, -3.5F);
-                case 2 ->  RPGMelee_Base.GetModify(7.4F, -3.5F);
-                case 3 ->  RPGMelee_Base.GetModify(7.6F, -3.5F);
-                case 4 ->  RPGMelee_Base.GetModify(7.8F, -3.5F);
-                case 5 ->  RPGMelee_Base.GetModify(8.0F, -3.5F);
-                case 6 ->  RPGMelee_Base.GetModify(8.3F, -3.5F);
-                case 7 ->  RPGMelee_Base.GetModify(8.6F, -3.5F);
-                case 8 ->  RPGMelee_Base.GetModify(8.9F, -3.0F);
-                case 9 ->  RPGMelee_Base.GetModify(9.5F, -3.0F);
-                case 10 -> RPGMelee_Base.GetModify(10.0F, -3.0F);
-                default -> RPGMelee_Base.GetModify(7.0f, -3.5F);
+                case 1 ->  RPGMelee_Base.GetModify(7.2F, -2.0F);
+                case 2 ->  RPGMelee_Base.GetModify(7.4F, -2.0F);
+                case 3 ->  RPGMelee_Base.GetModify(7.6F, -2.0F);
+                case 4 ->  RPGMelee_Base.GetModify(7.8F, -2.0F);
+                case 5 ->  RPGMelee_Base.GetModify(8.0F, -2.0F);
+                case 6 ->  RPGMelee_Base.GetModify(8.3F, -2.0F);
+                case 7 ->  RPGMelee_Base.GetModify(8.6F, -2.0F);
+                case 8 ->  RPGMelee_Base.GetModify(8.9F, -2.0F);
+                case 9 ->  RPGMelee_Base.GetModify(9.5F, -1.8F);
+                case 10 -> RPGMelee_Base.GetModify(10.0F, -1.6F);
+                default -> RPGMelee_Base.GetModify(7.0f, -2.0F);
         };
     }
 

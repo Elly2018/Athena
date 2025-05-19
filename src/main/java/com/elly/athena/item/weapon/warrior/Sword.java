@@ -33,17 +33,17 @@ public class Sword implements Item_Register.ItemRegisterData_Upgrade {
     @Override
     public ItemAttributeModifiers get_attribute(int index) {
         return switch(index){
-                case 1 ->  RPGMelee_Base.GetModify(6.2F, -3.0F);
-                case 2 ->  RPGMelee_Base.GetModify(6.4F, -3.0F);
-                case 3 ->  RPGMelee_Base.GetModify(6.6F, -3.0F);
-                case 4 ->  RPGMelee_Base.GetModify(6.8F, -3.0F);
-                case 5 ->  RPGMelee_Base.GetModify(7.0F, -3.0F);
-                case 6 ->  RPGMelee_Base.GetModify(7.3F, -3.0F);
-                case 7 ->  RPGMelee_Base.GetModify(7.6F, -3.0F);
-                case 8 ->  RPGMelee_Base.GetModify(7.9F, -2.5F);
-                case 9 ->  RPGMelee_Base.GetModify(8.5F, -2.5F);
-                case 10 -> RPGMelee_Base.GetModify(9.0F, -2.5F);
-                default -> RPGMelee_Base.GetModify(6.0f, -3.0F);
+                case 1 ->  RPGMelee_Base.GetModify(6.2F, -2.4F);
+                case 2 ->  RPGMelee_Base.GetModify(6.4F, -2.4F);
+                case 3 ->  RPGMelee_Base.GetModify(6.6F, -2.4F);
+                case 4 ->  RPGMelee_Base.GetModify(6.8F, -2.4F);
+                case 5 ->  RPGMelee_Base.GetModify(7.0F, -2.4F);
+                case 6 ->  RPGMelee_Base.GetModify(7.3F, -2.4F);
+                case 7 ->  RPGMelee_Base.GetModify(7.6F, -2.4F);
+                case 8 ->  RPGMelee_Base.GetModify(7.9F, -2.2F);
+                case 9 ->  RPGMelee_Base.GetModify(8.5F, -2.0F);
+                case 10 -> RPGMelee_Base.GetModify(9.0F, -1.8F);
+                default -> RPGMelee_Base.GetModify(6.0f, -2.4F);
         };
     }
 

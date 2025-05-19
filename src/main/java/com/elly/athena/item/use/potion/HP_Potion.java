@@ -45,7 +45,7 @@ public class HP_Potion implements Item_Register.ItemRegisterData {
     @Override
     public Item.Properties get_behaviour() {
         return new Item.Properties()
-                .stacksTo(200);
+                .stacksTo(99);
     }
 
     @Override
