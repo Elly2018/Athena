@@ -9,11 +9,10 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.NotNull;
 
-public class RPGMagic_Base extends SwordItem {
+public class RPGMagic_Base extends RPGMelee_Base {
 
     public RPGMagic_Base(Properties properties) {
         super(properties);
@@ -32,9 +31,5 @@ public class RPGMagic_Base extends SwordItem {
                 .add(Attributes.ATTACK_SPEED,  new AttributeModifier(Item_Register.AttackSpeed_ID, (double)attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attribute_Register.MAGIC_ATTACK, new AttributeModifier(Item_Register.MagicDamage_ID, (double)(magicDamage), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build().withTooltip(true);
-    }
-
-    public Item_Register.ItemRegisterData_Upgrade GetRegister(){
-        return null;
     }
 }

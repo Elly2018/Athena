@@ -16,8 +16,8 @@ import java.util.Objects;
 
 public class UpgradeSystem {
     public static boolean CheckUpgrade(ItemStack iss){
-        return iss.getItem() instanceof RPGMelee_Base || iss.getItem() instanceof RPGMagic_Base
-                || iss.getItem() instanceof RPGBow_Base || iss.getItem() instanceof RPGEquip_Base;
+        return iss.getItem() instanceof RPGMelee_Base || iss.getItem() instanceof RPGBow_Base
+                || iss.getItem() instanceof RPGEquip_Base;
     }
 
     public static boolean UpgradeAction(ItemStack iss){
@@ -28,7 +28,6 @@ public class UpgradeSystem {
         Item_Register.ItemRegisterData_Upgrade buffer = null;
         switch (iss.getItem()) {
             case RPGMelee_Base target -> buffer = target.GetRegister();
-            case RPGMagic_Base target -> buffer = target.GetRegister();
             case RPGBow_Base target -> buffer = target.GetRegister();
             case RPGEquip_Base target -> buffer = target.GetRegister();
             default -> {
