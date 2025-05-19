@@ -55,7 +55,7 @@ public class MagicBall extends ThrowableItemProjectile {
 
     @Override
     protected @NotNull Item getDefaultItem() {
-        return Item_Register.RegisterDict.get("entity_magic_ball").get();
+        return Item_Register.ENTITY_MAGICBALL.get();
     }
 
     @Override

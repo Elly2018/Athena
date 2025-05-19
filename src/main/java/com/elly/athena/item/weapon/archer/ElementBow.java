@@ -9,8 +9,8 @@ import net.minecraft.world.item.SwordItem;
 public class ElementBow implements Item_Register.ItemRegisterData {
 
     static class ElementBow_Item extends RPGBow_Base {
-        public ElementBow_Item(Properties p_40660_) {
-            super(p_40660_);
+        public ElementBow_Item(float attackDamage, float attackSpeed, Properties properties) {
+            super(attackDamage, attackSpeed, properties);
         }
     }
 
@@ -28,6 +28,6 @@ public class ElementBow implements Item_Register.ItemRegisterData {
 
     @Override
     public Item get_binding(Item.Properties props) {
-        return new ElementBow_Item(props);
+        return new ElementBow_Item(2.0F, -2.4F,props);
     }
 }

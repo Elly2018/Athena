@@ -111,9 +111,11 @@ public class CreativeTabs_Register {
                         Item_Register.WEAPON_BOW_Element,
                         Item_Register.WEAPON_BOW_Moon,
                         Item_Register.WEAPON_SWORD,
+                        Item_Register.WEAPON_DAGGER,
                         Item_Register.WEAPON_SPEAR,
+                        Item_Register.WEAPON_AXE_UNKNOWN,
                         Item_Register.WEAPON_WAND,
-                        Item_Register.WEAPON_STAFF.get(0),
+                        Item_Register.WEAPON_STAFF,
                 },
                 "athena_weapon", "Athena Weapon"
         ));

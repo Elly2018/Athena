@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "athena:item/staff/candy"
+    "layer0": "athena:item/sword/dagger"
   }
 }

@@ -9,8 +9,8 @@ import net.minecraft.world.item.ToolMaterial;
 public class DiamondKatana implements Item_Register.ItemRegisterData {
 
     static class DiamondKatana_Item extends RPGMelee_Base {
-        public DiamondKatana_Item(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
-            super(material, attackDamage, attackSpeed, properties);
+        public DiamondKatana_Item(Properties properties) {
+            super(properties);
         }
     }
 
@@ -20,14 +20,14 @@ public class DiamondKatana implements Item_Register.ItemRegisterData {
     }
 
     @Override
-    public SwordItem.Properties get_behaviour() {
-        return new SwordItem.Properties()
+    public Item.Properties get_behaviour() {
+        return new Item.Properties()
                 .stacksTo(1)
                 .durability(300);
     }
 
     @Override
-    public SwordItem get_binding(Item.Properties props) {
-        return new DiamondKatana_Item(ToolMaterial.IRON, 6, -2.0F, props);
+    public Item get_binding(Item.Properties props) {
+        return new DiamondKatana_Item(props);
     }
 }

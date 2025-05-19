@@ -1,5 +1,6 @@
 package com.elly.athena.item;
 
+import com.elly.athena.Athena;
 import com.elly.athena.item.entity.Entity_MagicBall;
 import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.equipment.cape.OldCape;
@@ -38,16 +39,16 @@ import com.elly.athena.item.weapon.archer.MoonBow;
 import com.elly.athena.item.weapon.common.CandyStaff;
 import com.elly.athena.item.weapon.magician.Staff;
 import com.elly.athena.item.weapon.magician.Wand;
+import com.elly.athena.item.weapon.warrior.AxeUnknown;
+import com.elly.athena.item.weapon.warrior.Dagger;
 import com.elly.athena.item.weapon.warrior.Spear;
 import com.elly.athena.item.weapon.warrior.Sword;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.function.Supplier;
 
 import static com.elly.athena.Athena.ITEMS;
@@ -61,13 +62,18 @@ public class Item_Register {
         Item get_binding(Item.Properties props);
     }
 
-    public interface ItemRegisterData_Upgrade {
-        String get_key();
-        Item.Properties[] get_behaviours();
-        Item get_binding(int index, Item.Properties props);
+    public interface ItemRegisterData_Upgrade extends ItemRegisterData {
+        int size();
+        ItemAttributeModifiers get_attribute(int index);
+        int get_durability(int index);
     }
 
     public static final int MAX_UPGRADE = 10;
+    public static ResourceLocation MagicDamage_ID = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "base.magic_attack");
+    public static ResourceLocation MagicDamage_max_ID = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "base_magic_attack_max");
+    public static ResourceLocation AttackDamage_ID = Item.BASE_ATTACK_DAMAGE_ID;
+    public static ResourceLocation AttackDamage_Max_ID = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "base_attack_max");
+    public static ResourceLocation AttackSpeed_ID = Item.BASE_ATTACK_SPEED_ID;
 
     // System
     public static Supplier<Item> COIN;
@@ -136,9 +142,11 @@ public class Item_Register {
     public static Supplier<Item> WEAPON_CANDY;
     // Weapon warrior
     public static Supplier<Item> WEAPON_SWORD;
+    public static Supplier<Item> WEAPON_DAGGER;
     public static Supplier<Item> WEAPON_SPEAR;
+    public static Supplier<Item> WEAPON_AXE_UNKNOWN;
     // Weapon magician
-    public static ArrayList<Supplier<Item>> WEAPON_STAFF;
+    public static Supplier<Item> WEAPON_STAFF;
     public static Supplier<Item> WEAPON_WAND;
     // Weapon archer
     public static Supplier<Item> WEAPON_BOW;
@@ -231,9 +239,11 @@ public class Item_Register {
         WEAPON_CANDY = RegisterItem(new CandyStaff());
         // Weapon warrior
         WEAPON_SWORD = RegisterItem(new Sword());
+        WEAPON_DAGGER = RegisterItem(new Dagger());
         WEAPON_SPEAR = RegisterItem(new Spear());
+        WEAPON_AXE_UNKNOWN = RegisterItem(new AxeUnknown());
         // Weapon magician
-        WEAPON_STAFF = RegisterItems(new Staff());
+        WEAPON_STAFF = RegisterItem(new Staff());
         WEAPON_WAND = RegisterItem(new Wand());
         // Weapon archer
         WEAPON_BOW = RegisterItem(new Bow());
@@ -264,21 +274,8 @@ public class Item_Register {
         Item.Properties behaviour = itemRegisterData.get_behaviour();
         // https://stackoverflow.com/questions/79318791/item-texture-blank-in-minecraft-1-21-4-forge-mod
         behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(MODID + ":" + key)));
+        Athena.LOGGER.debug(String.format("Register item: %s", key));
         Supplier<Item> buffer = ITEMS.register(key, () -> itemRegisterData.get_binding(behaviour));
         return buffer;
-    }
-
-    private static ArrayList<Supplier<Item>> RegisterItems(ItemRegisterData_Upgrade itemRegisterData){
-        String key = itemRegisterData.get_key();
-        Item.Properties[] behaviours = itemRegisterData.get_behaviours();
-        ArrayList<Supplier<Item>> p = new ArrayList<>();
-        for(int i = 0; i < MAX_UPGRADE && i < behaviours.length; i++){
-            Item.Properties behaviour = behaviours[i];
-            behaviour.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.parse(MODID + ":" + key)));
-            Item item = itemRegisterData.get_binding(i, behaviour);
-            Supplier<Item> buffer = ITEMS.register(key, () -> item);
-            p.add(buffer);
-        }
-        return p;
     }
 }

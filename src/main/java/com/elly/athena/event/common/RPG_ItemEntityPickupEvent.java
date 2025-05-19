@@ -35,10 +35,10 @@ public class RPG_ItemEntityPickupEvent {
     }
 
     private static void PickupGoldenHelper(ServerPlayer player, ItemEntity ie, ItemStack is){
-        Item cointype = Item_Register.RegisterDict.get("coin").get();
-        Item goldencointype = Item_Register.RegisterDict.get("coin_golden").get();
-        Item coinbagtype = Item_Register.RegisterDict.get("coin_bag").get();
-        Item goldencoinbagtype = Item_Register.RegisterDict.get("coin_golden_bag").get();
+        Item cointype = Item_Register.COIN.get();
+        Item goldencointype = Item_Register.GOLDEN_COIN.get();
+        Item coinbagtype = Item_Register.COIN_BAG.get();
+        Item goldencoinbagtype = Item_Register.GOLDEN_COIN_BAG.get();
 
         int count = 0;
         if(!ie.hasPickUpDelay()){

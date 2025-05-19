@@ -42,7 +42,7 @@ public class RPGSkill_Base extends Item {
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
-        if(skillType == SkillType.Passive) {
+        if(skillType != SkillType.Active) {
             Athena.LOGGER.debug(String.format("Cannot use passive skill: %s %s", player.getName().getString(), descriptionId));
             return InteractionResult.FAIL;
         }
@@ -96,11 +96,20 @@ public class RPGSkill_Base extends Item {
         return InteractionResult.SUCCESS;
     }
 
+    public InteractionResult use_passive(@NotNull Player player){
+        if(skillType != SkillType.Passive) {
+            Athena.LOGGER.debug(String.format("Cannot use active skill passively: %s %s", player.getName().getString(), descriptionId));
+            return InteractionResult.FAIL;
+        }
+        return InteractionResult.SUCCESS;
+    }
+
     public void server_apply(Level world, Player player, int level, InteractionHand hand) { }
     public int requireMana(int level) { return 1; }
     public int cooldown(int level) { return 200; }
     public JobType requireJob() { return JobType.NEWBIE; }
     public MainItemType requireWeapon() { return MainItemType.None; }
+    public AttributeMap passiveApply() { return null; }
     protected boolean isHoldingTypeWeapon(Player player, MainItemType type){
         IPlayerStatus ips = player.getData(Attachment_Register.PLAYER_STATUS);
         IPlayerEquipment ipe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);

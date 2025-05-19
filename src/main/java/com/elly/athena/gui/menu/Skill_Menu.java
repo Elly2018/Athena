@@ -1,23 +1,30 @@
 package com.elly.athena.gui.menu;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
 import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.gui.GUI_Register;
 import com.elly.athena.item.Item_Register;
+import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.system.skill.SkillCategory;
 import com.elly.athena.system.skill.SkillData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -80,17 +87,23 @@ public class Skill_Menu extends AbstractContainerMenu {
         int c = 0;
         for(int i = initIndex; i < sd.size() && i < leng; i++){
             String name = sd.get(i).Name;
-            if(!Item_Register.RegisterDict.containsKey(name)) {
-                continue;
-            }
-            Supplier<Item> t = Item_Register.RegisterDict.get(name);
-
+            DeferredHolder<Item,? extends RPGSkill_Base> t = getItemByName(name);
+            if(t == null) continue;
             ItemStack buffer = new ItemStack(t.get().asItem(), 1);
             Slot s = this.slots.get(c);
             s.set(buffer);
             s.setChanged();
             c++;
         }
+    }
+
+    private DeferredHolder<Item,? extends RPGSkill_Base> getItemByName(String name){
+        var entries = Athena.ITEMS.getEntries();
+        for(var entry: entries){
+            if(entry.getId().getPath().equals(name) && entry.get() instanceof RPGSkill_Base)
+                return (DeferredHolder<Item, ? extends RPGSkill_Base>) entry;
+        }
+        return null;
     }
 
     @Override
