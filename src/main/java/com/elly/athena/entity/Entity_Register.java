@@ -4,6 +4,7 @@ import com.elly.athena.Athena;
 import com.elly.athena.entity.mob.TestUseZombie;
 import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.entity.npc.RPGNPC;
+import com.elly.athena.entity.spell.AdvancedArrow;
 import com.elly.athena.entity.spell.MagicBall;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.registries.Registries;
@@ -24,6 +25,7 @@ public class Entity_Register {
     // NPC
     public static final Supplier<EntityType<RPGNPC>> NPC = Athena.ENTITY.registerEntityType("npc", RPGNPC::new, MobCategory.CREATURE);
 
+    public static EntityType<AdvancedArrow> ADVANCEDARROW;
     public static EntityType<MagicBall> MAGICBALL;
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
