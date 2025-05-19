@@ -46,6 +46,11 @@ public class MagicBall extends RPGSkill_Header {
         }
 
         @Override
+        public MainItemType requireWeapon() {
+            return MainItemType.Magic;
+        }
+
+        @Override
         public int requireMana(int level) {
             return 1;
         }
