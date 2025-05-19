@@ -74,7 +74,7 @@ public class MagicBall extends ThrowableItemProjectile {
             Entity target = result.getEntity();
             int magic_attack = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK)).getValue();
             int magic_attack_max = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK_MAX)).getValue();
-            int d = this.getRandom().nextIntBetweenInclusive(magic_attack, Math.max(magic_attack_max, magic_attack + 1));
+            int d = this.getRandom().nextInt(magic_attack, Math.max(magic_attack_max, 1));
 
             target.hurt(this.damageSources().thrown(this, this.getOwner()), (float)d);
         }

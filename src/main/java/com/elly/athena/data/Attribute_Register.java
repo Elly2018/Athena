@@ -30,9 +30,7 @@ public class Attribute_Register {
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ATTACK_MAX = ATTRIBUTES.register("magic_attack_max", () -> new RangedAttribute("attribute.name.magic_attack_max", (double)1.0F, (double)1.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ARMOR = ATTRIBUTES.register("magic_armor", () -> new RangedAttribute("attribute.name.magic_armor", (double)10.0F, (double)0.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> DODGE = ATTRIBUTES.register("dodge", () -> new RangedAttribute("attribute.name.dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_DODGE = ATTRIBUTES.register("magic_dodge", () -> new RangedAttribute("attribute.name.magic_dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> ACCURACY = ATTRIBUTES.register("accuracy", () -> new RangedAttribute("attribute.name.accuracy", (double)1.0F, (double)1.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ACCURACY = ATTRIBUTES.register("magic_accuracy", () -> new RangedAttribute("attribute.name.magic_accuracy", (double)1.0F, (double)1.0F, (double)65536.0F));
 
     private static Holder<Attribute> register(String name, Attribute attribute) {
         return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, ResourceLocation.withDefaultNamespace(name), attribute);
@@ -71,9 +69,7 @@ public class Attribute_Register {
         if(!event.has(EntityType.PLAYER, MAGIC_ATTACK_MAX)) event.add(EntityType.PLAYER, MAGIC_ATTACK_MAX);
         if(!event.has(EntityType.PLAYER, MAGIC_ARMOR)) event.add(EntityType.PLAYER, MAGIC_ARMOR);
         if(!event.has(EntityType.PLAYER, DODGE)) event.add(EntityType.PLAYER, DODGE);
-        if(!event.has(EntityType.PLAYER, MAGIC_DODGE)) event.add(EntityType.PLAYER, MAGIC_DODGE);
         if(!event.has(EntityType.PLAYER, ACCURACY)) event.add(EntityType.PLAYER, ACCURACY);
-        if(!event.has(EntityType.PLAYER, MAGIC_ACCURACY)) event.add(EntityType.PLAYER, MAGIC_ACCURACY);
     }
 
     private static final ResourceLocation GLOBAL_Health_MAX = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.max_hp");

@@ -2,7 +2,9 @@ package com.elly.athena.event.common;
 
 import com.elly.athena.Athena;
 import com.elly.athena.Config;
+import com.elly.athena.data.Attribute_Register;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,7 +18,10 @@ public class RPG_LivingDamageEvent {
         if(!Config.damage_cooldown) event.getEntity().invulnerableTime = 0;
         Entity entity = event.getSource().getEntity();
         if(entity instanceof Player player){
-
+            double damage = player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
+            double max_damage = player.getAttribute(Attribute_Register.DAMAGE_MAX).getValue();
+            int d = player.getRandom().nextInt((int)damage, (int)max_damage);
+            event.setNewDamage(d);
         }
     }
 }

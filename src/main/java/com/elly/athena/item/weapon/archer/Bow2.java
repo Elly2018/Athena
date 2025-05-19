@@ -9,8 +9,8 @@ import net.minecraft.world.item.SwordItem;
 public class Bow2 implements Item_Register.ItemRegisterData {
 
     static class Bow2_Item extends RPGBow_Base {
-        public Bow2_Item(float attackDamage, float attackSpeed, Properties properties) {
-            super(attackDamage, attackSpeed, properties);
+        public Bow2_Item(Properties properties) {
+            super(properties);
         }
     }
 
@@ -28,6 +28,6 @@ public class Bow2 implements Item_Register.ItemRegisterData {
 
     @Override
     public Item get_binding(Item.Properties props) {
-        return new Bow2_Item(2.0F, -2.4F,props);
+        return new Bow2_Item(props);
     }
 }

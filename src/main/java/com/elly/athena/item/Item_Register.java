@@ -1,6 +1,7 @@
 package com.elly.athena.item;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.datacomponent.BowData;
 import com.elly.athena.item.entity.Entity_MagicBall;
 import com.elly.athena.item.equipment.belt.LeatherBelt;
 import com.elly.athena.item.equipment.cape.OldCape;
@@ -64,8 +65,12 @@ public class Item_Register {
 
     public interface ItemRegisterData_Upgrade extends ItemRegisterData {
         int size();
-        ItemAttributeModifiers get_attribute(int index);
-        int get_durability(int index);
+        ItemAttributeModifiers get_attribute(int level);
+        int get_durability(int level);
+    }
+
+    public interface ItemRegisterData_Upgrade_Bow extends ItemRegisterData_Upgrade {
+        BowData get_bowdata(int level);
     }
 
     public static final int MAX_UPGRADE = 10;
@@ -74,6 +79,7 @@ public class Item_Register {
     public static ResourceLocation AttackDamage_ID = Item.BASE_ATTACK_DAMAGE_ID;
     public static ResourceLocation AttackDamage_Max_ID = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "base_attack_max");
     public static ResourceLocation AttackSpeed_ID = Item.BASE_ATTACK_SPEED_ID;
+    public static ResourceLocation BowSpeed_ID = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "base_bow_speed");
 
     // System
     public static Supplier<Item> COIN;

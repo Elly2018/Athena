@@ -41,9 +41,7 @@ public class DebugCommand {
         PrintModAttribute(Attribute_Register.MAGIC_ATTACK_MAX, map, player);
         PrintModAttribute(Attribute_Register.MAGIC_ARMOR, map, player);
         PrintModAttribute(Attribute_Register.DODGE, map, player);
-        PrintModAttribute(Attribute_Register.MAGIC_DODGE, map, player);
         PrintModAttribute(Attribute_Register.ACCURACY, map, player);
-        PrintModAttribute(Attribute_Register.MAGIC_ACCURACY, map, player);
     }
 
     private static void PrintModAttribute(DeferredHolder<Attribute, RangedAttribute> target, AttributeMap map, Player player){

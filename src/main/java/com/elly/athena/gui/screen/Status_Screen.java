@@ -238,9 +238,7 @@ public class Status_Screen extends Screen {
                 String.format("Physical Defense: %.1f", map.getValue(Attributes.ARMOR)),
                 String.format("Magic Defense: %.1f", map.getValue(Attribute_Register.MAGIC_ARMOR)),
                 String.format("Physical Accuracy: %.1f", map.getValue(Attribute_Register.ACCURACY)),
-                String.format("Magic Accuracy: %.1f", map.getValue(Attribute_Register.MAGIC_ACCURACY)),
                 String.format("Physical Dodge: %.1f", map.getValue(Attribute_Register.DODGE)),
-                String.format("Magic Dodge: %.1f", map.getValue(Attribute_Register.MAGIC_DODGE))
         };
         for(int i = 0; i < texts.length; i++){
             drawFont(graphics, texts[i], InitX, InitY + (Gap * i), ColorLabel);

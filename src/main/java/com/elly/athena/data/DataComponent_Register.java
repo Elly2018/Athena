@@ -1,6 +1,7 @@
 package com.elly.athena.data;
 
 import com.elly.athena.Athena;
+import com.elly.athena.data.datacomponent.BowData;
 import com.elly.athena.data.datacomponent.Upgrade;
 import com.elly.athena.item.Item_Register;
 import net.minecraft.core.component.DataComponentType;
@@ -18,6 +19,12 @@ public class DataComponent_Register {
             builder -> builder
                     .persistent(Upgrade.BASIC_CODEC)
                     .networkSynchronized(Upgrade.BASIC_STREAM_CODEC));
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<BowData>> BOWDATA = DATA.registerComponentType(
+            "upgrade",
+            builder -> builder
+                    .persistent(BowData.BASIC_CODEC)
+                    .networkSynchronized(BowData.BASIC_STREAM_CODEC));
+
 
     @SubscribeEvent
     public static void modifyComponents(ModifyDefaultComponentsEvent event){

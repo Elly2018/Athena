@@ -35,7 +35,11 @@ public class UpgradeSystem {
             }
         }
         if(buffer == null) return false;
+        Apply(buffer, upgrade, iss);
+        return true;
+    }
 
+    private static void Apply(Item_Register.ItemRegisterData_Upgrade buffer, int upgrade, ItemStack iss){
         ItemAttributeModifiers iam = buffer.get_attribute(upgrade + 1);
         int durability = buffer.get_durability(upgrade + 1);
         iss.set(DataComponents.MAX_DAMAGE, durability);
@@ -44,6 +48,19 @@ public class UpgradeSystem {
         item_og.clear();
         item_og.addAll(iam.modifiers());
         iss.set(DataComponent_Register.UPGRADE, new Upgrade(upgrade + 1));
-        return true;
+    }
+
+    private static void Apply(Item_Register.ItemRegisterData_Upgrade_Bow buffer, int upgrade, ItemStack iss){
+        if(iss.getItem() instanceof RPGBow_Base target){
+            ItemAttributeModifiers iam = buffer.get_attribute(upgrade + 1);
+            int durability = buffer.get_durability(upgrade + 1);
+            iss.set(DataComponents.MAX_DAMAGE, durability);
+            ItemAttributeModifiers map = iss.getAttributeModifiers();
+            List<ItemAttributeModifiers.Entry> item_og = map.modifiers();
+            iss.set(DataComponent_Register.BOWDATA, target.GetRegister().get_bowdata(upgrade + 1));
+            item_og.clear();
+            item_og.addAll(iam.modifiers());
+            iss.set(DataComponent_Register.UPGRADE, new Upgrade(upgrade + 1));
+        }
     }
 }
