@@ -11,16 +11,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 public class RPG_PlayerEvent {
 
     @SubscribeEvent
-    public static void playerLoggin(PlayerEvent.PlayerLoggedInEvent event){
-
-    }
-
-    @SubscribeEvent
-    public static void playerLoggout(PlayerEvent.PlayerLoggedOutEvent event){
-
-    }
-
-    @SubscribeEvent
     public static void respawn(PlayerEvent.PlayerRespawnEvent event){
         BattleSystem.ApplyChange(event.getEntity());
     }
