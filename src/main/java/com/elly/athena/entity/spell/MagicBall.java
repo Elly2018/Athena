@@ -11,11 +11,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -55,11 +58,12 @@ public class MagicBall extends ThrowableItemProjectile {
             tick = 0;
             for(int i = 0; i < 4; i++){
                 this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(),
-                        this.random.nextIntBetweenInclusive(-1, 1),
-                        this.random.nextIntBetweenInclusive(-1, 1),
-                        this.random.nextIntBetweenInclusive(-1, 1));
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F);
             }
         }
+
         if(isInWater() || isInLava()){
             this.remove(RemovalReason.KILLED);
         }
@@ -76,19 +80,37 @@ public class MagicBall extends ThrowableItemProjectile {
     }
 
     @Override
-    protected void onHit(@NotNull HitResult result) {
-        super.onHit(result);
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, (byte)3);
-            this.discard();
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        if (this.level() instanceof ServerLevel sl) {
+            for(var en: sl.getAllEntities()){
+                if(en instanceof LivingEntity target && en.isAlive()){
+                    if(en.position().distanceTo(this.position()) < 3F){
+                        HitEntity(target);
+                    }
+                }
+            }
+            this.remove(RemovalReason.KILLED);
         }
     }
 
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         super.onHitEntity(result);
+        if (this.level() instanceof ServerLevel sl) {
+            for(var en: sl.getAllEntities()){
+                if(en instanceof LivingEntity target && en.isAlive()){
+                    if(en.position().distanceTo(this.position()) < 3F){
+                        HitEntity(target);
+                    }
+                }
+            }
+            this.remove(RemovalReason.KILLED);
+        }
+    }
+
+    private void HitEntity(Entity target){
         if(this.getOwner() instanceof Player player){
-            Entity target = result.getEntity();
             int magic_attack = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK)).getValue();
             int magic_attack_max = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK_MAX)).getValue();
             int d = this.getRandom().nextIntBetweenInclusive(magic_attack, Math.max(magic_attack + magic_attack_max, magic_attack + 1));
