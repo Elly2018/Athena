@@ -1,82 +1,50 @@
 package com.elly.athena.entity;
 
 import com.elly.athena.Athena;
-import com.elly.athena.data.Attachment_Register;
-import com.elly.athena.data.Attribute_Register;
-import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.entity.mob.TestUseZombie;
 import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.entity.npc.RPGNPC;
-import com.elly.athena.entity.npc.RPGNPC_Renderer;
-import com.elly.athena.item.skill.RPGSkill_Base;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import com.elly.athena.entity.spell.AdvancedArrow;
+import com.elly.athena.entity.spell.MagicBall;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.SpectralArrowRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.function.Supplier;
 
-import static com.elly.athena.Athena.MODID;
-
-@EventBusSubscriber(modid = Athena.MODID)
 public class Entity_Register {
-    public static final Supplier<EntityType<WoodElf>> WOODELF = register("woodelf", Entity_Register::woodelf);
-    public static final Supplier<EntityType<TestUseZombie>> TESTZOMBIE = register("testzombie", Entity_Register::testzombie);
-    public static final Supplier<EntityType<RPGNPC>> NPC = register("npc", Entity_Register::npc);
+    // BOSS
+    public static final Supplier<EntityType<WoodElf>> WOODELF = Athena.ENTITY.registerEntityType("woodelf", WoodElf::new, MobCategory.MONSTER);
+    // MOB
+    public static final Supplier<EntityType<TestUseZombie>> TESTZOMBIE = Athena.ENTITY.registerEntityType("testzombie", TestUseZombie::new, MobCategory.MONSTER);
+    // NPC
+    public static final Supplier<EntityType<RPGNPC>> NPC = Athena.ENTITY.registerEntityType("npc", RPGNPC::new, MobCategory.CREATURE);
+    // ETC
+    public static EntityType<AdvancedArrow> ADVANCEDARROW;
+    public static EntityType<MagicBall> MAGICBALL;
 
-    private static <E extends Entity> Supplier<EntityType<E>> register(final String name, final Supplier<EntityType.Builder<E>> sup) {
-        return Athena.ENTITY.register(name, () -> sup.get().build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(MODID + ":" + name))));
-    }
-
-    private static EntityType.Builder<WoodElf> woodelf(){
-        return EntityType.Builder.<WoodElf>of(WoodElf::new, MobCategory.MONSTER)
-                .sized(0.5f, 0.5f)
-                .setTrackingRange(4)
-                .setUpdateInterval(3)
-                .setShouldReceiveVelocityUpdates(true);
-    }
-    private static EntityType.Builder<TestUseZombie> testzombie(){
-        return EntityType.Builder.<TestUseZombie>of(TestUseZombie::new, MobCategory.MONSTER)
-                .sized(0.5f, 0.5f)
-                .setTrackingRange(4)
-                .setUpdateInterval(3)
-                .setShouldReceiveVelocityUpdates(true);
-    }
-    private static EntityType.Builder<RPGNPC> npc(){
-        return EntityType.Builder.<RPGNPC>of(RPGNPC::new, MobCategory.CREATURE)
-                .sized(0.5f, 0.5f)
-                .setTrackingRange(4)
-                .setUpdateInterval(3)
-                .setShouldReceiveVelocityUpdates(true);
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ADVANCEDARROW, TippableArrowRenderer::new);
+        event.registerEntityRenderer(MAGICBALL, ThrownItemRenderer::new);
     }
 
-    @SubscribeEvent
-    public static void entityJoin(EntityJoinLevelEvent event){
-        if (event.getEntity() instanceof Player){
-            Player player = (Player) event.getEntity();
-            if(!player.hasData(Attachment_Register.PLAYER_STATUS))
-                player.setData(Attachment_Register.PLAYER_STATUS, new PlayerStatus());
-            Attribute_Register.ApplyChange(player);
-        }
+    public static void registerEntity(RegisterEvent event){
+        event.register(Registries.ENTITY_TYPE, Entity_Register::registerEntity);
     }
 
-    @SubscribeEvent
-    public static void entityTick(EntityTickEvent.Pre event){
-        if (event.getEntity() instanceof ItemEntity){
-            ItemEntity item = (ItemEntity) event.getEntity();
-            if(item.getItem().getItem() instanceof RPGSkill_Base){
-                item.remove(Entity.RemovalReason.KILLED);
-            }
-        }
+    private static void registerEntity(RegisterEvent.RegisterHelper<EntityType<?>> registry){
+        EntityType.Builder<MagicBall> t = EntityType.Builder.<MagicBall>of(MagicBall::new, MobCategory.MISC)
+                .noLootTable().sized(3.2F, 3.2F).clientTrackingRange(4).updateInterval(10);
+        ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "magic_ball"));
+        MAGICBALL = t.build(key);
+        registry.register(key, MAGICBALL);
     }
 }

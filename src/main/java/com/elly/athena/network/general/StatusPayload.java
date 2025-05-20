@@ -3,6 +3,7 @@ package com.elly.athena.network.general;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.system.BattleSystem;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -52,6 +53,7 @@ public class StatusPayload {
                 PlayerStatus ps = new PlayerStatus();
                 ps.deserializeNBT(context.player().registryAccess(), data.data);
                 context.player().setData(Attachment_Register.PLAYER_STATUS, ps);
+                BattleSystem.ApplyChange(context.player());
             });
         }
     }

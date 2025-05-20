@@ -1,17 +1,18 @@
 package com.elly.athena;
 
 import com.elly.athena.block.Blocks_Register;
-import com.elly.athena.block.BlockItems_Register;
+import com.elly.athena.data.DataComponent_Register;
 import com.elly.athena.effect.Effect_Register;
+import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import com.elly.athena.tabs.CreativeTabs_Register;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.Item;
@@ -46,31 +47,33 @@ public class Athena {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(BuiltInRegistries.ATTRIBUTE, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
-    public static final DeferredRegister<EntityType<?>> ENTITY = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
     public static final DeferredRegister<GameEvent> EVENT = DeferredRegister.create(BuiltInRegistries.GAME_EVENT, MODID);
+    public static final DeferredRegister.Entities ENTITY = DeferredRegister.createEntities(MODID);
+    public static final DeferredRegister.DataComponents DATA = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
 
     public Athena(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
-        ATTRIBUTES.register(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
         ATTACHMENT.register(modEventBus);
+        MENU_TYPES.register(modEventBus);
+
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         POTIONS.register(modEventBus);
         SOUNDS.register(modEventBus);
-        CREATIVE_MODE_TABS.register(modEventBus);
+        ATTRIBUTES.register(modEventBus);
         RECIPE.register(modEventBus);
-        MENU_TYPES.register(modEventBus);
         MOB_EFFECTS.register(modEventBus);
-        ENTITY.register(modEventBus);
         EVENT.register(modEventBus);
+        ENTITY.register(modEventBus);
+        DATA.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         Effect_Register.RegisterAllEffect();
         Blocks_Register.RegisterAllBlocks();
-        BlockItems_Register.RegisterAllItems();
         Item_Register.RegisterAllItems();
         Sound_Register.registerSounds();
         CreativeTabs_Register.RegisterAllTabs();

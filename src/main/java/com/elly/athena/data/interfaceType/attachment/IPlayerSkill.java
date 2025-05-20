@@ -9,6 +9,7 @@ public interface IPlayerSkill {
     SkillData getData(String category, String name);
     int getPoint(String category, String name);
     void addPoint(String category, String name, int point);
+    void addPoint(String name, int point);
     void setPoint(String category, String name, int point);
 
     void SetCooldown(String category, String name, int time);

@@ -8,7 +8,7 @@ import com.elly.athena.gui.menu.slot.ArmorSlot;
 import com.elly.athena.gui.menu.slot.ModArmorSlot;
 import com.elly.athena.gui.menu.slot.RPGSlot;
 import com.elly.athena.item.equipment.RPGEquip_Base;
-import com.elly.athena.item.potion.RPGPotion_Base;
+import com.elly.athena.item.use.potion.RPGPotion_Base;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;

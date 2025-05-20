@@ -2,7 +2,7 @@ package com.elly.athena.network.general;
 
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attribute_Register;
-import com.elly.athena.item.Item_Interaction;
+import com.elly.athena.event.common.RPG_PlayerInteractEvent;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -49,7 +49,7 @@ public class EventGeneralPayload {
                 if(type == EventType.INPUT.ordinal()){
                     int meta = data.data.getInt("meta");
                     if(meta == InputMeta.RIGHT_CLICK.ordinal()){
-                        Item_Interaction.onSkillUse(context.player());
+                        RPG_PlayerInteractEvent.onSkillUse(context.player());
                     }
                 }
             });
@@ -64,7 +64,7 @@ public class EventGeneralPayload {
                 if(type == EventType.INPUT.ordinal()){
                     int meta = data.data.getInt("meta");
                     if(meta == InputMeta.RIGHT_CLICK.ordinal()){
-                        Item_Interaction.onSkillUse(context.player());
+                        RPG_PlayerInteractEvent.onSkillUse(context.player());
                     }
                     else if(meta == InputMeta.SELECTION.ordinal()){
                         Attribute_Register.ApplyChange(context.player());

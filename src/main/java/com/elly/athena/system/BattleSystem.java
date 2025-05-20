@@ -1,5 +1,6 @@
 package com.elly.athena.system;
 
+import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.data.types.ModContainer;
@@ -23,10 +24,12 @@ public class BattleSystem {
     }
 
     private static void ssApplyModAttribute(AttributeMap map, Player player){
+        Athena.LOGGER.debug("Battle System: ApplyModAttribute");
         ModContainer container = new ModContainer(player);
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         if(ps.getMode() == 1){
             RemoveHandModAttribute(player, map);
+            RemoveOffHandModAttribute(player, map);
         }
         for(int i = 0; i < 12; i++){
             if(ps.getMode() == 0 && i < 2) continue;
@@ -35,8 +38,7 @@ public class BattleSystem {
             iss.getAttributeModifiers().modifiers().forEach(entry -> {
                 AttributeInstance attributeinstance = map.getInstance(entry.attribute());
                 if (attributeinstance != null) {
-                    attributeinstance.removeModifier(entry.modifier().id());
-                    attributeinstance.addTransientModifier(entry.modifier());
+                    attributeinstance.addOrUpdateTransientModifier(entry.modifier());
                 }
             });
         }
@@ -44,6 +46,11 @@ public class BattleSystem {
 
     private static void RemoveHandModAttribute(@NotNull Player player, AttributeMap map){
         ItemStack iss = player.getInventory().getSelected();
+        RemoveModAttribute(iss, map);
+    }
+
+    private static void RemoveOffHandModAttribute(@NotNull Player player, AttributeMap map){
+        ItemStack iss = player.getInventory().getItem(45);
         RemoveModAttribute(iss, map);
     }
 

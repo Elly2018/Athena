@@ -14,7 +14,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class Single_Earring implements Item_Register.ItemRegisterData {
 
-    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.single_earring.armor");
+    private static final ResourceLocation ITEM_MODIFIER = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.ring.single_earring.armor");
 
     static class Single_Earring_Equip extends RPGEquip_Base {
         public Single_Earring_Equip(Properties properties) {

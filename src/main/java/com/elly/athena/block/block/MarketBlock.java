@@ -24,4 +24,9 @@ public class MarketBlock implements Blocks_Register.BlockRegisterData {
                 .mapColor(MapColor.STONE)
                 .strength(1.5f);
     }
+
+    @Override
+    public Block get_binding(BlockBehaviour.Properties props) {
+        return new Block(props);
+    }
 }

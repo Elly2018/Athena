@@ -1,7 +1,7 @@
 package com.elly.athena.data;
 
 import com.elly.athena.Athena;
-import com.elly.athena.ServerHandler;
+import com.elly.athena.event.ServerHandler;
 import com.elly.athena.data.leveldata.NPCRegister;
 import com.elly.athena.data.leveldata.PlayerParty;
 import com.elly.athena.data.leveldata.QuestRegister;

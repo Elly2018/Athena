@@ -6,6 +6,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
@@ -30,9 +32,7 @@ public class Attribute_Register {
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ATTACK_MAX = ATTRIBUTES.register("magic_attack_max", () -> new RangedAttribute("attribute.name.magic_attack_max", (double)1.0F, (double)1.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ARMOR = ATTRIBUTES.register("magic_armor", () -> new RangedAttribute("attribute.name.magic_armor", (double)10.0F, (double)0.0F, (double)65536.0F));
     public static final DeferredHolder<Attribute, RangedAttribute> DODGE = ATTRIBUTES.register("dodge", () -> new RangedAttribute("attribute.name.dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_DODGE = ATTRIBUTES.register("magic_dodge", () -> new RangedAttribute("attribute.name.magic_dodge", (double)0.0F, (double)0.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> ACCURACY = ATTRIBUTES.register("accuracy", () -> new RangedAttribute("attribute.name.magic_dodge", (double)1.0F, (double)1.0F, (double)65536.0F));
-    public static final DeferredHolder<Attribute, RangedAttribute> MAGIC_ACCURACY = ATTRIBUTES.register("magic_accuracy", () -> new RangedAttribute("attribute.name.magic_dodge", (double)1.0F, (double)1.0F, (double)65536.0F));
+    public static final DeferredHolder<Attribute, RangedAttribute> ACCURACY = ATTRIBUTES.register("accuracy", () -> new RangedAttribute("attribute.name.accuracy", (double)1.0F, (double)1.0F, (double)65536.0F));
 
     private static Holder<Attribute> register(String name, Attribute attribute) {
         return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, ResourceLocation.withDefaultNamespace(name), attribute);
@@ -62,6 +62,7 @@ public class Attribute_Register {
 
     @SubscribeEvent
     public static void existingEntityAttributes(EntityAttributeModificationEvent event) {
+        Athena.LOGGER.debug("Attribute checker: EntityAttributeModificationEvent");
         if(!event.has(EntityType.PLAYER, LEVEL)) event.add(EntityType.PLAYER, LEVEL);
         if(!event.has(EntityType.PLAYER, MANA)) event.add(EntityType.PLAYER, MANA);
         if(!event.has(EntityType.PLAYER, MANA_MAX)) event.add(EntityType.PLAYER, MANA_MAX);
@@ -70,9 +71,7 @@ public class Attribute_Register {
         if(!event.has(EntityType.PLAYER, MAGIC_ATTACK_MAX)) event.add(EntityType.PLAYER, MAGIC_ATTACK_MAX);
         if(!event.has(EntityType.PLAYER, MAGIC_ARMOR)) event.add(EntityType.PLAYER, MAGIC_ARMOR);
         if(!event.has(EntityType.PLAYER, DODGE)) event.add(EntityType.PLAYER, DODGE);
-        if(!event.has(EntityType.PLAYER, MAGIC_DODGE)) event.add(EntityType.PLAYER, MAGIC_DODGE);
         if(!event.has(EntityType.PLAYER, ACCURACY)) event.add(EntityType.PLAYER, ACCURACY);
-        if(!event.has(EntityType.PLAYER, MAGIC_ACCURACY)) event.add(EntityType.PLAYER, MAGIC_ACCURACY);
     }
 
     private static final ResourceLocation GLOBAL_Health_MAX = ResourceLocation.fromNamespaceAndPath(Athena.MODID, "modifier.global.max_hp");
@@ -99,8 +98,7 @@ public class Attribute_Register {
     private static void ApplyModifier(Holder<Attribute> attri, AttributeModifier target, AttributeMap map){
         AttributeInstance attributeinstance = map.getInstance(attri);
         if (attributeinstance != null) {
-            attributeinstance.removeModifier(target.id());
-            attributeinstance.addTransientModifier(target);
+            attributeinstance.addOrReplacePermanentModifier(target);
         }
     }
 }

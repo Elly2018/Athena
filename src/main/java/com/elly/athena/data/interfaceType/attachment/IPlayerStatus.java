@@ -59,4 +59,9 @@ public interface IPlayerStatus{
 
     int getMode();
     void setMode(int value);
+
+    int getLastLoginHP();
+    void setLastLoginHP(int value);
+    int getLastLoginMP();
+    void setLastLoginMP(int value);
 }

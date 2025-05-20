@@ -1,6 +1,7 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.data.Attribute_Register;
+import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.system.BattleSystem;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,6 +17,7 @@ public class ManaBar {
     public static void getManaValue(LocalPlayer player, GuiGraphics gui) {
         Profiler.get().push("mana");
         AttributeMap map = player.getAttributes();
+        map.load(ClientGameHandler.self_status);
         int MP = (int)map.getValue(Attribute_Register.MANA);
         int MaxMP = (int)map.getValue(Attribute_Register.MANA_MAX);
 
