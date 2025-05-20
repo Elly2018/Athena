@@ -41,6 +41,7 @@ public class MagicBall extends ThrowableItemProjectile {
 
     private void init(){
         this.setNoGravity(true);
+        this.refreshDimensions();
     }
 
     @Override
@@ -51,6 +52,11 @@ public class MagicBall extends ThrowableItemProjectile {
             tick = 0;
             this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
         }
+    }
+
+    @Override
+    public int getDimensionChangingDelay() {
+        return 6;
     }
 
     @Override
