@@ -6,7 +6,10 @@ import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.entity.npc.RPGNPC;
 import com.elly.athena.entity.spell.AdvancedArrow;
 import com.elly.athena.entity.spell.MagicBall;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.SpectralArrowRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -24,11 +27,12 @@ public class Entity_Register {
     public static final Supplier<EntityType<TestUseZombie>> TESTZOMBIE = Athena.ENTITY.registerEntityType("testzombie", TestUseZombie::new, MobCategory.MONSTER);
     // NPC
     public static final Supplier<EntityType<RPGNPC>> NPC = Athena.ENTITY.registerEntityType("npc", RPGNPC::new, MobCategory.CREATURE);
-
+    // ETC
     public static EntityType<AdvancedArrow> ADVANCEDARROW;
     public static EntityType<MagicBall> MAGICBALL;
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ADVANCEDARROW, TippableArrowRenderer::new);
         event.registerEntityRenderer(MAGICBALL, ThrownItemRenderer::new);
     }
 

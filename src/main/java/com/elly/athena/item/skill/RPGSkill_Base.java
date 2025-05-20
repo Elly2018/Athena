@@ -15,9 +15,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -96,20 +98,12 @@ public class RPGSkill_Base extends Item {
         return InteractionResult.SUCCESS;
     }
 
-    public InteractionResult use_passive(@NotNull Player player){
-        if(skillType != SkillType.Passive) {
-            Athena.LOGGER.debug(String.format("Cannot use active skill passively: %s %s", player.getName().getString(), descriptionId));
-            return InteractionResult.FAIL;
-        }
-        return InteractionResult.SUCCESS;
-    }
-
+    public ItemAttributeModifiers use_passive_effect(Player player, int level){ return null; }
     public void server_apply(Level world, Player player, int level, InteractionHand hand) { }
     public int requireMana(int level) { return 1; }
     public int cooldown(int level) { return 200; }
     public JobType requireJob() { return JobType.NEWBIE; }
     public MainItemType requireWeapon() { return MainItemType.None; }
-    public AttributeMap passiveApply() { return null; }
     protected boolean isHoldingTypeWeapon(Player player, MainItemType type){
         IPlayerStatus ips = player.getData(Attachment_Register.PLAYER_STATUS);
         IPlayerEquipment ipe = player.getData(Attachment_Register.PLAYER_EQUIPMENT);

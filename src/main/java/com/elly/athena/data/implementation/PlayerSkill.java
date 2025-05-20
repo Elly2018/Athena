@@ -60,6 +60,18 @@ public class PlayerSkill implements IPlayerSkill, INBTSerializable<CompoundTag> 
     }
 
     @Override
+    public void addPoint(String name, int point) {
+        for(var cate: skills){
+            for(var skill: cate.Skills){
+                if(skill.equals(name)){
+                    skill.Point += point;
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
     public void setPoint(String category, String name, int point) {
         SkillData sd = getData(category, name);
         sd.Point = point;

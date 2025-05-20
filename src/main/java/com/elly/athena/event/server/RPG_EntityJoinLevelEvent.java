@@ -23,6 +23,7 @@ public class RPG_EntityJoinLevelEvent {
             IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
 
             SkillSystem.initCheck(player);
+            SkillSystem.ApplyChange(player);
             Attribute_Register.ApplyChange(player);
             BattleSystem.ApplyChange(player);
 

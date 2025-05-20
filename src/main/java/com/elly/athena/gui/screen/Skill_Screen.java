@@ -5,6 +5,7 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.gui.menu.Skill_Menu;
+import com.elly.athena.network.general.SkillApplyPayload;
 import com.elly.athena.system.skill.SkillCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -17,6 +18,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -201,7 +204,11 @@ public class Skill_Screen extends AbstractContainerScreen<Skill_Menu> {
     }
 
     private void plus_click(int index){
-
+        Slot slot = this.menu.getSlot(index);
+        ItemStack stack = slot.getItem();
+        if(stack.isEmpty()) return;;
+        String name = stack.getItem().getDescriptionId().replace("item.athena.skill_", "");
+        PacketDistributor.sendToServer(new SkillApplyPayload.SkillApplyData(SkillApplyPayload.Generate(name)));
     }
 
     private void last(Button button){
