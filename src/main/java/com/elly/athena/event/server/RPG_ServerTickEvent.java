@@ -60,7 +60,6 @@ public class RPG_ServerTickEvent {
     }
 
     private static void LastStatueSave(Player player){
-        Athena.LOGGER.debug("EntityLeaveLevelEvent save status");
         PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
         ps.setLastLoginHP((int)player.getHealth());
         ps.setLastLoginMP((int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MANA)).getValue());
@@ -117,7 +116,7 @@ public class RPG_ServerTickEvent {
 
             players.forEach(player -> {
                 IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
-                double maxvalue = player.getAttributes().getInstance(Attributes.MAX_HEALTH).getValue();
+                double maxvalue = Objects.requireNonNull(player.getAttributes().getInstance(Attributes.MAX_HEALTH)).getValue();
                 float heal = (float) (maxvalue * 0.05F);
                 player.heal(heal);
 
@@ -125,8 +124,10 @@ public class RPG_ServerTickEvent {
                 heal = (float) (maxMana * 0.05F);
                 AttributeMap map = player.getAttributes();
                 var instance = map.getInstance(Attribute_Register.MANA);
+                var instance_max = map.getInstance(Attribute_Register.MANA_MAX);
                 assert instance != null;
-                instance.setBaseValue(Math.min(instance.getValue() + (int) Math.ceil(heal), ps.getManaMaximum()));
+                assert instance_max != null;
+                instance.setBaseValue(Math.min(instance.getValue() + (int) Math.ceil(heal), instance_max.getValue()));
             });
         }
     }

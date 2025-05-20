@@ -37,7 +37,6 @@ public class RPG_EntityJoinLevelEvent {
             Runnable r1 = () -> {
                 SkillSystem.initCheck(player);
                 Attribute_Register.ApplyChange(player);
-                BattleSystem.ApplyChange_Init(player);
                 ServerHandler.event_worker.add(r2);
             };
 

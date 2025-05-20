@@ -15,20 +15,15 @@ public class BattleSystem {
     public static void ApplyEquipmentChange(@NotNull LivingEquipmentChangeEvent event, @NotNull Player player){
         AttributeMap map = player.getAttributes();
         RemoveModAttribute(event.getFrom(), map);
-        ssApplyModAttribute(map, player, true);
+        ssApplyModAttribute(map, player);
     }
 
     public static void ApplyChange(@NotNull Player player){
         AttributeMap map = player.getAttributes();
-        ssApplyModAttribute(map, player, true);
+        ssApplyModAttribute(map, player);
     }
 
-    public static void ApplyChange_Init(@NotNull Player player){
-        AttributeMap map = player.getAttributes();
-        ssApplyModAttribute(map, player, false);
-    }
-
-    private static void ssApplyModAttribute(AttributeMap map, Player player, boolean on){
+    private static void ssApplyModAttribute(AttributeMap map, Player player){
         Athena.LOGGER.debug("Battle System: ApplyModAttribute");
         ModContainer container = new ModContainer(player);
         IPlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
@@ -43,8 +38,7 @@ public class BattleSystem {
             iss.getAttributeModifiers().modifiers().forEach(entry -> {
                 AttributeInstance attributeinstance = map.getInstance(entry.attribute());
                 if (attributeinstance != null) {
-                    attributeinstance.removeModifier(entry.modifier().id());
-                    if(on) attributeinstance.addTransientModifier(entry.modifier());
+                    attributeinstance.addOrUpdateTransientModifier(entry.modifier());
                 }
             });
         }
