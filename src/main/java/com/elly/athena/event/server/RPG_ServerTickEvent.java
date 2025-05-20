@@ -25,6 +25,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
@@ -42,12 +43,16 @@ public class RPG_ServerTickEvent {
             PlayerMenuUpdate(player);
             PlayerNetworkUpdate(player);
         });
+        ArrayList<Runnable> all = new ArrayList<>();
         while (!ServerHandler.event_worker.isEmpty()){
             try {
-                ServerHandler.event_worker.take().run();
+                all.add(ServerHandler.event_worker.take());
             } catch (InterruptedException e) {
-                Athena.LOGGER.error(e.getLocalizedMessage());
+                throw new RuntimeException(e);
             }
+        }
+        for (Runnable runnable : all) {
+            runnable.run();
         }
     }
 

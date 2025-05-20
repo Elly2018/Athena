@@ -22,6 +22,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     private int Point = 0;
     private int Skill = 0;
     private int Mode = 0;
+    private int LastHP = 20;
+    private int LastMP = 10;
     public boolean Dirty = true;
 
     @Override public int getCoin() { return this.Coin; }
@@ -81,6 +83,11 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
     @Override public int getMode() { return Mode; }
     @Override public void setMode(int value) { Mode = value; }
 
+    @Override public int getLastLoginHP() { return LastHP; }
+    @Override public void setLastLoginHP(int value) { LastHP = value;}
+    @Override public int getLastLoginMP() { return LastMP; }
+    @Override public void setLastLoginMP(int value) { LastMP = value; }
+
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag elementTag = new CompoundTag();
@@ -98,6 +105,8 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         elementTag.putInt("point", this.Point);
         elementTag.putInt("skill", this.Skill);
         elementTag.putInt("mode", this.Mode);
+        elementTag.putInt("last_hp", this.LastHP);
+        elementTag.putInt("last_mp", this.LastMP);
 
         CompoundTag nbt = new CompoundTag();
         nbt.put("status", elementTag);
@@ -121,5 +130,7 @@ public class PlayerStatus implements IPlayerStatus, INBTSerializable<CompoundTag
         this.Point = elementTag.getInt("point");
         this.Skill = elementTag.getInt("skill");
         this.Mode = elementTag.getInt("mode");
+        this.LastHP = elementTag.getInt("last_hp");
+        this.LastMP = elementTag.getInt("last_mp");
     }
 }

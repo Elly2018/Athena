@@ -1,6 +1,7 @@
 package com.elly.athena.gui.component;
 
 import com.elly.athena.data.Attribute_Register;
+import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.system.BattleSystem;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
