@@ -234,7 +234,7 @@ public class Status_Screen extends Screen {
                 String.format("MaxMP: %.1f", map.getValue(Attribute_Register.MANA_MAX)),
                 String.format("Attack Speed: %.1f", map.getValue(Attributes.ATTACK_SPEED)),
                 String.format("Physical Damage: %.1f - %.1f", map.getValue(Attributes.ATTACK_DAMAGE), map.getValue(Attribute_Register.DAMAGE_MAX)),
-                String.format("Magic Damage: %s - %.1f", map.getValue(Attribute_Register.MAGIC_ATTACK), map.getValue(Attribute_Register.MAGIC_ATTACK_MAX)),
+                String.format("Magic Damage: %.1f - %.1f", map.getValue(Attribute_Register.MAGIC_ATTACK), map.getValue(Attribute_Register.MAGIC_ATTACK_MAX)),
                 String.format("Physical Defense: %.1f", map.getValue(Attributes.ARMOR)),
                 String.format("Magic Defense: %.1f", map.getValue(Attribute_Register.MAGIC_ARMOR)),
                 String.format("Physical Accuracy: %.1f", map.getValue(Attribute_Register.ACCURACY)),

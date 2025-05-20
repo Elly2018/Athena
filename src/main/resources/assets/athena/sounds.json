@@ -4,5 +4,7 @@
 	"meso": { "sounds": [ "athena:meso" ] },
 	"potion": { "sounds": [ "athena:potion" ] },
 	"quest_finish": { "sounds": [ "athena:quest_finish" ] },
-	"levelup": { "sounds": [ "athena:levelup" ] }
+	"levelup": { "sounds": [ "athena:levelup" ] },
+	"ice": { "sounds": [ "athena:ice" ] },
+	"hit0": { "sounds": [ "athena:hit0" ] }
 }

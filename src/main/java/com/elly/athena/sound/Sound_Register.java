@@ -14,6 +14,8 @@ public class Sound_Register {
     public static Supplier<SoundEvent> Potion;
     public static Supplier<SoundEvent> QuestFinish;
     public static Supplier<SoundEvent> LEVELUP;
+    public static Supplier<SoundEvent> HIT0;
+    public static Supplier<SoundEvent> ICE;
 
     public static void registerSounds(){
         Heal = Athena.SOUNDS.register("heal", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "heal")));
@@ -22,5 +24,7 @@ public class Sound_Register {
         Potion = Athena.SOUNDS.register("potion", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "potion")));
         QuestFinish = Athena.SOUNDS.register("quest_finish", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "quest_finish")));
         LEVELUP = Athena.SOUNDS.register("levelup", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "levelup")));
+        HIT0 = Athena.SOUNDS.register("hit0", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "hit0")));
+        ICE = Athena.SOUNDS.register("ice", () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Athena.MODID, "ice")));
     }
 }

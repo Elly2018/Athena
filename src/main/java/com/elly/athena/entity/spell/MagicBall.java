@@ -3,8 +3,11 @@ package com.elly.athena.entity.spell;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.entity.Entity_Register;
 import com.elly.athena.item.Item_Register;
+import com.elly.athena.sound.Sound_Register;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -48,9 +51,17 @@ public class MagicBall extends ThrowableItemProjectile {
     public void tick() {
         super.tick();
         tick += 1;
-        if(tick > 10){
+        if(tick > 2){
             tick = 0;
-            this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+            for(int i = 0; i < 4; i++){
+                this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(),
+                        this.random.nextIntBetweenInclusive(-1, 1),
+                        this.random.nextIntBetweenInclusive(-1, 1),
+                        this.random.nextIntBetweenInclusive(-1, 1));
+            }
+        }
+        if(isInWater() || isInLava()){
+            this.remove(RemovalReason.KILLED);
         }
     }
 
@@ -81,8 +92,10 @@ public class MagicBall extends ThrowableItemProjectile {
             int magic_attack = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK)).getValue();
             int magic_attack_max = (int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MAGIC_ATTACK_MAX)).getValue();
             int d = this.getRandom().nextIntBetweenInclusive(magic_attack, Math.max(magic_attack + magic_attack_max, magic_attack + 1));
-
             target.hurt(this.damageSources().thrown(this, this.getOwner()), (float)d);
+            if(player.level() instanceof ServerLevel sl){
+                sl.playSound(null, target.getX(), target.getY(), target.getZ(), Sound_Register.HIT0.get(), SoundSource.HOSTILE, 1F, 1F);
+            }
         }
     }
 }

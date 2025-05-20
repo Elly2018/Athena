@@ -6,7 +6,9 @@ import com.elly.athena.entity.Entity_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.item.skill.RPGSkill_Header;
+import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -39,9 +41,10 @@ public class MagicBall extends RPGSkill_Header {
                         iss,
                         player,
                         0.0F,
-                        2.0F,
+                        1.0F,
                         0.8F
                 );
+                serverlevel.playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.ICE.get(), SoundSource.PLAYERS, 1F, 1F);
             }
         }
 
