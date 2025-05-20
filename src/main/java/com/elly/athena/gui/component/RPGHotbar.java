@@ -4,8 +4,11 @@ import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
 import com.elly.athena.data.interfaceType.attachment.IPlayerEquipment;
 import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
+import com.elly.athena.data.types.ModContainer;
+import com.elly.athena.event.ClientGameHandler;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.system.skill.SkillData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -13,16 +16,27 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameType;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+
+import java.lang.reflect.Field;
 
 public class RPGHotbar {
     private static final ResourceLocation HOTBAR_OFFHAND_LEFT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
     private static final ResourceLocation HOTBAR_OFFHAND_RIGHT_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_right");
     private static final ResourceLocation HOTBAR_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar");
     private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.withDefaultNamespace("hud/hotbar_selection");
+    private static ItemStack Last = ItemStack.EMPTY;
+    private static int toolHighlightTimer = 0;
 
     public static void getRPGHotBar(LocalPlayer player, GuiGraphics gui, DeltaTracker deltaTracker){
         render_background(player, gui);
@@ -38,6 +52,9 @@ public class RPGHotbar {
         gui.blitSprite(RenderType::guiTextured, HOTBAR_OFFHAND_RIGHT_SPRITE, half_width + 91, gui.guiHeight() - 23, 29, 24);
         gui.blitSprite(RenderType::guiTextured, HOTBAR_SPRITE, half_width - 91, gui.guiHeight() - 22, 182, 22);
         gui.blitSprite(RenderType::guiTextured, HOTBAR_SELECTION_SPRITE, half_width - 91 - 1 + player.getInventory().selected * 20, gui.guiHeight() - 22 - 1, 24, 23);
+
+        ModContainer mod = new ModContainer(player);
+        maybeRenderSelectedItemName(gui, mod.getSelected());
 
         gui.pose().popPose();
     }
@@ -109,5 +126,59 @@ public class RPGHotbar {
             Font font = Minecraft.getInstance().font;
             gui.renderItemDecorations(font, target, x, y);
         }
+    }
+
+    private static void maybeRenderSelectedItemName(GuiGraphics gui, ItemStack stack) {
+        assert ClientGameHandler.minecraft.gameMode != null;
+        if (ClientGameHandler.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR) {
+            renderSelectedItemName(gui, stack);
+        }
+    }
+
+    private static void renderSelectedItemName(GuiGraphics guiGraphics, ItemStack stack) {
+        Profiler.get().push("selectedItemName");
+
+        if (stack.isEmpty()) {
+            toolHighlightTimer = 0;
+        } else if (!Last.isEmpty() && stack.is(Last.getItem()) && stack.getHoverName().equals(Last.getHoverName()) && stack.getHighlightTip(stack.getHoverName()).equals(Last.getHighlightTip(Last.getHoverName()))) {
+            if (toolHighlightTimer > 0) {
+                --toolHighlightTimer;
+            }
+        } else {
+            toolHighlightTimer = (int)((double)40.0F * (Double)ClientGameHandler.minecraft.options.notificationDisplayTime().get());
+        }
+
+        if (toolHighlightTimer > 0 && !stack.isEmpty()) {
+            MutableComponent mutablecomponent = Component.empty().append(stack.getHoverName()).withStyle(stack.getRarity().getStyleModifier());
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
+                mutablecomponent.withStyle(ChatFormatting.ITALIC);
+            }
+
+            Component highlightTip = stack.getHighlightTip(mutablecomponent);
+            int i = ClientGameHandler.minecraft.font.width(highlightTip);
+            int j = (guiGraphics.guiWidth() - i) / 2;
+            int k = guiGraphics.guiHeight() - 59;
+            assert ClientGameHandler.minecraft.gameMode != null;
+            if (!ClientGameHandler.minecraft.gameMode.canHurtPlayer()) {
+                k += 14;
+            }
+
+            int l = (int)((float)toolHighlightTimer * 256.0F / 10.0F);
+            if (l > 255) {
+                l = 255;
+            }
+
+            if (l > 0) {
+                Font font = IClientItemExtensions.of(stack).getFont(stack, IClientItemExtensions.FontContext.SELECTED_ITEM_NAME);
+                if (font == null) {
+                    guiGraphics.drawStringWithBackdrop(ClientGameHandler.minecraft.font, highlightTip, j, k, i, ARGB.color(l, -1));
+                } else {
+                    j = (guiGraphics.guiWidth() - font.width(highlightTip)) / 2;
+                    guiGraphics.drawStringWithBackdrop(font, highlightTip, j, k, i, ARGB.color(l, -1));
+                }
+            }
+        }
+
+        Profiler.get().pop();
     }
 }

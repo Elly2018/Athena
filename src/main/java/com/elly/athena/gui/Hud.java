@@ -54,6 +54,7 @@ public class Hud {
             if(ps.getMode() == 1)
                 getRPGHotBar(minecraft.player, event.getGuiGraphics(), event.getPartialTick());
         }
+        if(event.getName().toString().equals("minecraft:selected_item_name")) event.setCanceled(ps.getMode() == 1);
         if(event.getName().toString().equals("minecraft:camera_overlays")){
             renderOverlay(event);
         }

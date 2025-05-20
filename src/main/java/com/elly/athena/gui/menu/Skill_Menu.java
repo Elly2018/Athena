@@ -6,11 +6,9 @@ import com.elly.athena.data.interfaceType.attachment.IBattleHotbar;
 import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
 import com.elly.athena.data.types.ModContainer;
 import com.elly.athena.gui.GUI_Register;
-import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.skill.RPGSkill_Base;
 import com.elly.athena.system.skill.SkillCategory;
 import com.elly.athena.system.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,17 +23,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
 
 public class Skill_Menu extends AbstractContainerMenu {
     private final ModContainer inventory;
     private final Player player;
 
     private Container SlotList;
+    // Category, Page
     private int[] selected = new int[2];
     private IPlayerSkill playerSkill;
     private IBattleHotbar hotbar;
+    private ArrayList<SkillData> PageList = new ArrayList<>();
 
     public Skill_Menu(int containerId, @Nullable Inventory _inventory) {
         super(GUI_Register.SKILL_MENU.get(), containerId);
@@ -52,9 +50,17 @@ public class Skill_Menu extends AbstractContainerMenu {
     }
 
     public void ChangeState(int _selected, int _page){
-        this.setData(0, _selected);
-        this.setData(1, _page);
-        updateSkillSlot();
+        boolean changed = false;
+        if(selected[0] != _selected){
+            this.setData(0, _selected);
+            UpdateList();
+            changed = true;
+        }
+        if(selected[1] != _page){
+            this.setData(1, _page);
+            changed = true;
+        }
+        if(changed) updateSkillSlot();
     }
 
     private void init(){
@@ -64,8 +70,11 @@ public class Skill_Menu extends AbstractContainerMenu {
             public void setChanged() {
                 Skill_Menu.this.slotsChanged(this);
             }
+            public @NotNull ItemStack removeItem(int index, int count) {
+                return this.getItem(index);
+            }
         };
-        for(int i = 0; i < 5; ++i){
+        for(int i = 0; i < 5; ++i) {
             this.addSlot(new Slot(SlotList, i, 8, 18 + i * 19));
         }
 
@@ -75,21 +84,25 @@ public class Skill_Menu extends AbstractContainerMenu {
 
         playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);
         hotbar = player.getData(Attachment_Register.BATTLE_HOTBAR);
+        UpdateList();
         updateSkillSlot();
     }
 
     private void updateSkillSlot(){
         SkillCategory[] sc = playerSkill.getSkills();
         updateSkillSlot_pre(sc);
-        List<SkillData> sd = sc[selected[0]].Skills.stream().filter(x -> x.Point >= 0).toList();
+        UpdateList();
         int initIndex = selected[1] * 5;
         int leng = initIndex + 5;
         int c = 0;
-        for(int i = initIndex; i < sd.size() && i < leng; i++){
-            String name = sd.get(i).Name;
+        for(int i = initIndex; i < PageList.size() && i < leng; i++){
+            String name = "item.athena.skill_" + PageList.get(i).Name;
             DeferredHolder<Item,? extends RPGSkill_Base> t = getItemByName(name);
-            if(t == null) continue;
-            ItemStack buffer = new ItemStack(t.get().asItem(), 1);
+            if(t == null) {
+                Athena.LOGGER.warn(String.format("Cannot find skill: %s", name));
+                continue;
+            }
+            ItemStack buffer = new ItemStack(t.get().asItem());
             Slot s = this.slots.get(c);
             s.set(buffer);
             s.setChanged();
@@ -97,10 +110,20 @@ public class Skill_Menu extends AbstractContainerMenu {
         }
     }
 
+    private void UpdateList(){
+        PageList.clear();
+        SkillCategory[] sc = playerSkill.getSkills();
+        for (SkillData skillData : sc[selected[0]].Skills){
+            if(skillData.Point >= 0){
+                PageList.add(skillData);
+            }
+        }
+    }
+
     private DeferredHolder<Item,? extends RPGSkill_Base> getItemByName(String name){
         var entries = Athena.ITEMS.getEntries();
         for(var entry: entries){
-            if(entry.getId().getPath().equals(name) && entry.get() instanceof RPGSkill_Base)
+            if(entry.get().getDescriptionId().equals(name) && entry.get() instanceof RPGSkill_Base)
                 return (DeferredHolder<Item, ? extends RPGSkill_Base>) entry;
         }
         return null;
@@ -125,24 +148,22 @@ public class Skill_Menu extends AbstractContainerMenu {
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        if(index >= 5) return itemstack;
-        Slot skillslot = (Slot)this.slots.get(index);
+        if(index >= 5) {
+            Slot slot = this.getSlot(index);
+            slot.set(ItemStack.EMPTY);
+            return itemstack;
+        }
+        Slot skillslot = this.getSlot(index);
+        if(skillslot.getItem().isEmpty()) return itemstack;
 
-        int empty = -1;
         for(int i = 0; i < 9; i++){
-            ItemStack iss = this.slots.get(i + 5).getItem();
-            if(iss.isEmpty()){
-                empty = i;
-                break;
+            Slot targetSlot = this.getSlot(i + 5);
+            if(targetSlot.getItem().isEmpty()){
+                itemstack = skillslot.getItem().copy();
+                this.moveItemStackTo(itemstack, 5, 12, false);
+                return itemstack;
             }
         }
-        if(empty == -1) return itemstack;
-
-        itemstack = skillslot.getItem().copy();
-
-        Slot hotbar_slot = this.slots.get(empty + 5);
-        hotbar_slot.set(itemstack);
-        hotbar_slot.setChanged();
 
         return itemstack;
     }

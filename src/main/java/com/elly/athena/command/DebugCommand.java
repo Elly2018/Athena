@@ -1,7 +1,10 @@
 package com.elly.athena.command;
 
 import com.elly.athena.command.types.DebugType;
+import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
+import com.elly.athena.data.interfaceType.attachment.IPlayerSkill;
+import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -16,6 +19,10 @@ public class DebugCommand {
         switch (type){
             case attribute -> {
                 PrintAttributeList(command);
+                break;
+            }
+            case skill -> {
+                PrintSkillList(command);
                 break;
             }
         }
@@ -42,6 +49,18 @@ public class DebugCommand {
         PrintModAttribute(Attribute_Register.MAGIC_ARMOR, map, player);
         PrintModAttribute(Attribute_Register.DODGE, map, player);
         PrintModAttribute(Attribute_Register.ACCURACY, map, player);
+    }
+
+    private static void PrintSkillList(CommandContext<CommandSourceStack> command){
+        Player player = command.getSource().getPlayer();
+        if(player == null) return;
+        IPlayerSkill ips = player.getData(Attachment_Register.PLAYER_SKILL);
+        for(var cate:ips.getSkills()){
+            player.displayClientMessage(Component.literal(String.format("Skill Category: %s", cate.Name)), false);
+            for(var sk:cate.Skills){
+                player.displayClientMessage(Component.literal(String.format("\t%s: %d", sk.Name, sk.Point)), false);
+            }
+        }
     }
 
     private static void PrintModAttribute(DeferredHolder<Attribute, RangedAttribute> target, AttributeMap map, Player player){
