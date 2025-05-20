@@ -20,7 +20,7 @@ public class RPG_LivingDamageEvent {
         if(entity instanceof Player player){
             double damage = player.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
             double max_damage = player.getAttribute(Attribute_Register.DAMAGE_MAX).getValue();
-            int d = player.getRandom().nextInt((int)damage, (int)max_damage);
+            int d = player.getRandom().nextIntBetweenInclusive((int)damage, Math.max((int)max_damage + (int)damage, (int)damage + 1));
             event.setNewDamage(d);
         }
     }
