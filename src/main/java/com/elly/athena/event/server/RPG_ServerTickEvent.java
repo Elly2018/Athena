@@ -20,6 +20,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
@@ -27,6 +28,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.elly.athena.keymap.KeyMap_Register.EQUIPMENT_MAPPING;
 import static com.elly.athena.keymap.KeyMap_Register.SKILL_MAPPING;
@@ -39,6 +41,7 @@ public class RPG_ServerTickEvent {
     public static void update(ServerTickEvent.Pre event){
         healevent(event.getServer().getPlayerList().getPlayers());
         event.getServer().getPlayerList().getPlayers().forEach( player -> {
+            LastStatueSave(player);
             PlayerStateUpdate(player);
             PlayerMenuUpdate(player);
             PlayerNetworkUpdate(player);
@@ -54,6 +57,14 @@ public class RPG_ServerTickEvent {
         for (Runnable runnable : all) {
             runnable.run();
         }
+    }
+
+    private static void LastStatueSave(Player player){
+        Athena.LOGGER.debug("EntityLeaveLevelEvent save status");
+        PlayerStatus ps = player.getData(Attachment_Register.PLAYER_STATUS);
+        ps.setLastLoginHP((int)player.getHealth());
+        ps.setLastLoginMP((int) Objects.requireNonNull(player.getAttribute(Attribute_Register.MANA)).getValue());
+        player.setData(Attachment_Register.PLAYER_STATUS, ps);
     }
 
     private static void PlayerNetworkUpdate(ServerPlayer player){

@@ -30,7 +30,9 @@ public class Skill_Menu extends AbstractContainerMenu {
 
     private Container SlotList;
     // Category, Page
-    private int[] selected = new int[2];
+    public int[] selected = new int[2];
+    // Last button, Next button
+    public int[] flags = new int[2];
     private IPlayerSkill playerSkill;
     private IBattleHotbar hotbar;
     private ArrayList<SkillData> PageList = new ArrayList<>();
@@ -66,6 +68,8 @@ public class Skill_Menu extends AbstractContainerMenu {
     private void init(){
         this.addDataSlot(DataSlot.shared(selected, 0)); // 0
         this.addDataSlot(DataSlot.shared(selected, 1)); // 1
+        this.addDataSlot(DataSlot.shared(flags, 0)); // 0
+        this.addDataSlot(DataSlot.shared(flags, 1)); // 1
         SlotList = new SimpleContainer(5){
             public void setChanged() {
                 Skill_Menu.this.slotsChanged(this);
@@ -79,7 +83,7 @@ public class Skill_Menu extends AbstractContainerMenu {
         }
 
         for(int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i + 12, 8 + i * 18, 84 + 58));
+            this.addSlot(new Slot(inventory, i + 12, 40 + i * 18, 84 + 58));
         }
 
         playerSkill = player.getData(Attachment_Register.PLAYER_SKILL);

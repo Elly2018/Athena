@@ -17,6 +17,7 @@ public class ManaBar {
     public static void getManaValue(LocalPlayer player, GuiGraphics gui) {
         Profiler.get().push("mana");
         AttributeMap map = player.getAttributes();
+        map.load(ClientGameHandler.self_status);
         int MP = (int)map.getValue(Attribute_Register.MANA);
         int MaxMP = (int)map.getValue(Attribute_Register.MANA_MAX);
 

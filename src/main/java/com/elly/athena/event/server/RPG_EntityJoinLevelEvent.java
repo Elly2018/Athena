@@ -3,7 +3,6 @@ package com.elly.athena.event.server;
 import com.elly.athena.Athena;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
-import com.elly.athena.data.implementation.PlayerStatus;
 import com.elly.athena.data.interfaceType.attachment.IPlayerStatus;
 import com.elly.athena.event.ServerHandler;
 import com.elly.athena.system.BattleSystem;
@@ -14,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 
 import java.util.Objects;
 
@@ -39,7 +39,6 @@ public class RPG_EntityJoinLevelEvent {
                 Attribute_Register.ApplyChange(player);
                 BattleSystem.ApplyChange_Init(player);
                 ServerHandler.event_worker.add(r2);
-                player.addEffect(new MobEffectInstance(MobEffects.LUCK, 1, 1));
             };
 
             ServerHandler.event_worker.add(r1);

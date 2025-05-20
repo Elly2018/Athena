@@ -6,6 +6,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
@@ -96,8 +98,7 @@ public class Attribute_Register {
     private static void ApplyModifier(Holder<Attribute> attri, AttributeModifier target, AttributeMap map){
         AttributeInstance attributeinstance = map.getInstance(attri);
         if (attributeinstance != null) {
-            attributeinstance.removeModifier(target.id());
-            attributeinstance.addTransientModifier(target);
+            attributeinstance.addOrReplacePermanentModifier(target);
         }
     }
 }
