@@ -3,6 +3,7 @@ package com.elly.athena.item.use.potion;
 import com.elly.athena.data.Attachment_Register;
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.data.implementation.PlayerStatus;
+import com.elly.athena.item.use.RPGUse_Base;
 import com.elly.athena.network.general.StatusPayload;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.world.InteractionHand;
@@ -18,9 +19,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class RPGPotion_Base extends Item {
-    public RPGPotion_Base(Properties p_41383_) {
-        super(p_41383_);
+public class RPGPotion_Base extends RPGUse_Base {
+    public RPGPotion_Base(Properties properties) {
+        super(properties);
     }
 
     public void PlayPotionSound(Player player) {

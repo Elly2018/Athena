@@ -29,8 +29,6 @@ public class RPG_LivingDeathEvent {
                 float total = 0F;
             };
             table.values().forEach(x -> { ref.total += x; });
-            Athena.LOGGER.debug(String.format("Calcuate total damage: %.2f", ref.total));
-            Athena.LOGGER.debug(String.format("Calcuate amount of key: %d", table.size()));
             table.keySet().forEach(x -> {
                 float weight = table.get(x) / ref.total;
                 ServerPlayer player = m_Server.getPlayerList().getPlayer(x);

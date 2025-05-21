@@ -10,17 +10,29 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AdvancedArrow extends Arrow {
     int tick;
-    Item pickup = null;
+    ItemStack pickup = null;
 
     public AdvancedArrow(EntityType<? extends Arrow> entityType, Level level) {
         super(entityType, level);
+        this.pickup = ItemStack.EMPTY;
+    }
+
+    public AdvancedArrow(Level level, double x, double y, double z, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon) {
+        super(level, x, y, z, pickupItemStack, firedFromWeapon);
+        this.pickup = pickupItemStack;
+    }
+
+    public AdvancedArrow(Level level, LivingEntity owner, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon) {
+        super(level, owner, pickupItemStack, firedFromWeapon);
+        this.pickup = pickupItemStack;
     }
 
     @Override
     protected @NotNull ItemStack getDefaultPickupItem() {
-        return pickup == null ? ItemStack.EMPTY : new ItemStack(pickup);
+        return pickup;
     }
 }

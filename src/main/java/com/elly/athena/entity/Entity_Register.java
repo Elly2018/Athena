@@ -41,6 +41,19 @@ public class Entity_Register {
     }
 
     private static void registerEntity(RegisterEvent.RegisterHelper<EntityType<?>> registry){
+        register_Arrow(registry);
+        register_MagicBall(registry);
+    }
+
+    private static void register_Arrow(RegisterEvent.RegisterHelper<EntityType<?>> registry){
+        EntityType.Builder<AdvancedArrow> t = EntityType.Builder.<AdvancedArrow>of(AdvancedArrow::new, MobCategory.MISC)
+                .noLootTable().noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20);
+        ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "advanced_arrow"));
+        ADVANCEDARROW = t.build(key);
+        registry.register(key, ADVANCEDARROW);
+    }
+
+    private static void register_MagicBall(RegisterEvent.RegisterHelper<EntityType<?>> registry){
         EntityType.Builder<MagicBall> t = EntityType.Builder.<MagicBall>of(MagicBall::new, MobCategory.MISC)
                 .noLootTable().sized(3.2F, 3.2F).clientTrackingRange(4).updateInterval(10);
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "magic_ball"));
