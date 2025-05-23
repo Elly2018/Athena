@@ -19,8 +19,7 @@ public class WidgeBase {
     public static void getWidgetBase(LocalPlayer player, GuiGraphics gui) {
         GameProfile profile = player.getGameProfile();
         IPlayerStatus status = player.getData(Attachment_Register.PLAYER_STATUS);
-        PlayerSkin map = Minecraft.getInstance().getSkinManager().getInsecureSkin(profile);
-        ResourceLocation playerSkin = map.texture();
+        PlayerSkin skin = Minecraft.getInstance().getSkinManager().getInsecureSkin(profile);
 
         //RenderSystem.setShaderTexture(0, ReignitedHudID.TEX_HUD_BAR);
         gui.blit(RenderType::guiTextured, TEX_HUD_BAR, 13, 13, 227, 0, 5, 25, 256, 256);
@@ -37,8 +36,7 @@ public class WidgeBase {
         drawFontWithShadow(gui, player.getName().getString(), 48, 13, 16777215);
 
         // Bind player's skin texture and render player icon on HUD
-        RenderSystem.setShaderTexture(0, playerSkin);
-        drawPlayerIcon(21, 17, 17);
+        drawPlayerIcon(gui, skin, 21, 17, 17);
 
         // Display the player's experience level
         String enchantedPoints = String.valueOf(status.getLevel());

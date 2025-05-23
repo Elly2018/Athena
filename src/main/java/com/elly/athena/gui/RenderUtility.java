@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 
 public class RenderUtility {
@@ -49,36 +50,15 @@ public class RenderUtility {
         GlStateManager._clearColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public static void drawPlayerIcon(int posX, int posY, int size) {
+    public static void drawPlayerIcon(GuiGraphics gui, PlayerSkin skin, int posX, int posY, int size) {
         // Draw the player icon with custom sized textures
-        drawCustomSizedTexture(posX, posY, (float)size, (float)size, size, size, (float)(size * 8), (float)(size * 8));
-        drawCustomSizedTexture(posX, posY, (float)(size * 5), (float)size, size, size, (float)(size * 8), (float)(size * 8));
+        gui.blit(RenderType::guiTextured, skin.texture(), posX, posY, size, size, size, size, size * 8, size * 8);
+        //drawCustomSizedTexture(posX, posY, (float)size, (float)size, size, size, (float)(size * 8), (float)(size * 8));
+        //drawCustomSizedTexture(posX, posY, (float)(size * 5), (float)size, size, size, (float)(size * 8), (float)(size * 8));
     }
 
     public static void drawIcon(ResourceLocation icon, GuiGraphics gui, int posX, int posY, int row, int pos) {
         gui.blit(RenderType::guiTextured, icon, posX, posY, pos * 10 - 10, row * 10 - 10, 10, 10, 256, 256);
-    }
-
-    public static void drawCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight) {
-        // Get the tessellator instance
-        Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        // Calculate the texture coordinate factors
-        float f = 1.0F / textureWidth;
-        float f1 = 1.0F / textureHeight;
-
-        // Enable blending for transparency
-        GlStateManager._enableBlend();
-        // Set the blend function
-        GlStateManager._blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value); // Set blend function    // Start drawing the texture
-
-        // Start drawing the texture
-        // Get the buffer builder from the tessellator
-        BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.addVertex(x, y + height, -1000.0F).setUv(u * f, (v + (float)height) * f1);
-        bufferbuilder.addVertex(x + width, y + height, -1000.0F).setUv((u + (float)width) * f, (v + (float)height) * f1);
-        bufferbuilder.addVertex((x + width), (y), -1000.0F).setUv((u + (float)width) * f, v * f1);
-        bufferbuilder.addVertex((x), (y), -1000.0F).setUv(u * f, v * f1);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
     public static void drawFontBoldCentered(GuiGraphics gui, String text, int posX, int posY, int color, int shadow) {

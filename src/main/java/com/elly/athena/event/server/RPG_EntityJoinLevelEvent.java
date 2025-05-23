@@ -31,9 +31,22 @@ public class RPG_EntityJoinLevelEvent {
             int mp = ps.getLastLoginMP();
             player.setHealth(hp);
             Objects.requireNonNull(player.getAttribute(Attribute_Register.MANA)).setBaseValue(mp);
-            ServerHandler.event_worker.add(() -> {
+
+            setTimeout(() -> {
                 BattleSystem.ApplyChange(player);
-            });
+            }, 1000);
         }
+    }
+
+    private static void setTimeout(Runnable runnable, int delay){
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+                runnable.run();
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
+        }).start();
     }
 }
