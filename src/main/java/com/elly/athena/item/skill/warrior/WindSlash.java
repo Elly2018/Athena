@@ -1,33 +1,48 @@
 package com.elly.athena.item.skill.warrior;
 
+import com.elly.athena.entity.Entity_Register;
 import com.elly.athena.item.Item_Register;
 import com.elly.athena.item.skill.RPGSkill_Base;
+import com.elly.athena.item.skill.RPGSkill_Header;
+import com.elly.athena.sound.Sound_Register;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
-public class WindSlash implements Item_Register.ItemRegisterData {
+public class WindSlash extends RPGSkill_Header {
 
     static class WindSlash_RPG_Skill extends RPGSkill_Base {
         public WindSlash_RPG_Skill(Properties properties) {
             super(properties);
+            skillType = SkillType.Active;
         }
 
         @Override
-        public InteractionResult useOn(UseOnContext context) {
-            return super.useOn(context);
+        public void server_apply(Level world, Player player, int level, InteractionHand hand) {
+            super.server_apply(world, player, level, hand);
+            if(world instanceof ServerLevel serverlevel){
+                serverlevel.addFreshEntity(
+                        new com.elly.athena.entity.spell.WindSlash(
+                                serverlevel,
+                                player
+                        )
+                );
+                serverlevel.playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.ICE.get(), SoundSource.PLAYERS, 1F, 1F);
+            }
         }
     }
 
     @Override
     public String get_key() {
         return "skill_wind_slash";
-    }
-
-    @Override
-    public Item.Properties get_behaviour() {
-        return new Item.Properties()
-                .stacksTo(1);
     }
 
     @Override

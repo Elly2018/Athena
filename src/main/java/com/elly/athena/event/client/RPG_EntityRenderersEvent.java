@@ -14,4 +14,9 @@ public class RPG_EntityRenderersEvent {
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         Entity_Register.registerEntityRenderers(event);
     }
+
+    @SubscribeEvent
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        Entity_Register.registerEntityRenderersLayer(event);
+    }
 }

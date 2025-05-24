@@ -35,7 +35,7 @@ public class MagicBall extends RPGSkill_Header {
 
             if(world instanceof ServerLevel serverlevel){
                 ItemStack iss = new ItemStack(Item_Register.ENTITY_MAGICBALL.get());
-                com.elly.athena.entity.spell.MagicBall bs = Projectile.spawnProjectileFromRotation(
+                Projectile.spawnProjectileFromRotation(
                         com.elly.athena.entity.spell.MagicBall::new,
                         serverlevel,
                         iss,

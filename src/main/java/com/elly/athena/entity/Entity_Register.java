@@ -4,8 +4,7 @@ import com.elly.athena.Athena;
 import com.elly.athena.entity.mob.TestUseZombie;
 import com.elly.athena.entity.mob.WoodElf;
 import com.elly.athena.entity.npc.RPGNPC;
-import com.elly.athena.entity.spell.AdvancedArrow;
-import com.elly.athena.entity.spell.MagicBall;
+import com.elly.athena.entity.spell.*;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.SpectralArrowRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -30,10 +29,16 @@ public class Entity_Register {
     // ETC
     public static EntityType<AdvancedArrow> ADVANCEDARROW;
     public static EntityType<MagicBall> MAGICBALL;
+    public static EntityType<WindSlash> WINDSLASH;
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ADVANCEDARROW, TippableArrowRenderer::new);
         event.registerEntityRenderer(MAGICBALL, ThrownItemRenderer::new);
+        event.registerEntityRenderer(WINDSLASH, WindSlashRender::new);
+    }
+
+    public static void registerEntityRenderersLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(WindSlashRender.layer, WindSlashModel::createBodyLayer);
     }
 
     public static void registerEntity(RegisterEvent event){
@@ -43,6 +48,7 @@ public class Entity_Register {
     private static void registerEntity(RegisterEvent.RegisterHelper<EntityType<?>> registry){
         register_Arrow(registry);
         register_MagicBall(registry);
+        register_Windslash(registry);
     }
 
     private static void register_Arrow(RegisterEvent.RegisterHelper<EntityType<?>> registry){
@@ -59,5 +65,13 @@ public class Entity_Register {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "magic_ball"));
         MAGICBALL = t.build(key);
         registry.register(key, MAGICBALL);
+    }
+
+    private static void register_Windslash(RegisterEvent.RegisterHelper<EntityType<?>> registry){
+        EntityType.Builder<WindSlash> t = EntityType.Builder.<WindSlash>of(WindSlash::new, MobCategory.MISC)
+                .noLootTable().sized(3.2F, 12.2F).clientTrackingRange(4).updateInterval(10);
+        ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "wind_slash"));
+        WINDSLASH = t.build(key);
+        registry.register(key, WINDSLASH);
     }
 }
