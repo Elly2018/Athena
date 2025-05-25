@@ -23,21 +23,6 @@ public class LevelData_Register {
 
     public static HashMap<String, SavedData> Datas = new HashMap<>();
 
-    private static<T extends SavedData> T GetData(Class<T> instance, ServerLevel level, String key) {
-        Method _create = null;
-        Method _load = null;
-        try {
-            _create = instance.getMethod("create");
-            _load = instance.getMethod("load", CompoundTag.class, HolderLookup.Provider.class);
-        } catch (NoSuchMethodException e) {
-            Athena.LOGGER.error("Level Register Casting create and load failed");
-            throw new RuntimeException(e);
-        }
-        return level.getDataStorage().computeIfAbsent(new SavedData.Factory<T>(
-                GetSave(_create),
-                GetLoad(_load)
-        ), key);
-    }
     private static<T extends SavedData> Supplier<T> GetSave(Method t){
         return new Supplier<T>() {
             @Override
@@ -61,6 +46,21 @@ public class LevelData_Register {
                 }
             }
         };
+    }
+    private static<T extends SavedData> T GetData(Class<T> instance, ServerLevel level, String key) {
+        Method _create = null;
+        Method _load = null;
+        try {
+            _create = instance.getMethod("create");
+            _load = instance.getMethod("load", CompoundTag.class, HolderLookup.Provider.class);
+        } catch (NoSuchMethodException e) {
+            Athena.LOGGER.error("Level Register Casting create and load failed");
+            throw new RuntimeException(e);
+        }
+        return level.getDataStorage().computeIfAbsent(new SavedData.Factory<T>(
+                GetSave(_create),
+                GetLoad(_load)
+        ), key);
     }
     private static<T extends SavedData> void SetData(ServerLevel level, T data, String key){
         level.getDataStorage().set(key, data);
