@@ -7,6 +7,7 @@ import com.elly.athena.item.skill.RPGSkill_Header;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -29,12 +30,14 @@ public class WindSlash extends RPGSkill_Header {
         public void server_apply(Level world, Player player, int level, InteractionHand hand) {
             super.server_apply(world, player, level, hand);
             if(world instanceof ServerLevel serverlevel){
-                serverlevel.addFreshEntity(
-                        new com.elly.athena.entity.spell.WindSlash(
-                                serverlevel,
-                                player
-                        )
-                );
+                for(int i = 0; i < 5; i++){
+                    ItemStack iss = new ItemStack(Item_Register.ENTITY_MAGICBALL.get());
+                    float f = player.getYRot();
+                    com.elly.athena.entity.spell.WindSlash ws = new com.elly.athena.entity.spell.WindSlash(serverlevel, player, iss);
+                    ws.shootFromRotation(player, player.getXRot(), f + ((i - 2) * 15F), 0.0F, 1.0F, 0.8F);
+                    serverlevel.addFreshEntity(ws);
+                    ws.applyOnProjectileSpawned(serverlevel, iss);
+                }
                 serverlevel.playSound(null, player.getX(), player.getY(), player.getZ(), Sound_Register.ICE.get(), SoundSource.PLAYERS, 1F, 1F);
             }
         }

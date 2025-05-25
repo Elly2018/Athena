@@ -6,20 +6,23 @@
 public class WoodElf<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "woodelf"), "main");
-	private final ModelPart bb_main;
+	private final ModelPart main;
+	private final ModelPart second;
 
 	public WoodElf(ModelPart root) {
-		this.bb_main = root.getChild("bb_main");
+		this.main = root.getChild("main");
+		this.second = root.getChild("second");
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-1.0F, -9.0F, -1.0F, 7.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition main = partdefinition.addOrReplaceChild("main", CubeListBuilder.create().texOffs(26, -3).addBox(0.0F, -6.0F, -1.5F, 0.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		PartDefinition second = partdefinition.addOrReplaceChild("second", CubeListBuilder.create().texOffs(-3, 28).addBox(-6.0F, 0.0F, -1.5F, 12.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 
 	@Override
@@ -29,6 +32,7 @@ public class WoodElf<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		second.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

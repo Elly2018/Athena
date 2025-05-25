@@ -34,11 +34,10 @@ public class Entity_Register {
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ADVANCEDARROW, TippableArrowRenderer::new);
         event.registerEntityRenderer(MAGICBALL, ThrownItemRenderer::new);
-        event.registerEntityRenderer(WINDSLASH, WindSlashRender::new);
+        event.registerEntityRenderer(WINDSLASH, ThrownItemRenderer::new);
     }
 
     public static void registerEntityRenderersLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(WindSlashRender.layer, WindSlashModel::createBodyLayer);
     }
 
     public static void registerEntity(RegisterEvent event){
@@ -69,7 +68,7 @@ public class Entity_Register {
 
     private static void register_Windslash(RegisterEvent.RegisterHelper<EntityType<?>> registry){
         EntityType.Builder<WindSlash> t = EntityType.Builder.<WindSlash>of(WindSlash::new, MobCategory.MISC)
-                .noLootTable().sized(3.2F, 12.2F).clientTrackingRange(4).updateInterval(10);
+                .noLootTable().sized(3.2F, 32).clientTrackingRange(4).updateInterval(10);
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(Athena.MODID + ":" + "wind_slash"));
         WINDSLASH = t.build(key);
         registry.register(key, WINDSLASH);

@@ -2,6 +2,7 @@ package com.elly.athena.entity.spell;
 
 import com.elly.athena.data.Attribute_Register;
 import com.elly.athena.entity.Entity_Register;
+import com.elly.athena.item.Item_Register;
 import com.elly.athena.sound.Sound_Register;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,14 +15,20 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 
 import java.util.Objects;
 
-public class WindSlash extends Projectile {
+public class WindSlash extends ThrowableItemProjectile {
+    private int particleTick;
     private int tick = 0;
     private int stage = 0;
     private int damage_count = 0;
@@ -32,13 +39,18 @@ public class WindSlash extends Projectile {
         init();
     }
 
-    public WindSlash(Level level, LivingEntity shooter) {
+    public WindSlash(Level level, LivingEntity owner, ItemStack item) {
+        super(Entity_Register.WINDSLASH, owner, level, item);
+        init();
+    }
+
+    public WindSlash(Level level, ItemStack item) {
         this(Entity_Register.WINDSLASH, level);
-        this.setOwner(shooter);
-        Vec3 vec3 = shooter.position();
-        dir = shooter.getForward();
-        vec3.add(dir);
-        this.moveTo(vec3.x, vec3.y, vec3.z, this.getYRot(), this.getXRot());
+        init();
+    }
+
+    public WindSlash(Level level, double x, double y, double z, ItemStack item) {
+        super(Entity_Register.WINDSLASH, x, y, z, level, item);
         init();
     }
 
@@ -51,14 +63,22 @@ public class WindSlash extends Projectile {
     public void tick() {
         super.tick();
         tick += 1;
-        if(stage == 0 && tick > SlashTimer() * 2 + 30){
-            this.remove(RemovalReason.KILLED);
+        particleTick += 1;
+        this.setInvisible(stage == 1);
+        if(particleTick > 2){
+            particleTick = 0;
+            for(int i = 0; i < 4; i++){
+                this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(),
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
+                        this.random.nextIntBetweenInclusive(-1, 1) * 0.2F);
+            }
         }
-        else if(stage == 1 && tick > AttackGap() && damage_count < 2){
+        if(stage == 1 && tick > AttackGap() && damage_count < 2){
             RangeAttack();
         }
         else if(stage == 1 && tick > AttackGap() && damage_count >= 2){
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 8; i++){
                 this.level().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(),
                         this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
                         this.random.nextIntBetweenInclusive(-1, 1) * 0.2F,
@@ -66,30 +86,24 @@ public class WindSlash extends Projectile {
             }
             this.remove(RemovalReason.KILLED);
         }
-    }
-
-    private int SlashTimer () {
-        return 20 * 2;
+        if(isInWater() || isInLava()){
+            this.remove(RemovalReason.KILLED);
+        }
     }
     private int AttackGap() {
         return 10;
-    }
-
-    public float GetState0(){ // 0-1 => 0-40
-        if(stage > 0) return 0F;
-        return Math.max(1F, (float) tick / (float)SlashTimer());
-    }
-
-    public float GetState1(){ // 0-1 => 40-80
-        if(stage > 0) return 0F;
-        if(tick < SlashTimer()) return 0;
-        return Math.max(1F, (float) tick - SlashTimer() / (float)SlashTimer());
     }
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         RangeAttack();
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        this.remove(RemovalReason.KILLED);
     }
 
     private void RangeAttack(){
@@ -120,5 +134,7 @@ public class WindSlash extends Projectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) { }
+    protected @NotNull Item getDefaultItem() {
+        return Item_Register.ENTITY_MAGICBALL.get();
+    }
 }
